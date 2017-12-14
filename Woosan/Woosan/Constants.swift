@@ -1,0 +1,44 @@
+//
+//  Constants.swift
+//  Woosan
+//
+//  Created by joe on 2017. 11. 29..
+//  Copyright © 2017년 joe. All rights reserved.
+//
+
+import Foundation
+
+
+struct Constants {
+    //- otherInfo
+    static let otherInfo_key_time:String = "otherInfo_key_time"
+    static let otherInfo_key_location:String = "otherInfo_key_location"
+    static let otherInfo_nullData:String = "데이터가 없습니다."
+ 
+    //- today
+    static let today_key_Present = "today_key_Present"
+    static let today_key_Max:String = "today_key_Max"
+    static let today_key_Min:String = "today_key_Min"
+    static let today_key_Sky:String = "today_key_Sky"
+    static let today_key_Rain:String = "today_key_Rain"
+    static let today_key_SkyCode:String = "today_key_Code"
+    static let today_key_Wind = "today_key_Wind"
+    static let today_key_Humi = "today_key_Humi"
+    static let today_key_Dust = "today_key_Dust"
+    
+    //- yesterday
+    static let yesterday_key_Max:String = "yesterday_key_Max"
+    static let yesterday_key_Min:String = "yesterday_key_Min"
+    static let yesterday_key_Sky:String = "yesterday_key_Sky"
+  
+    //- tomorrow
+    static let tomorrow_key_Max:String = "tomorrow_key_Max"
+    static let tomorrow_key_Min:String = "tomorrow_key_Min"
+    static let tomorrow_key_Sky:String = "tomorrow_key_Sky"
+    
+    //- aftertomorrow
+    static let aftertomorrow_key_Max:String = "tomorrow_key_Max"
+    static let aftertomorrow_key_Min:String = "tomorrow_key_Min"
+    static let aftertomorrow_key_Sky:String = "tomorrow_key_Sky"
+    
+}
