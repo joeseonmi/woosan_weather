@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class BackgroundViewController: UIViewController {
     
@@ -63,7 +64,13 @@ extension BackgroundViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BGCollectionViewCell", for: indexPath) as! BGCollectionViewCell
         
-        //이미지를 넣을검니다
+        if let url = URL(string: self.bgImagesData[indexPath.row]) {
+            cell.bgthum.kf.setImage(with: url)
+        }
+        
+        
+        /*
+        //이미지를 넣을검니다 (킹피셔 적용전)
         let url = self.bgImagesData[indexPath.row]
         if let thumbnailURL = URL(string: url) {
             //URL만들어주고
@@ -85,6 +92,7 @@ extension BackgroundViewController : UICollectionViewDataSource {
             }
             download.resume()
         }
+         */
         return cell
     }
 }

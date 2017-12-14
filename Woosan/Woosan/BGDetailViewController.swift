@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BGDetailViewController: UIViewController {
     
@@ -34,6 +35,11 @@ class BGDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let url = URL(string: self.imageURL) {
+            self.bgImageView.kf.setImage(with: url)
+        }
+        
+       /*
         let url = imageURL
         if let thumbnailURL = URL(string: url) {
             //URL만들어주고
@@ -56,6 +62,7 @@ class BGDetailViewController: UIViewController {
             }
             download.resume()
         }
+         */
     }
     
     func saveAlert() {
