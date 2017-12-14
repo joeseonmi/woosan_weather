@@ -1,0 +1,6 @@
+framework module Pods_Woosan {
+  umbrella header "Pods-Woosan-umbrella.h"
+
+  export *
+  module * { export * }
+}
