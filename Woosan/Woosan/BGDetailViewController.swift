@@ -37,6 +37,7 @@ class BGDetailViewController: UIViewController {
         
         if let url = URL(string: self.imageURL) {
             self.bgImageView.kf.setImage(with: url)
+
         }
         
        /*

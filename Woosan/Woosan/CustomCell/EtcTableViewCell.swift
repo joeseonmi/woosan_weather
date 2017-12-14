@@ -9,7 +9,9 @@
 import UIKit
 
 class EtcTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var name: UILabel!
+    
+    @IBOutlet weak var subscrip: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
