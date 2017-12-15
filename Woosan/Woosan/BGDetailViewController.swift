@@ -37,7 +37,6 @@ class BGDetailViewController: UIViewController {
         
         if let url = URL(string: self.imageURL) {
             self.bgImageView.kf.setImage(with: url)
-
         }
         
        /*
@@ -66,7 +65,7 @@ class BGDetailViewController: UIViewController {
          */
     }
     
-    func saveAlert() {
+    @objc func saveAlert() {
         let alert:UIAlertController = UIAlertController.init(title: "저장완료!", message: "배경화면이 저장됐어요.", preferredStyle: .alert)
         let alertBtn:UIAlertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alert.addAction(alertBtn)
