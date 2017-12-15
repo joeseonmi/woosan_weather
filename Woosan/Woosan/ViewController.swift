@@ -230,36 +230,42 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         var ny = ""
         
         dateFommater.dateFormat = "yyyyMMdd"
-        timeFommater.dateFormat = "hhmm"
+        timeFommater.dateFormat = "hh"
         minFommater.dateFormat = "mm"
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
         let date = dateFommater.string(from: now)
-        let time = timeFommater.string(from: now)
+        var time = timeFommater.string(from: now)
         let min = minFommater.string(from: now)
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
-            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["lat"]!))"
-            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["lng"]!))"
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
+        }
+        if Int(min)! < 30 {
+            time = "\(Int(time)! - 1)"
+        }
+        if Int(time)! < 10 {
+            time = "0" + time + "00"
+        }else{
+            time = time + "00"
         }
         
+        let key = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
 
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
-        let parameter = ["ServiceKey":"9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D",
+        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService/ForecastGrib"
+        let parameter = ["ServiceKey":String(utf8String: key),
                          "base_date":date,
                          "base_time":time,
                          "Nx":nx,
-                         "Ny":ny,
-                         "_type":"json"]
+                         "Ny":ny]
         
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let data = response.data else { return }
-            let weatherData = JSON(data)
-            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",weatherData)
+        print("파라미터들:",date,time,nx,ny)
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).response { (final) in
+            print("dddddddd",final)
         }
-
-
     }
     
     //반올림하기
