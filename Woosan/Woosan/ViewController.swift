@@ -158,17 +158,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
         }
-//        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",self.lat,self.lon)
-//        print("--------------------------",convertGrid(code: "toXY", v1: Double(lat)!, v2: Double(lon)!))
+        //        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",self.lat,self.lon)
+        //        print("--------------------------",convertGrid(code: "toXY", v1: Double(lat)!, v2: Double(lon)!))
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
         getKMAdata()
-//        requestREST_3days()
-//        requestREST_summary()
-//        requestREST_minutely()
-//        requestREST_dust()
+        //        requestREST_3days()
+        //        requestREST_summary()
+        //        requestREST_minutely()
+        //        requestREST_dust()
         
         // Lottie 부분 : 개
         let animationView = LOTAnimationView(name: "doggy")
@@ -180,9 +180,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         
         /* 위젯과 데이터를 공유하는 UserDefaults
-        guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
-        shareData.set(22222, forKey: "int")
-        shareData.synchronize()
+         guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
+         shareData.set(22222, forKey: "int")
+         shareData.synchronize()
          */
     }
     
@@ -235,38 +235,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
-        let date = dateFommater.string(from: now)
-        var time = timeFommater.string(from: now)
-        let min = minFommater.string(from: now)
+        let date:String = dateFommater.string(from: now)
+        var time:String = timeFommater.string(from: now)
+        let min:String = minFommater.string(from: now)
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
             nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
-        if Int(min)! < 30 {
-            time = "\(Int(time)! - 1)"
-        }
-        if Int(time)! < 10 {
-            time = "0" + time + "00"
-        }else{
-            time = time + "00"
-        }
         
-        let key = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        if Int(min)! < 30 {
+            time = "0"+"\(Int(time)! - 1)"
+        }
+        time = time + "00"
+        
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?ServiceKey=9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%252FDKC8wHvFUMHg%253D%253D&_type=json&base_date=20171219&base_time=0900&nx=60&ny=127
 
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService/ForecastGrib"
-        let parameter = ["ServiceKey":String(utf8String: key),
+        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        //let key = String(utf8String: appid.cString(using: String.Encoding.utf8)!)!
+        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
+        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
-                         "Nx":nx,
-                         "Ny":ny,
+                         "nx":nx,
+                         "ny":ny,
                          "_type":"json"]
         
         print("파라미터들:",date,time,nx,ny)
         
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).response { (final) in
-            print("dddddddd",final)
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (final) in
+            print("======================== 결과 요기:",final)
         }
+        
+        
     }
     
     //반올림하기

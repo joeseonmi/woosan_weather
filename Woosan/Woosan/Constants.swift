@@ -10,6 +10,17 @@ import Foundation
 
 
 struct Constants {
+    
+    //- for API
+    static let api_rain:String = "POP"
+    static let api_rainform:String = "PTY"
+    static let api_humi:String = "REH"
+    static let api_sky:String = "SKY"
+    static let api_min:String = "TMN"
+    static let api_max:String = "TMX"
+    static let api_wind:String = "WSD"
+    static let api_presentTemp:String = "T1H"
+    
     //- otherInfo
     static let otherInfo_key_time:String = "otherInfo_key_time"
     static let otherInfo_key_location:String = "otherInfo_key_location"
@@ -41,4 +52,12 @@ struct Constants {
     static let aftertomorrow_key_Min:String = "tomorrow_key_Min"
     static let aftertomorrow_key_Sky:String = "tomorrow_key_Sky"
     
+}
+
+extension String {
+    func URLEncodedString() -> String? {
+        let customAllowedSet =  NSCharacterSet.urlQueryAllowed
+        let escapedString = self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
+        return escapedString
+    }
 }
