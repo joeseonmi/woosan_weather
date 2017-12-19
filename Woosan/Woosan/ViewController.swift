@@ -259,7 +259,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                          "base_date":date,
                          "base_time":time,
                          "Nx":nx,
-                         "Ny":ny]
+                         "Ny":ny,
+                         "_type":"json"]
         
         print("파라미터들:",date,time,nx,ny)
         
