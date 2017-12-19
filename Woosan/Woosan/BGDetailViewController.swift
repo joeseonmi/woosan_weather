@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BGDetailViewController: UIViewController {
     
@@ -34,6 +35,11 @@ class BGDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let url = URL(string: self.imageURL) {
+            self.bgImageView.kf.setImage(with: url)
+        }
+        
+       /*
         let url = imageURL
         if let thumbnailURL = URL(string: url) {
             //URL만들어주고
@@ -56,9 +62,10 @@ class BGDetailViewController: UIViewController {
             }
             download.resume()
         }
+         */
     }
     
-    func saveAlert() {
+    @objc func saveAlert() {
         let alert:UIAlertController = UIAlertController.init(title: "저장완료!", message: "배경화면이 저장됐어요.", preferredStyle: .alert)
         let alertBtn:UIAlertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alert.addAction(alertBtn)

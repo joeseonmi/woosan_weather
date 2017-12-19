@@ -158,15 +158,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
         }
+//        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",self.lat,self.lon)
+//        print("--------------------------",convertGrid(code: "toXY", v1: Double(lat)!, v2: Double(lon)!))
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
-        
-        requestREST_3days()
-        requestREST_summary()
-        requestREST_minutely()
-        requestREST_dust()
+        getKMAdata()
+//        requestREST_3days()
+//        requestREST_summary()
+//        requestREST_minutely()
+//        requestREST_dust()
         
         // Lottie 부분 : 개
         let animationView = LOTAnimationView(name: "doggy")
@@ -210,139 +212,60 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //위치 변경됐을때
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
         }
     }
     
-    func requestREST_3days(){
-        let weatherURL = "http://apis.skplanetx.com/weather/forecast/3days"
-        let parameter = [
-            "version":"1",
-            "lat":lat,
-            "lon":lon
-        ]
-        
-        Alamofire.request(weatherURL, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: ["appKey":"0dde6c8f-cce2-33f6-9e0d-84fcbc34e606"]).responseJSON { (response) in
-            guard let data = response.data else { return }
-            let watherData:JSON = JSON(data)
-            let precipitation:String = watherData["weather"]["forecast3days"][0]["fcst3hour"]["precipitation"]["prob4hour"].stringValue
-            self.todayWeather[Constants.today_key_Rain] = self.roundedTemperature(from: precipitation) + "%"
-        }
-    }
     
-    func requestREST_summary() {
-        let weatherURL = "http://apis.skplanetx.com/weather/summary"
-        let parameter = ["version":"1",
-                         "lat":lat,
-                         "lon":lon]
+    //MARK: - 기상청API로 요청하기
+    func getKMAdata() {
+        let now = Date()
+        let dateFommater = DateFormatter()
+        let timeFommater = DateFormatter()
+        let minFommater = DateFormatter()
+        var nx = ""
+        var ny = ""
         
-        Alamofire.request(weatherURL, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: ["appKey":"0dde6c8f-cce2-33f6-9e0d-84fcbc34e606"]).responseJSON { (response) in
-            guard let data = response.data else { return }
-            let weatherData:JSON = JSON(data)
-            
-            print("=============================",weatherData)
-            
-            let today_min:String = weatherData["weather"]["summary"][0]["today"]["temperature"]["tmin"].stringValue
-            self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: today_min)
-            let today_max:String = weatherData["weather"]["summary"][0]["today"]["temperature"]["tmax"].stringValue
-            self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: today_max)
-            let today_sky:String = weatherData["weather"]["summary"][0]["today"]["sky"]["name"].stringValue
-            self.todayWeather[Constants.today_key_Sky] = today_sky
-            let today_skyCode:String = weatherData["weather"]["summary"][0]["today"]["sky"]["code"].stringValue
-            self.todayWeather[Constants.today_key_SkyCode] = today_skyCode
-            self.skyCode = today_skyCode
-            
-            let yest_min:String = weatherData["weather"]["summary"][0]["yesterday"]["temperature"]["tmin"].stringValue
-            self.yesterdayWeather[Constants.yesterday_key_Min] = self.roundedTemperature(from: yest_min)
-            let yest_max:String = weatherData["weather"]["summary"][0]["yesterday"]["temperature"]["tmax"].stringValue
-            self.yesterdayWeather[Constants.yesterday_key_Max] = self.roundedTemperature(from: yest_max)
-            let yest_sky:String = weatherData["weather"]["summary"][0]["yesterday"]["sky"]["code"].stringValue
-            self.yesterdayWeather[Constants.yesterday_key_Sky] = yest_sky
-            
-            let tomo_min:String = weatherData["weather"]["summary"][0]["tomorrow"]["temperature"]["tmin"].stringValue
-            self.tomorrowWeather[Constants.tomorrow_key_Min] = self.roundedTemperature(from: tomo_min)
-            let tomo_max:String = weatherData["weather"]["summary"][0]["tomorrow"]["temperature"]["tmax"].stringValue
-            self.tomorrowWeather[Constants.tomorrow_key_Max] = self.roundedTemperature(from: tomo_max)
-            let tomo_sky:String = weatherData["weather"]["summary"][0]["tomorrow"]["sky"]["code"].stringValue
-            self.tomorrowWeather[Constants.tomorrow_key_Sky] = tomo_sky
-            
-            let aftomo_min:String = weatherData["weather"]["summary"][0]["dayAfterTomorrow"]["temperature"]["tmin"].stringValue
-            self.afterTomorrow[Constants.aftertomorrow_key_Min] = self.roundedTemperature(from: aftomo_min)
-            let aftomo_max:String = weatherData["weather"]["summary"][0]["dayAfterTomorrow"]["temperature"]["tmax"].stringValue
-            self.afterTomorrow[Constants.aftertomorrow_key_Max] = self.roundedTemperature(from: aftomo_max)
-            let aftomo_sky:String = weatherData["weather"]["summary"][0]["dayAfterTomorrow"]["sky"]["code"].stringValue
-            self.afterTomorrow[Constants.aftertomorrow_key_Sky] = aftomo_sky
-            
-            let cityInfo:String = weatherData["weather"]["summary"][0]["grid"]["city"].stringValue
-            let countyInfo:String = weatherData["weather"]["summary"][0]["grid"]["county"].stringValue
-            self.locationInfo = "\(cityInfo) " + countyInfo
-            /*
-             switch response.result {
-             case .success(let value):
-             let json = JSON(value)
-             
-             print("====================================",json)
-             
-             self.todayWeather[Constants.today_key_Max] = json["weather"]["summary"][0]["today"]["temperature"]["tmax"].string
-             self.todayWeather[Constants.today_key_Min] = json["weather"]["summary"][0]["today"]["temperature"]["tmin"].string
-             self.todayWeather[Constants.today_key_Sky] = json["weather"]["summary"][0]["today"]["sky"]["name"].string
-             
-             self.yesterdayWeather[Constants.yesterday_key_Max] = json["weather"]["summary"][0]["yesterday"]["temperature"]["tmax"].string
-             self.yesterdayWeather[Constants.yesterday_key_Min] = json["weather"]["summary"][0]["yesterday"]["temperature"]["tmin"].string
-             self.yesterdayWeather[Constants.yesterday_key_Sky] = json["weather"]["summary"][0]["yesterday"]["sky"]["code"].string
-             
-             self.tomorrowWeather[Constants.tomorrow_key_Max] = json["weather"]["summary"][0]["tomorrow"]["temperature"]["tmax"].string
-             self.tomorrowWeather[Constants.tomorrow_key_Min] = json["weather"]["summary"][0]["tomorrow"]["temperature"]["tmin"].string
-             self.tomorrowWeather[Constants.tomorrow_key_Sky] = json["weather"]["summary"][0]["tomorrow"]["sky"]["code"].string
-             
-             self.afterTomorrow[Constants.aftertomorrow_key_Max] = json["weather"]["summary"][0]["dayAfterTomorrow"]["temperature"]["tmax"].string
-             self.afterTomorrow[Constants.aftertomorrow_key_Min] = json["weather"]["summary"][0]["dayAfterTomorrow"]["temperature"]["tmin"].string
-             self.afterTomorrow[Constants.aftertomorrow_key_Sky] = json["weather"]["summary"][0]["dayAfterTomorrow"]["sky"]["code"].string
-             
-             self.locationInfo = "\(json["weather"]["summary"][0]["grid"]["city"]) "+"\(json["weather"]["summary"][0]["grid"]["county"])"
-             case .failure(let error):
-             print("에러:", error)
-             }
-             */
-            
-        }
-    }
-    
-    func requestREST_minutely(){
-        let weatherURL = "http://apis.skplanetx.com/weather/current/minutely"
-        let parameter = ["version":"1",
-                         "lat":lat,
-                         "lon":lon]
+        dateFommater.dateFormat = "yyyyMMdd"
+        timeFommater.dateFormat = "hh"
+        minFommater.dateFormat = "mm"
         
-        Alamofire.request(weatherURL, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: ["appKey":"0dde6c8f-cce2-33f6-9e0d-84fcbc34e606"]).responseJSON { (response) in
-            guard let data = response.data else { return }
-            let weatherData = JSON(data)
-            
-            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@뚜잉",weatherData)
-            let presentTemp = weatherData["weather"]["minutely"][0]["temperature"]["tc"].stringValue
-            self.todayWeather[Constants.today_key_Present] = self.roundedTemperature(from: presentTemp)
-            let humi = weatherData["weather"]["minutely"][0]["humidity"].stringValue
-            self.todayWeather[Constants.today_key_Humi] = self.roundedTemperature(from: humi)  + "%"
-            let todaywind = weatherData["weather"]["minutely"][0]["wind"]["wspd"].stringValue
-            self.todayWeather[Constants.today_key_Wind] = self.roundedTemperature(from: todaywind) + "m/s"
-            
+        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+        
+        let date = dateFommater.string(from: now)
+        var time = timeFommater.string(from: now)
+        let min = minFommater.string(from: now)
+        
+        if let lat = Double(self.lat), let lon = Double(self.lon) {
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
-    }
-    
-    func requestREST_dust() {
-        let weatherURL = "http://apis.skplanetx.com/weather/dust"
-        let parameter = ["version":"1",
-                        "lat":lat,
-                        "lon":lon]
-        Alamofire.request(weatherURL, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: ["appKey":"0dde6c8f-cce2-33f6-9e0d-84fcbc34e606"]).responseJSON { (response) in
-            guard let data = response.data else { return }
-            let dustData = JSON(data)
-            print("미세먼지데이터잉",dustData)
-            
-            let dustGrade = dustData["weather"]["dust"][0]["pm10"]["grade"].stringValue
-            self.todayWeather[Constants.today_key_Dust] = dustGrade
+        if Int(min)! < 30 {
+            time = "\(Int(time)! - 1)"
+        }
+        if Int(time)! < 10 {
+            time = "0" + time + "00"
+        }else{
+            time = time + "00"
+        }
+        
+        let key = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+
+        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService/ForecastGrib"
+        let parameter = ["ServiceKey":String(utf8String: key),
+                         "base_date":date,
+                         "base_time":time,
+                         "Nx":nx,
+                         "Ny":ny,
+                         "_type":"json"]
+        
+        print("파라미터들:",date,time,nx,ny)
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).response { (final) in
+            print("dddddddd",final)
         }
     }
     
@@ -361,6 +284,87 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let page = self.todayInfoScrollView.contentOffset.x / self.todayInfoScrollView.frame.size.width
         self.todayInfoPageControll.currentPage = Int(page)
+    }
+    
+    //MARK: - 위도경도 좌표변환뻘짓 함수. 기상청이 제공한 소스를 swift 버전으로 수정해본것.
+    func convertGrid(code:String, v1:Double, v2:Double) -> [String:Double] {
+        // LCC DFS 좌표변환을 위한 기초 자료
+        let RE = 6371.00877 // 지구 반경(km)
+        let GRID = 5.0 // 격자 간격(km)
+        let SLAT1 = 30.0 // 투영 위도1(degree)
+        let SLAT2 = 60.0 // 투영 위도2(degree)
+        let OLON = 126.0 // 기준점 경도(degree)
+        let OLAT = 38.0 // 기준점 위도(degree)
+        let XO = 43 // 기준점 X좌표(GRID)
+        let YO = 136 // 기1준점 Y좌표(GRID)
+        //
+        //
+        // LCC DFS 좌표변환 ( code : "toXY"(위경도->좌표, v1:위도, v2:경도), "toLL"(좌표->위경도,v1:x, v2:y) )
+        //
+        let DEGRAD = Double.pi / 180.0
+        let RADDEG = 180.0 / Double.pi
+        
+        let re = RE / GRID
+        let slat1 = SLAT1 * DEGRAD
+        let slat2 = SLAT2 * DEGRAD
+        let olon = OLON * DEGRAD
+        let olat = OLAT * DEGRAD
+        
+        var sn = tan(Double.pi * 0.25 + slat2 * 0.5) / tan(Double.pi * 0.25 + slat1 * 0.5)
+        sn = log(cos(slat1) / cos(slat2)) / log(sn)
+        var sf = tan(Double.pi * 0.25 + slat1 * 0.5)
+        sf = pow(sf, sn) * cos(slat1) / sn
+        var ro = tan(Double.pi * 0.25 + olat * 0.5)
+        ro = re * sf / pow(ro, sn)
+        var rs:[String:Double] = [:]
+        var theta = v2 * DEGRAD - olon
+        if (code == "toXY") {
+            
+            rs["lat"] = v1
+            rs["lng"] = v2
+            var ra = tan(Double.pi * 0.25 + (v1) * DEGRAD * 0.5)
+            ra = re * sf / pow(ra, sn)
+            if (theta > Double.pi) {
+                theta -= 2.0 * Double.pi
+            }
+            if (theta < -Double.pi) {
+                theta += 2.0 * Double.pi
+            }
+            theta *= sn
+            rs["nx"] = floor(ra * sin(theta) + Double(XO) + 0.5)
+            rs["ny"] = floor(ro - ra * cos(theta) + Double(YO) + 0.5)
+        }
+        else {
+            rs["nx"] = v1
+            rs["ny"] = v2
+            let xn = v1 - Double(XO)
+            let yn = ro - v2 + Double(YO)
+            let ra = sqrt(xn * xn + yn * yn)
+            if (sn < 0.0) {
+                sn - ra
+            }
+            var alat = pow((re * sf / ra), (1.0 / sn))
+            alat = 2.0 * atan(alat) - Double.pi * 0.5
+            
+            if (abs(xn) <= 0.0) {
+                theta = 0.0
+            }
+            else {
+                if (abs(yn) <= 0.0) {
+                    let theta = Double.pi * 0.5
+                    if (xn < 0.0){
+                        xn - theta
+                    }
+                }
+                else{
+                    theta = atan2(xn, yn)
+                }
+            }
+            let alon = theta / sn + olon
+            rs["lat"] = alat * RADDEG
+            rs["lng"] = alon * RADDEG
+        }
+        return rs
     }
 }
 

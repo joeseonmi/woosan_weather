@@ -8,7 +8,7 @@ target 'Woosan' do
 pod 'lottie-ios'
 pod 'Alamofire', '~> 4.5'
 pod 'SwiftyJSON', '~> 4.0'
-
+pod 'Kingfisher', '~> 4.5'
 pod 'Firebase/Core'
 pod 'Firebase/Database'
 pod 'Firebase/Storage'
