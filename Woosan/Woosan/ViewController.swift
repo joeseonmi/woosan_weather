@@ -164,6 +164,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          */
         getForecast()
         getForecastSpaceData()
+        get2amData()
      
         
         // Lottie 부분 : 개
@@ -253,7 +254,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         time = time + "00"
         
         let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
-        //let key = String(utf8String: appid.cString(using: String.Encoding.utf8)!)!
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
@@ -269,9 +269,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             print("=================결과:",dataArray)
-            for i in 0...dataArray.count-1{
-
-                
+            for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_presentTemp :
                     let value = dataArray[i]["obsrValue"].stringValue
@@ -403,27 +401,142 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             print("=================결과:",dataArray)
             
-            for i in 0...dataArray.count-1 {
+            for i in 0...dataArray.count - 1 {
                 print("======================이름:",dataArray[i]["category"].stringValue)
                 print("======================값:",dataArray[i]["fcstValue"].stringValue)
                 print("======================값:",dataArray[i]["fcstDate"].stringValue)
-                switch dataArray[i]["category"].stringValue {
-                case Constants.api_rain:
-                    let value = dataArray[i]["fcstValue"].stringValue
-                    self.todayWeather[Constants.today_key_Rain] = value + "%"
-                case Constants.api_max:
-                    let value = dataArray[i]["fcstValue"].stringValue
-                    self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-                case Constants.api_min:
-                    let value = dataArray[i]["fcstValue"].stringValue
-                    self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                
+                //오늘 정보 2시꺼 호출했을때
+                switch dataArray[i]["fcstDate"].stringValue {
+                case date:
+                    switch dataArray[i]["category"].stringValue {
+                    case Constants.api_rain:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Rain] = value + "%"
+                    case Constants.api_max:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                    default:
+                        print("필요없는 값")
+                    }
+                case setTomorrow:
+                    switch dataArray[i]["category"].stringValue {
+                    case Constants.api_max:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.tomorrowWeather[Constants.tomorrow_key_Max] = self.roundedTemperature(from: value)
+                    case Constants.api_min:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.tomorrowWeather[Constants.tomorrow_key_Min] = self.roundedTemperature(from: value)
+                    case Constants.api_sky:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.tomorrowWeather[Constants.tomorrow_key_Sky] = value
+                    case Constants.api_rainform:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.tomorrowWeather[Constants.tomorrow_key_Rainform] = value
+                    default:
+                        print("필요없는 값")
+                    }
                 default:
-                    print("필요없는 값")
+                    print("안쓰는값")
                 }
             }
         }
         
     }
+    
+    //오늘 새벽 2시예보 부르기
+    func get2amData() {
+        let now = Date()
+        let dateFommater = DateFormatter()
+        let timeFommater = DateFormatter()
+        let minFommater = DateFormatter()
+        var nx = ""
+        var ny = ""
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
+        let tomorrow = now.addingTimeInterval(24 * 60 * 60)
+        
+        dateFommater.dateFormat = "yyyyMMdd"
+        timeFommater.dateFormat = "HH"
+        minFommater.dateFormat = "mm"
+        //한국시간으로 맞춰주기
+        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+        
+        let setYesterday:String = dateFommater.string(from: yesterday)
+        let setTomorrow:String = dateFommater.string(from: tomorrow)
+        var date:String = dateFommater.string(from: now)
+        var time:String = timeFommater.string(from: now)
+        
+        guard let setTime = Int(time) else { return }
+        if setTime < 2 {
+            date = setYesterday
+            time = "2300"
+        } else {
+            time = "0200"
+        }
+        
+        if let lat = Double(self.lat), let lon = Double(self.lon) {
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
+        }
+        
+        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
+        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
+                         "base_date":date,
+                         "base_time":time,
+                         "nx":nx,
+                         "ny":ny,
+                         "_type":"json",
+                         "numOfRows":"999"]
+        
+        print("파라미터들:",date,time,nx,ny)
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            guard let weatherData = response.data else { return }
+            let data = JSON(weatherData)
+            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            print("=================결과:",dataArray)
+            
+            for i in 0...dataArray.count - 1 {
+                print("======================이름:",dataArray[i]["category"].stringValue)
+                print("======================값:",dataArray[i]["fcstValue"].stringValue)
+                print("======================값:",dataArray[i]["fcstDate"].stringValue)
+                
+                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
+                    switch dataArray[i]["category"].stringValue {
+                    case Constants.api_rain:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Rain] = value + "%"
+                    case Constants.api_max:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                    case Constants.api_min:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                    default:
+                        print("필요없는 값")
+                    }
+                    
+                } else if dataArray[i]["fcstDate"].stringValue == date {
+                    switch dataArray[i]["category"].stringValue {
+                    case Constants.api_rain:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Rain] = value + "%"
+                    case Constants.api_max:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                    case Constants.api_min:
+                        let value = dataArray[i]["fcstValue"].stringValue
+                        self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                    default:
+                        print("필요없는 값")
+                    }
+                }
+            }
+        }
+        
+    }
+    
     
     
     
