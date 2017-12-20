@@ -158,17 +158,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
         }
-        //        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",self.lat,self.lon)
-        //        print("--------------------------",convertGrid(code: "toXY", v1: Double(lat)!, v2: Double(lon)!))
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
-        getKMAdata()
-        //        requestREST_3days()
-        //        requestREST_summary()
-        //        requestREST_minutely()
-        //        requestREST_dust()
+        getForecast()
+        getForecastSpaceData()
+     
         
         // Lottie 부분 : 개
         let animationView = LOTAnimationView(name: "doggy")
@@ -220,8 +216,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     }
     
     
-    //MARK: - 기상청API로 요청하기
-    func getKMAdata() {
+    //MARK: - 기상청API로 요청하기 초단기실황조회
+    func getForecast() {
         let now = Date()
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
@@ -230,7 +226,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         var ny = ""
         
         dateFommater.dateFormat = "yyyyMMdd"
-        timeFommater.dateFormat = "hh"
+        timeFommater.dateFormat = "HH"
         minFommater.dateFormat = "mm"
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
@@ -244,13 +240,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
+        
+
         if Int(min)! < 30 {
-            time = "0"+"\(Int(time)! - 1)"
+            let setTime = Int(time)! - 1
+            if setTime < 10 {
+                time = "0"+"\(setTime)"
+            } else {
+                time = "\(setTime)"
+            }
         }
         time = time + "00"
         
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?ServiceKey=9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%252FDKC8wHvFUMHg%253D%253D&_type=json&base_date=20171219&base_time=0900&nx=60&ny=127
-
         let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
         //let key = String(utf8String: appid.cString(using: String.Encoding.utf8)!)!
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
@@ -263,12 +264,160 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         print("파라미터들:",date,time,nx,ny)
         
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (final) in
-            print("======================== 결과 요기:",final)
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            guard let weatherData = response.data else { return }
+            let data = JSON(weatherData)
+            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            print("=================결과:",dataArray)
+            for i in 0...dataArray.count-1{
+
+                
+                switch dataArray[i]["category"].stringValue {
+                case Constants.api_presentTemp :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    self.todayWeather[Constants.today_key_Present] = self.roundedTemperature(from: value)
+                case Constants.api_humi :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    self.todayWeather[Constants.today_key_Humi] = value + "%"
+                case Constants.api_wind :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    self.todayWeather[Constants.today_key_Wind] = value
+               
+                case Constants.api_sky :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    switch value {
+                    case "1":
+                        self.todayWeather[Constants.today_key_Sky] = "맑음"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
+                    case "2":
+                        self.todayWeather[Constants.today_key_Sky] = "구름 조금"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
+                    case "3":
+                        self.todayWeather[Constants.today_key_Sky] = "구름 많음"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D03"
+                    case "4":
+                        self.todayWeather[Constants.today_key_Sky] = "흐림"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D04"
+                    default:
+                        self.todayWeather[Constants.today_key_Sky] = "정보 없음"
+                    }
+                case Constants.api_rainform :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    switch value {
+                    case "0":
+                        self.todayWeather[Constants.today_key_Rainform] = ""
+                    case "1":
+                        self.todayWeather[Constants.today_key_Rainform] = "비"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D05"
+                    case "2":
+                        self.todayWeather[Constants.today_key_Rainform] = "진눈깨비"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D06"
+                    case "3":
+                        self.todayWeather[Constants.today_key_Rainform] = "눈"
+                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D07"
+                    default:
+                        self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
+                    }
+                default:
+                    print("필요없는 값")
+                }
+                
+            }
         }
         
+    }
+    
+    func getForecastSpaceData() {
+        let now = Date()
+        let yesterday = DateComponents()
+        let dateFommater = DateFormatter()
+        let timeFommater = DateFormatter()
+        let minFommater = DateFormatter()
+        var nx = ""
+        var ny = ""
+        
+        dateFommater.dateFormat = "yyyyMMdd"
+        timeFommater.dateFormat = "HH"
+        minFommater.dateFormat = "mm"
+        //한국시간으로 맞춰주기
+        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+        
+       
+        var date:String = dateFommater.string(from: now)
+        var time:String = timeFommater.string(from: now)
+        let min:String = minFommater.string(from: now)
+        
+        //0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 제공
+        //각 시간 10분 이후부터 API 제공
+        guard let setTime = Int(time), let setDate = Int(date) else { return }
+        
+        if setTime < 2 {
+            date = "\(setDate - 1)"//나중에 수정해야할 부분
+            time = "2300"
+        } else if setTime < 5 {
+            time = "0200"
+        } else if setTime < 8 {
+            time = "0500"
+        } else if setTime < 11 {
+            time = "0800"
+        } else if setTime < 14 {
+            time = "1100"
+        } else if setTime < 17 {
+            time = "1400"
+        } else if setTime < 20 {
+            time = "1700"
+        } else if setTime < 23 {
+            time = "2000"
+        }
+        
+        if let lat = Double(self.lat), let lon = Double(self.lon) {
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
+        }
+        
+    
+        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        //let key = String(utf8String: appid.cString(using: String.Encoding.utf8)!)!
+        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
+        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
+                         "base_date":date,
+                         "base_time":time,
+                         "nx":nx,
+                         "ny":ny,
+                         "_type":"json",
+                         "numOfRows":"999"]
+        
+        print("파라미터들:",date,time,nx,ny)
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            guard let weatherData = response.data else { return }
+            let data = JSON(weatherData)
+            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            print("=================결과:",dataArray)
+            
+            for i in 0...dataArray.count-1 {
+                print("======================이름:",dataArray[i]["category"].stringValue)
+                print("======================값:",dataArray[i]["fcstValue"].stringValue)
+                print("======================값:",dataArray[i]["fcstDate"].stringValue)
+                switch dataArray[i]["category"].stringValue {
+                case Constants.api_rain:
+                    let value = dataArray[i]["fcstValue"].stringValue
+                    self.todayWeather[Constants.today_key_Rain] = value + "%"
+                case Constants.api_max:
+                    let value = dataArray[i]["fcstValue"].stringValue
+                    self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                case Constants.api_min:
+                    let value = dataArray[i]["fcstValue"].stringValue
+                    self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                default:
+                    print("필요없는 값")
+                }
+            }
+        }
         
     }
+    
+    
     
     //반올림하기
     func roundedTemperature(from temperature:String) -> String {
