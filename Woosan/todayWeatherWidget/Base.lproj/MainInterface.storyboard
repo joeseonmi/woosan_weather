@@ -73,25 +73,25 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5g-9D-nUG">
-                                        <rect key="frame" x="103.5" y="11" width="49" height="51"/>
+                                        <rect key="frame" x="112" y="10" width="49" height="51"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="39"/>
                                         <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKL-2O-mT6">
-                                        <rect key="frame" x="100" y="63" width="21" height="22.5"/>
+                                        <rect key="frame" x="108" y="63" width="21" height="22.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                         <color key="textColor" red="0.76992782360406098" green="0.39641390016270117" blue="0.24868463243573571" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BQj-95-tXn">
-                                        <rect key="frame" x="134" y="63" width="21" height="22.5"/>
+                                        <rect key="frame" x="142" y="63" width="21" height="22.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                         <color key="textColor" red="0.21692804921791425" green="0.45048352228980199" blue="0.64326221446700504" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yqw-0p-hCX">
-                                        <rect key="frame" x="123" y="63" width="9" height="22.5"/>
+                                        <rect key="frame" x="131" y="63" width="9" height="22.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                         <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -117,7 +117,7 @@
                                     <constraint firstItem="FYK-Fo-cvy" firstAttribute="top" secondItem="E8H-oz-fh6" secondAttribute="top" id="68Q-LU-f4e"/>
                                     <constraint firstItem="VRc-Af-FuQ" firstAttribute="height" secondItem="Ob8-V6-pKf" secondAttribute="height" multiplier="0.4" id="7KS-C1-sIH"/>
                                     <constraint firstItem="BKL-2O-mT6" firstAttribute="centerY" secondItem="yqw-0p-hCX" secondAttribute="centerY" id="7Ln-0u-AVQ"/>
-                                    <constraint firstItem="yqw-0p-hCX" firstAttribute="centerX" secondItem="R5g-9D-nUG" secondAttribute="centerX" id="BDF-Xm-As0"/>
+                                    <constraint firstItem="yqw-0p-hCX" firstAttribute="centerX" secondItem="R5g-9D-nUG" secondAttribute="centerX" constant="-1" id="BDF-Xm-As0"/>
                                     <constraint firstItem="zGM-mh-Kki" firstAttribute="height" secondItem="VRc-Af-FuQ" secondAttribute="height" multiplier="0.7" id="DDI-67-FJZ"/>
                                     <constraint firstItem="yqw-0p-hCX" firstAttribute="leading" secondItem="BKL-2O-mT6" secondAttribute="trailing" constant="2" id="F9f-x2-37h"/>
                                     <constraint firstItem="HqJ-JA-re7" firstAttribute="centerY" secondItem="krW-Jg-gPS" secondAttribute="centerY" id="I7T-I6-AOo"/>
@@ -127,14 +127,14 @@
                                     <constraint firstItem="HqJ-JA-re7" firstAttribute="leading" secondItem="VLR-cf-d0g" secondAttribute="trailing" constant="4" id="Kve-oO-pYl"/>
                                     <constraint firstItem="krW-Jg-gPS" firstAttribute="top" secondItem="FYK-Fo-cvy" secondAttribute="bottom" constant="2" id="N6T-hi-wDd"/>
                                     <constraint firstItem="8Nz-6x-3ZI" firstAttribute="centerY" secondItem="VLR-cf-d0g" secondAttribute="centerY" id="S3X-XT-idb"/>
-                                    <constraint firstItem="BKL-2O-mT6" firstAttribute="leading" secondItem="E8H-oz-fh6" secondAttribute="trailing" constant="8" id="TDq-Hi-AGV"/>
+                                    <constraint firstItem="BKL-2O-mT6" firstAttribute="leading" secondItem="E8H-oz-fh6" secondAttribute="trailing" constant="16" id="TDq-Hi-AGV"/>
                                     <constraint firstItem="krW-Jg-gPS" firstAttribute="leading" secondItem="HqJ-JA-re7" secondAttribute="trailing" constant="1" id="VFG-7B-XvI"/>
                                     <constraint firstAttribute="height" constant="95" id="W5n-Tw-na7"/>
                                     <constraint firstItem="zGM-mh-Kki" firstAttribute="top" secondItem="VRc-Af-FuQ" secondAttribute="top" id="ZQN-5h-sS9"/>
-                                    <constraint firstItem="yqw-0p-hCX" firstAttribute="top" secondItem="R5g-9D-nUG" secondAttribute="bottom" constant="1" id="ZWC-Zy-nMw"/>
                                     <constraint firstItem="VRc-Af-FuQ" firstAttribute="bottom" secondItem="E8H-oz-fh6" secondAttribute="bottom" id="ayy-kZ-0Lf"/>
                                     <constraint firstItem="FYK-Fo-cvy" firstAttribute="trailing" secondItem="VRc-Af-FuQ" secondAttribute="trailing" id="cdW-zX-j3u"/>
                                     <constraint firstItem="BQj-95-tXn" firstAttribute="centerY" secondItem="yqw-0p-hCX" secondAttribute="centerY" id="cdn-mK-tLA"/>
+                                    <constraint firstItem="R5g-9D-nUG" firstAttribute="top" secondItem="E8H-oz-fh6" secondAttribute="top" id="clM-OT-Ssf"/>
                                     <constraint firstItem="E8H-oz-fh6" firstAttribute="centerY" secondItem="Ob8-V6-pKf" secondAttribute="centerY" id="fIJ-nW-6KN"/>
                                     <constraint firstItem="VLR-cf-d0g" firstAttribute="leading" secondItem="8Nz-6x-3ZI" secondAttribute="trailing" constant="1" id="hUG-S7-0Tn"/>
                                     <constraint firstAttribute="trailing" secondItem="VRc-Af-FuQ" secondAttribute="trailing" constant="16" id="hdw-TM-UB7"/>
@@ -164,6 +164,7 @@
                         <outlet property="presenTemp" destination="R5g-9D-nUG" id="hZJ-p1-jXw"/>
                         <outlet property="rainLabel" destination="8Nz-6x-3ZI" id="JCM-Cu-M3q"/>
                         <outlet property="rainTextLabel" destination="VLR-cf-d0g" id="LLG-pI-12O"/>
+                        <outlet property="weatherImageView" destination="E8H-oz-fh6" id="W6c-Ux-hCb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>

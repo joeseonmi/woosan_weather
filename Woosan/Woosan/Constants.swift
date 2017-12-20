@@ -42,16 +42,19 @@ struct Constants {
     static let yesterday_key_Max:String = "yesterday_key_Max"
     static let yesterday_key_Min:String = "yesterday_key_Min"
     static let yesterday_key_Sky:String = "yesterday_key_Sky"
+    static let yesterday_key_Rainform:String = "yesterday_key_RainForm"
   
     //- tomorrow
     static let tomorrow_key_Max:String = "tomorrow_key_Max"
     static let tomorrow_key_Min:String = "tomorrow_key_Min"
     static let tomorrow_key_Sky:String = "tomorrow_key_Sky"
+    static let tomorrow_key_Rainform:String = "tomorrow_key_RainForm"
     
     //- aftertomorrow
-    static let aftertomorrow_key_Max:String = "tomorrow_key_Max"
-    static let aftertomorrow_key_Min:String = "tomorrow_key_Min"
-    static let aftertomorrow_key_Sky:String = "tomorrow_key_Sky"
+    static let aftertomorrow_key_Max:String = "aftertomorrow_key_Max"
+    static let aftertomorrow_key_Min:String = "aftertomorrow_key_Min"
+    static let aftertomorrow_key_Sky:String = "aftertomorrow_key_Sky"
+    static let aftertomorrow_key_Rainform:String = "aftertomorrow_key_RainForm"
     
 }
 
