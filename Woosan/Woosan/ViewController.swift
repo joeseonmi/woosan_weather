@@ -329,12 +329,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     func getForecastSpaceData() {
         let now = Date()
-        let yesterday = DateComponents()
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
         let minFommater = DateFormatter()
         var nx = ""
         var ny = ""
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
+        let tomorrow = now.addingTimeInterval(24 * 60 * 60)
+        let dayaftertomorrow = now.addingTimeInterval(48 * 60 * 60)
         
         dateFommater.dateFormat = "yyyyMMdd"
         timeFommater.dateFormat = "HH"
@@ -342,17 +344,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         //한국시간으로 맞춰주기
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
-       
+        let setYesterday:String = dateFommater.string(from: yesterday)
+        let setTomorrow:String = dateFommater.string(from: tomorrow)
+        let setDayaftertomorrow:String = dateFommater.string(from: dayaftertomorrow)
         var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
         
+        print("오늘:", date,
+              "어제:", setYesterday,
+              "내일:", setTomorrow,
+              "모레:", setDayaftertomorrow)
+        
         //0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 제공
         //각 시간 10분 이후부터 API 제공
-        guard let setTime = Int(time), let setDate = Int(date) else { return }
-        
+        guard let setTime = Int(time) else { return }
         if setTime < 2 {
-            date = "\(setDate - 1)"//나중에 수정해야할 부분
+            date = setYesterday
             time = "2300"
         } else if setTime < 5 {
             time = "0200"
