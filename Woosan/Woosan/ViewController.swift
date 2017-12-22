@@ -157,15 +157,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
+            
+            getForecast()
+            getForecastSpaceData()
+            get2amData()
         }
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
-        getForecast()
-        getForecastSpaceData()
-        get2amData()
-     
+
+        
+        if let coordinate = self.locationManager.location {
+            convertAddress(from: coordinate)
+        }
         
         // Lottie 부분 : 개
         let animationView = LOTAnimationView(name: "doggy")
@@ -537,6 +542,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     }
     
+    
+    func convertAddress(from coordinate:CLLocation) {
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(coordinate) { (placemarks, error) in
+            if let someError = error {
+                print("에러가 있는데여:" ,someError)
+                return
+            }
+            guard let placemark = placemarks?.first else { return }
+            if let state = placemark.administrativeArea,
+                let city = placemark.locality,
+                let subLocality = placemark.subLocality {
+                self.locationInfo = "\(state) " + "\(city) " + subLocality
+            }
+            return
+        }
+        
+    }
     
     
     
