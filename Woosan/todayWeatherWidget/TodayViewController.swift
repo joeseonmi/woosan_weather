@@ -35,6 +35,11 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     
     var lat:String = ""
     var lon:String = ""
+    var locationInfo:String = "" {
+        didSet {
+            self.locationLabel.text = locationInfo
+        }
+    }
     var weatherInfo:[String:String] = [:] {
         didSet{
             self.rainTextLabel.text = self.weatherInfo[Constants.widget_key_Rain]
@@ -60,9 +65,12 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
             
+            get2amData()
+            getForecast()
         }
-        get2amData()
-        getForecast()
+        if let coordinate = locationManager.location{
+            convertAddress(from: coordinate)
+        }
         
         /*
          guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else {return}
@@ -89,6 +97,25 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     //MARK:-              Func                 //
     /*******************************************/
+    
+    func convertAddress(from coordinate:CLLocation) {
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(coordinate) { (placemarks, error) in
+            if let someError = error {
+                print("에러가 있는데여:" ,someError)
+                return
+            }
+            guard let placemark = placemarks?.first else { return }
+            if let state = placemark.administrativeArea,
+                let city = placemark.locality,
+                let subLocality = placemark.subLocality {
+                self.locationInfo = "\(state) " + "\(city) " + subLocality
+            }
+            return
+        }
+        
+    }
+
     func getForecast() {
         let now = Date()
         let dateFommater = DateFormatter()
