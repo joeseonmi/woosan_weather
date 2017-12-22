@@ -132,6 +132,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     @IBOutlet weak var todayInfoScrollView: UIScrollView!
     @IBOutlet weak var todayInfoPageControll: UIPageControl!
     
+    @IBOutlet weak var collectionView: UICollectionView!
     /*******************************************/
     //MARK:-          Life Cycle               //
     /*******************************************/
@@ -139,6 +140,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         print("@@@@@@@@@@@ViewdidLoad@@@@@@@@@@@@@@@")
+        
+        self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
+        self.collectionView.dataSource = self
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -273,7 +277,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            print("=================결과:",dataArray)
+//            print("=================결과:",dataArray)
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_presentTemp :
@@ -388,7 +392,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     
         let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
-        //let key = String(utf8String: appid.cString(using: String.Encoding.utf8)!)!
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
@@ -404,13 +407,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            print("=================결과:",dataArray)
+//            print("=================결과:",dataArray)
             
             for i in 0...dataArray.count - 1 {
                 print("======================이름:",dataArray[i]["category"].stringValue)
                 print("======================값:",dataArray[i]["fcstValue"].stringValue)
                 print("======================값:",dataArray[i]["fcstDate"].stringValue)
-                
+//
                 //오늘 정보 2시꺼 호출했을때
                 switch dataArray[i]["fcstDate"].stringValue {
                 case date:
@@ -494,18 +497,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                          "_type":"json",
                          "numOfRows":"999"]
         
-        print("파라미터들:",date,time,nx,ny)
+//        print("파라미터들:",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            print("=================결과:",dataArray)
+//            print("=================결과:",dataArray)
             
             for i in 0...dataArray.count - 1 {
-                print("======================이름:",dataArray[i]["category"].stringValue)
-                print("======================값:",dataArray[i]["fcstValue"].stringValue)
-                print("======================값:",dataArray[i]["fcstDate"].stringValue)
+//                print("======================이름:",dataArray[i]["category"].stringValue)
+//                print("======================값:",dataArray[i]["fcstValue"].stringValue)
+//                print("======================값:",dataArray[i]["fcstDate"].stringValue)
                 
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
                     switch dataArray[i]["category"].stringValue {
@@ -659,6 +662,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             rs["lng"] = alon * RADDEG
         }
         return rs
+    }
+}
+
+extension ViewController : UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
+        return cell
+    }
+}
+extension ViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100 / 4 * 3, height: 100)
     }
 }
 

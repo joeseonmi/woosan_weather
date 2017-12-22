@@ -28,7 +28,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ob8-V6-pKf">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SKY_M01" translatesAutoresizingMaskIntoConstraints="NO" id="E8H-oz-fh6">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SKY_M01" translatesAutoresizingMaskIntoConstraints="NO" id="E8H-oz-fh6">
                                         <rect key="frame" x="16" y="9.5" width="76" height="76"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="E8H-oz-fh6" secondAttribute="height" multiplier="1:1" id="SMk-fN-MFw"/>
@@ -41,32 +41,32 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="서울시 강남구" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYK-Fo-cvy">
-                                        <rect key="frame" x="249" y="9.5" width="55" height="12"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <rect key="frame" x="243.5" y="9.5" width="60.5" height="13.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미세먼지 매우 나쁨" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krW-Jg-gPS">
-                                        <rect key="frame" x="221.5" y="23.5" width="82.5" height="13.5"/>
+                                        <rect key="frame" x="221.5" y="25" width="82.5" height="13.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="강수확률 60%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLR-cf-d0g">
-                                        <rect key="frame" x="141" y="24.5" width="64.5" height="13.5"/>
+                                        <rect key="frame" x="141" y="26" width="64.5" height="13.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="widget_humi" translatesAutoresizingMaskIntoConstraints="NO" id="8Nz-6x-3ZI">
-                                        <rect key="frame" x="129" y="26" width="11" height="11"/>
+                                        <rect key="frame" x="129" y="27.5" width="11" height="11"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="11" id="2CB-CM-StR"/>
                                             <constraint firstAttribute="width" secondItem="8Nz-6x-3ZI" secondAttribute="height" multiplier="1:1" id="SUn-jC-z3F"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="widget_dust" translatesAutoresizingMaskIntoConstraints="NO" id="HqJ-JA-re7">
-                                        <rect key="frame" x="209.5" y="25" width="11" height="11"/>
+                                        <rect key="frame" x="209.5" y="26.5" width="11" height="11"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="HqJ-JA-re7" secondAttribute="height" multiplier="1:1" id="MGJ-uq-u1K"/>
                                             <constraint firstAttribute="width" constant="11" id="eUB-O4-qe1"/>
