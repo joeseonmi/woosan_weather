@@ -45,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     var locationInfo:String = "현재 위치"{
         didSet{
-            self.locationLabel.text = locationInfo
+               self.locationLabel.text = self.locationInfo
         }
     }
     
