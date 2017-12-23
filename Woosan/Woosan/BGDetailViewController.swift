@@ -22,6 +22,9 @@ class BGDetailViewController: UIViewController {
     
     @IBAction func tappedDownload(_ sender: UIButton) {
     print("누르면 포토라이브러리에 저장되게")
+//        if let image = bgImageView.image {
+//            UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveAlert), nil)
+//        }
     }
     
     @IBAction func tappedClose(_ sender: UIButton) {
@@ -35,6 +38,7 @@ class BGDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bgImageView.kf.indicatorType = .activity
         if let url = URL(string: self.imageURL) {
             self.bgImageView.kf.setImage(with: url)
         }

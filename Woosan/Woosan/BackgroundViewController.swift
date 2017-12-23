@@ -28,7 +28,7 @@ class BackgroundViewController: UIViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: "BGCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BGCollectionViewCell")
-        
+
         getImages()
  
     }
@@ -63,7 +63,8 @@ extension BackgroundViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BGCollectionViewCell", for: indexPath) as! BGCollectionViewCell
-        
+       
+        cell.bgthum.kf.indicatorType = .activity
         if let url = URL(string: self.bgImagesData[indexPath.row]) {
             cell.bgthum.kf.setImage(with: url)
         }
