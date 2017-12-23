@@ -20,14 +20,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="forecastCell" id="gTV-IL-0wX" customClass="forecastCollectionViewCell" customModule="Woosan" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="84" height="104"/>
+            <rect key="frame" x="0.0" y="0.0" width="84" height="102"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="84" height="104"/>
+                <rect key="frame" x="0.0" y="0.0" width="84" height="102"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="74O-nW-Bt9" userLabel="yesterday">
-                        <rect key="frame" x="4.5" y="2" width="75" height="100"/>
+                        <rect key="frame" x="4.5" y="1" width="75" height="100"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="어제" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVk-a1-pxZ">
                                 <rect key="frame" x="27" y="0.0" width="21" height="14.5"/>
@@ -69,13 +69,13 @@
                 <constraint firstItem="74O-nW-Bt9" firstAttribute="width" secondItem="74O-nW-Bt9" secondAttribute="height" multiplier="3:4" id="pgN-Dc-pCS"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="84" height="104"/>
+            <size key="customSize" width="84" height="102"/>
             <connections>
                 <outlet property="forecastHour" destination="tVk-a1-pxZ" id="xhu-5S-2bB"/>
                 <outlet property="forecastTemp" destination="O9a-N9-nEs" id="W2g-mm-nAl"/>
                 <outlet property="weatherImageView" destination="upL-Tn-9xb" id="nac-bm-Md1"/>
             </connections>
-            <point key="canvasLocation" x="14" y="40"/>
+            <point key="canvasLocation" x="14" y="41"/>
         </collectionViewCell>
     </objects>
     <resources>

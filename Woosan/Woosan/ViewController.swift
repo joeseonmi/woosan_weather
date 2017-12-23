@@ -66,35 +66,37 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
     }
     
+    //날짜, 시간, 온도, 하늘, 강수형태, 강수확률
+    var foreCastData:[[String:String]] = []
     
-    var yesterdayWeather:[String:String] = [:] {
-        didSet{
-            guard let imageName:String = yesterdayWeather[Constants.yesterday_key_Sky] else { return }
-            guard let imageNumber = imageName.last else { return }
-            self.yesterdaySkyIcon.image = UIImage(named:"SKY_M0" + "\(imageNumber)")
-            //TODO:- 코드의 이름이 어제, 오늘, 내일이 다르게 들어와서 끝번호만 따서 이미지를 호출함 나중에 더 깔끔히 고쳐보자
-            self.yseterdayMinLabel.text = yesterdayWeather[Constants.yesterday_key_Min]
-            self.yesterdayMaxLabel.text = yesterdayWeather[Constants.yesterday_key_Max]
-        }
-    }
+//    var yesterdayWeather:[String:String] = [:] {
+//        didSet{
+//            guard let imageName:String = yesterdayWeather[Constants.yesterday_key_Sky] else { return }
+//            guard let imageNumber = imageName.last else { return }
+//            self.yesterdaySkyIcon.image = UIImage(named:"SKY_M0" + "\(imageNumber)")
+//            //TODO:- 코드의 이름이 어제, 오늘, 내일이 다르게 들어와서 끝번호만 따서 이미지를 호출함 나중에 더 깔끔히 고쳐보자
+//            self.yseterdayMinLabel.text = yesterdayWeather[Constants.yesterday_key_Min]
+//            self.yesterdayMaxLabel.text = yesterdayWeather[Constants.yesterday_key_Max]
+//        }
+//    }
     
-    var tomorrowWeather:[String:String] = [:] {
-        didSet{
-            self.tomorrowSkyIcon.image = UIImage(named: tomorrowWeather[Constants.tomorrow_key_Sky] ?? "weather_default")
-            self.tomorrowMinLabel.text = tomorrowWeather[Constants.tomorrow_key_Min]
-            self.tomorrowMaxLabel.text = tomorrowWeather[Constants.tomorrow_key_Max]
-        }
-    }
+//    var tomorrowWeather:[String:String] = [:] {
+//        didSet{
+//            self.tomorrowSkyIcon.image = UIImage(named: tomorrowWeather[Constants.tomorrow_key_Sky] ?? "weather_default")
+//            self.tomorrowMinLabel.text = tomorrowWeather[Constants.tomorrow_key_Min]
+//            self.tomorrowMaxLabel.text = tomorrowWeather[Constants.tomorrow_key_Max]
+//        }
+//    }
     
-    var afterTomorrow:[String:String] = [:] {
-        didSet{
-            self.aftertomorrowSkyIcon.image = UIImage(named: afterTomorrow[Constants.aftertomorrow_key_Sky] ?? "weather_default")
-            self.aftertomorrowMinLabel.text = afterTomorrow[Constants.tomorrow_key_Min]
-            self.aftertomorrowMaxLabel.text = afterTomorrow[Constants.tomorrow_key_Max]
-        }
-    }
-    
-    
+//    var afterTomorrow:[String:String] = [:] {
+//        didSet{
+//            self.aftertomorrowSkyIcon.image = UIImage(named: afterTomorrow[Constants.aftertomorrow_key_Sky] ?? "weather_default")
+//            self.aftertomorrowMinLabel.text = afterTomorrow[Constants.tomorrow_key_Min]
+//            self.aftertomorrowMaxLabel.text = afterTomorrow[Constants.tomorrow_key_Max]
+//        }
+//    }
+//
+//
     // outlet
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var movinImageView: UIView!
@@ -143,6 +145,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -383,6 +386,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             time = "1700"
         } else if setTime < 23 {
             time = "2000"
+        } else if setTime >= 23 {
+            time = "2300"
         }
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
@@ -407,12 +412,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-//            print("=================결과:",dataArray)
-            
+
             for i in 0...dataArray.count - 1 {
                 print("======================이름:",dataArray[i]["category"].stringValue)
                 print("======================값:",dataArray[i]["fcstValue"].stringValue)
-                print("======================값:",dataArray[i]["fcstDate"].stringValue)
+                print("======================기준시간:",dataArray[i]["baseTime"].stringValue)
+                print("======================예보날짜:",dataArray[i]["fcstDate"].stringValue)
+                print("======================예보시간:",dataArray[i]["fcstTime"].stringValue)
 //
                 //오늘 정보 2시꺼 호출했을때
                 switch dataArray[i]["fcstDate"].stringValue {
@@ -424,23 +430,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     case Constants.api_max:
                         let value = dataArray[i]["fcstValue"].stringValue
                         self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
-                    }
-                case setTomorrow:
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.tomorrowWeather[Constants.tomorrow_key_Max] = self.roundedTemperature(from: value)
-                    case Constants.api_min:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.tomorrowWeather[Constants.tomorrow_key_Min] = self.roundedTemperature(from: value)
-                    case Constants.api_sky:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.tomorrowWeather[Constants.tomorrow_key_Sky] = value
-                    case Constants.api_rainform:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.tomorrowWeather[Constants.tomorrow_key_Rainform] = value
                     default:
                         print("필요없는 값")
                     }
@@ -672,13 +661,16 @@ extension ViewController : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! forecastCollectionViewCell
+        cell.forecastHour.text = "3시간"
+        cell.forecastTemp.text = "8"
+        cell.weatherImageView.image = UIImage(named: "SKY_M02")
         return cell
     }
 }
 extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100 / 4 * 3, height: 100)
+        return CGSize(width: 75, height: 100)
     }
 }
 
