@@ -45,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     var locationInfo:String = "현재 위치"{
         didSet{
-               self.locationLabel.text = self.locationInfo
+            self.locationLabel.text = self.locationInfo
         }
     }
     
@@ -137,7 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
-//        self.collectionView.delegate = self
+        //        self.collectionView.delegate = self
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -165,7 +165,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
-
+        
         
         if let coordinate = self.locationManager.location {
             convertAddress(from: coordinate)
@@ -189,9 +189,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         print("@@@@@@@@@@@ViewWillAppear@@@@@@@@@@@@@@@")
         
+        if let code:String = todayWeather[Constants.today_key_SkyCode]{
+            viewMobinWeather(today: code)
+        }
     }
     /*******************************************/
     //MARK:-            Func                   //
@@ -200,10 +202,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     func viewMobinWeather(today weatherString:String) {
         // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
+        self.weatherIconView.layer.sublayers = nil
         let weatherMotion = LOTAnimationView(name: weatherString)
-        if weatherIconView.subviews.isEmpty == false {
-            weatherMotion.removeFromSuperview()
-        }
         self.weatherIconView.addSubview(weatherMotion)
         weatherMotion.frame.size = CGSize(width: self.weatherIconView.frame.width, height: self.weatherIconView.frame.height)
         weatherMotion.loopAnimation = true
@@ -272,7 +272,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-//            print("=================결과:",dataArray)
+            //            print("=================결과:",dataArray)
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_presentTemp :
@@ -284,7 +284,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 case Constants.api_wind :
                     let value = dataArray[i]["obsrValue"].stringValue
                     self.todayWeather[Constants.today_key_Wind] = value
-               
+                    
                 case Constants.api_sky :
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
@@ -387,7 +387,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
-    
+        
         let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
@@ -410,7 +410,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-    
+            
             //어제 날짜인 정보를 불러옵니다
             let yesterFroecastArray = dataArray.filter({ (dic) -> Bool in
                 let yesterday:String = dic["fcstDate"].stringValue
@@ -425,6 +425,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 
                 self.yesterParseData[fcsttime] = yesterDict
             }
+            print("어제 정보좀: ",self.yesterParseData)
             
             //오늘 날짜인 예보들을 불러옵니다.
             let todayForecastArray = dataArray.filter({ (dic) -> Bool in
@@ -442,7 +443,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 self.todayParseData[fcsttime] = todayDict
             }
             print("오늘 정보좀: ",self.todayParseData)
-
+            
+            
             //내일 날짜인 예보들을 불러옵니다.
             let tomorrowForecastArray = dataArray.filter({ (dic) -> Bool in
                 let tomorrow:String = dic["fcstDate"].stringValue
@@ -477,32 +479,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 self.afterParseData[fcsttime] = afterDict
             }
             print("모레 예보:", self.afterParseData)
-            
-//
-//            for i in 0...dataArray.count - 1 {
-//                //오늘 정보 2시꺼 호출했을때
-//                switch dataArray[i]["fcstDate"].stringValue {
-//                case date:
-//                    switch dataArray[i]["category"].stringValue {
-//                    case Constants.api_rain:
-//                        let value = dataArray[i]["fcstValue"].stringValue
-//                        self.todayWeather[Constants.today_key_Rain] = value + "%"
-//                    case Constants.api_max:
-//                        let value = dataArray[i]["fcstValue"].stringValue
-//                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-//                    default:
-//                        print("안쓰는값")
-//                    }
-//                default:
-//                    print("안쓰는값")
-//                }
-//            }
-//
         }
         
     }
     
-    //오늘 새벽 2시예보 부르기 -> 오늘의 최저/최고온도가 2시에 발표되기때문에 label에 띄우려면 갖궁
+    //오늘 새벽 2시예보 부르기 -> 오늘의 최저/최고온도가 2시에 발표되기때문에 label에 띄우려면 갖구와야댐
     func get2amData() {
         let now = Date()
         let dateFommater = DateFormatter()
@@ -547,7 +528,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                          "_type":"json",
                          "numOfRows":"999"]
         
-//        print("파라미터들:",date,time,nx,ny)
+        //        print("파라미터들:",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.data else { return }
@@ -555,7 +536,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
             for i in 0...dataArray.count - 1 {
-
+                
                 
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
                     switch dataArray[i]["category"].stringValue {
@@ -738,63 +719,68 @@ extension ViewController : UICollectionViewDataSource {
         switch indexPath.section {
         //TODO: - 여기 극혐인부분 수정할수있는지~_~
         case 0:
-            if let data = self.yesterParseData[time[indexPath.row]] {
-                cell.forecastHour.text = data["fcstTime"]
-                cell.forecastTemp.text = data["T3H"]
-                if data["PTY"] == "0"{
-                    if let sky = data["SKY"] {
-                        cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }else{
-                    if let rain = data["PTY"] {
-                        cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }
+            guard let data = self.yesterParseData[time[indexPath.row]] else { return cell }
+            guard let time = data["fcstTime"] else { return cell }
+            cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+            cell.forecastTemp.text = data["T3H"]
+            if data["PTY"] == "0"{
+                guard let sky = data["SKY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+            }else{
+                guard let rain = data["PTY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
             return cell
         case 1:
-            if let data = self.todayParseData[time[indexPath.row]] {
-                cell.forecastHour.text = data["fcstTime"]
-                cell.forecastTemp.text = data["T3H"]
-                if data["PTY"] == "0"{
-                    if let sky = data["SKY"] {
-                        cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }else{
-                    if let rain = data["PTY"] {
-                        cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }
+            guard let data = self.todayParseData[time[indexPath.row]] else { return cell }
+            guard let time = data["fcstTime"] else { return cell }
+            if indexPath.row == 0 {
+                cell.forecastHour.text = "오늘 " + "\(Int(time)! / 100)" + "시"
+            } else {
+                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+            }
+            cell.forecastTemp.text = data["T3H"]
+            if data["PTY"] == "0"{
+                guard let sky = data["SKY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+            }else{
+                guard let rain = data["PTY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
             return cell
         case 2:
-            if let data = self.tommorowParseData[time[indexPath.row]] {
-                cell.forecastHour.text = data["fcstTime"]
-                cell.forecastTemp.text = data["T3H"]
-                if data["PTY"] == "0"{
-                    if let sky = data["SKY"] {
-                        cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }else{
-                    if let rain = data["PTY"] {
-                        cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }
+            guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
+            guard let time = data["fcstTime"] else { return cell }
+            if indexPath.row == 0 {
+                cell.forecastHour.text = "내일 "+"\(Int(time)! / 100)" + "시"
+            } else {
+                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+            }
+            cell.forecastTemp.text = data["T3H"]
+            if data["PTY"] == "0"{
+                guard let sky = data["SKY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+            }else{
+                guard let rain = data["PTY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
             return cell
         case 3:
-            if let data = self.afterParseData[time[indexPath.row]] {
-                cell.forecastHour.text = data["fcstTime"]
-                cell.forecastTemp.text = data["T3H"]
-                if data["PTY"] == "0"{
-                    if let sky = data["SKY"] {
-                        cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }else{
-                    if let rain = data["PTY"] {
-                        cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-                    }
-                }
+            guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
+            guard let time = data["fcstTime"] else { return cell }
+            if indexPath.row == 0 {
+                cell.forecastHour.text = "모레 "+"\(Int(time)! / 100)" + "시"
+            } else {
+                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+            }
+            
+            cell.forecastTemp.text = data["T3H"]
+            if data["PTY"] == "0"{
+                guard let sky = data["SKY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+            }else{
+                guard let rain = data["PTY"] else { return cell }
+                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
             return cell
         default:
