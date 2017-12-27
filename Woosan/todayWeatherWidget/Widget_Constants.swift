@@ -25,6 +25,7 @@ struct Constants {
     static let widget_key_Min = "widget_key_Min"
     static let widget_key_Rain = "widget_key_Rain"
     static let widget_key_RainForm = "widget_key_RainForm"
+    static let widget_key_RainCode = "widget_key_RainCode"
     static let widget_key_Dust = "widget_key_Dust"
     static let widget_key_location = "widget_key_location"
     static let widget_key_comment = "widget_key_comment"

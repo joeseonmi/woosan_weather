@@ -46,8 +46,23 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.presenTemp.text = self.weatherInfo[Constants.widget_key_Present]
             self.minTemp.text = self.weatherInfo[Constants.widget_key_Min]
             self.maxTemp.text = self.weatherInfo[Constants.widget_key_Max]
-            if let image = self.weatherInfo[Constants.widget_key_skyCode] {
-                self.weatherImageView.image = UIImage(named: image)
+            if self.weatherInfo[Constants.widget_key_RainCode] == "" {
+                if let image = self.weatherInfo[Constants.widget_key_skyCode] {
+                    self.weatherImageView.image = UIImage(named: image)
+                }
+            } else {
+                if let image = self.weatherInfo[Constants.widget_key_RainCode] {
+                    self.weatherImageView.image = UIImage(named: image)
+                }
+            }
+            if self.weatherInfo[Constants.widget_key_RainForm] == "" {
+                if let comment = self.weatherInfo[Constants.widget_key_sky] {
+                    self.commentLabel.text = comment
+                }
+            } else {
+                if let comment = self.weatherInfo[Constants.widget_key_RainForm] {
+                    self.commentLabel.text = comment
+                }
             }
         }
     }
@@ -181,16 +196,16 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        self.weatherInfo[Constants.widget_key_sky] = "맑음"
+                        self.weatherInfo[Constants.widget_key_sky] = "맑아요!"
                         self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M01"
                     case "2":
-                        self.weatherInfo[Constants.widget_key_sky] = "구름 조금"
+                        self.weatherInfo[Constants.widget_key_sky] = "구름 조금!"
                         self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M02"
                     case "3":
-                        self.weatherInfo[Constants.widget_key_sky] = "구름 많음"
+                        self.weatherInfo[Constants.widget_key_sky] = "구름 많음!"
                         self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M03"
                     case "4":
-                        self.weatherInfo[Constants.widget_key_sky] = "흐림"
+                        self.weatherInfo[Constants.widget_key_sky] = "흐려요!"
                         self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M04"
                     default:
                         self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
@@ -200,15 +215,16 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     switch value {
                     case "0":
                         self.weatherInfo[Constants.widget_key_RainForm] = ""
+                        self.weatherInfo[Constants.widget_key_RainCode] = ""
                     case "1":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "비"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "RAIN_M05"
+                        self.weatherInfo[Constants.widget_key_RainForm] = "비와요!"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M05"
                     case "2":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "진눈깨비"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "RAIN_M06"
+                        self.weatherInfo[Constants.widget_key_RainForm] = "진눈깨비!"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M06"
                     case "3":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "눈"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "RAIN_M07"
+                        self.weatherInfo[Constants.widget_key_RainForm] = "눈와요!"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M07"
                     default:
                         self.weatherInfo[Constants.widget_key_RainForm] = "정보 없음"
                     }
