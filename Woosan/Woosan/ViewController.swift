@@ -145,7 +145,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
-        self.collectionView.delegate = self
+//        self.collectionView.delegate = self
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -254,7 +254,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-
+        //TODO: -시간 계산이 00시일때 안맞음
         if Int(min)! < 30 {
             let setTime = Int(time)! - 1
             if setTime < 10 {
@@ -274,7 +274,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                          "ny":ny,
                          "_type":"json"]
         
-        print("파라미터들:",date,time,nx,ny)
+        print("파라미터들(초단기실황):",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.data else { return }
@@ -408,40 +408,113 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         print("파라미터들:",date,time,nx,ny)
         
+        var yesterDict:[String:String] = [:]
+        var todayDict:[String:String] = [:]
+        var tomorrowDict:[String:String] = [:]
+        var afterDict:[String:String] = [:]
+        
+        var yesterParseData:[String:[String:String]] = [:]
+        var todayParseData:[String:[String:String]] = [:]
+        var tommorowParseData:[String:[String:String]] = [:]
+        var afterParseData:[String:[String:String]] = [:]
+        
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-
-            for i in 0...dataArray.count - 1 {
-                print("======================이름:",dataArray[i]["category"].stringValue)
-                print("======================값:",dataArray[i]["fcstValue"].stringValue)
-                print("======================기준시간:",dataArray[i]["baseTime"].stringValue)
-                print("======================예보날짜:",dataArray[i]["fcstDate"].stringValue)
-                print("======================예보시간:",dataArray[i]["fcstTime"].stringValue)
-//
-                //오늘 정보 2시꺼 호출했을때
-                switch dataArray[i]["fcstDate"].stringValue {
-                case date:
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_rain:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Rain] = value + "%"
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
-                    }
-                default:
-                    print("안쓰는값")
-                }
+    
+            //어제 날짜인 정보를 불러옵니다
+            let yesterFroecastArray = dataArray.filter({ (dic) -> Bool in
+                let yesterday:String = dic["fcstDate"].stringValue
+                return yesterday == setYesterday
+            })
+            for i in yesterFroecastArray {
+                var fcsttime:String = i["fcstTime"].stringValue
+                fcsttime = i["fcstTime"].stringValue
+                yesterDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
+                yesterDict["fcstTime"] = fcsttime
+                yesterDict["fcstDate"] = i["fcstDate"].stringValue
+                
+                yesterParseData[fcsttime] = yesterDict
             }
+            
+            //오늘 날짜인 예보들을 불러옵니다.
+            let todayForecastArray = dataArray.filter({ (dic) -> Bool in
+                let today:String = dic["fcstDate"].stringValue
+                return today == date
+            })
+            print("오늘예보만 보여주세요: ",todayForecastArray)
+            for i in todayForecastArray {
+                var fcsttime:String = i["fcstTime"].stringValue
+                fcsttime = i["fcstTime"].stringValue
+                todayDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
+                todayDict["fcstTime"] = fcsttime
+                todayDict["fcstDate"] = i["fcstDate"].stringValue
+                
+                todayParseData[fcsttime] = todayDict
+            }
+            print("오늘 정보좀: ",todayParseData)
+
+            //내일 날짜인 예보들을 불러옵니다.
+            let tomorrowForecastArray = dataArray.filter({ (dic) -> Bool in
+                let tomorrow:String = dic["fcstDate"].stringValue
+                return tomorrow == setTomorrow
+            })
+            
+            for i in tomorrowForecastArray {
+                var fcsttime:String = i["fcstTime"].stringValue
+                fcsttime = i["fcstTime"].stringValue
+                tomorrowDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
+                tomorrowDict["fcstTime"] = fcsttime
+                tomorrowDict["fcstDate"] = i["fcstDate"].stringValue
+                
+                tommorowParseData[fcsttime] = tomorrowDict
+            }
+            print("내일 예보:", tommorowParseData)
+            
+            //모레 날짜인 예보들을 불러옵니다.
+            let afterForecastArray = dataArray.filter({ (dic) -> Bool in
+                let after:String = dic["fcstDate"].stringValue
+                return after == setDayaftertomorrow
+            })
+            
+            for i in afterForecastArray {
+                
+                var fcsttime:String = i["fcstTime"].stringValue
+                fcsttime = i["fcstTime"].stringValue
+                afterDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
+                afterDict["fcstTime"] = fcsttime
+                afterDict["fcstDate"] = i["fcstDate"].stringValue
+                
+                afterParseData[fcsttime] = afterDict
+            }
+            print("모레 예보:", afterParseData)
+            
+//
+//            for i in 0...dataArray.count - 1 {
+//                //오늘 정보 2시꺼 호출했을때
+//                switch dataArray[i]["fcstDate"].stringValue {
+//                case date:
+//                    switch dataArray[i]["category"].stringValue {
+//                    case Constants.api_rain:
+//                        let value = dataArray[i]["fcstValue"].stringValue
+//                        self.todayWeather[Constants.today_key_Rain] = value + "%"
+//                    case Constants.api_max:
+//                        let value = dataArray[i]["fcstValue"].stringValue
+//                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+//                    default:
+//                        print("안쓰는값")
+//                    }
+//                default:
+//                    print("안쓰는값")
+//                }
+//            }
+//
         }
         
     }
     
-    //오늘 새벽 2시예보 부르기
+    //오늘 새벽 2시예보 부르기 -> 오늘의 최저/최고온도가 2시에 발표되기때문에 label에 띄우려면 갖궁
     func get2amData() {
         let now = Date()
         let dateFommater = DateFormatter()
@@ -492,12 +565,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-//            print("=================결과:",dataArray)
             
             for i in 0...dataArray.count - 1 {
-//                print("======================이름:",dataArray[i]["category"].stringValue)
-//                print("======================값:",dataArray[i]["fcstValue"].stringValue)
-//                print("======================값:",dataArray[i]["fcstDate"].stringValue)
+
                 
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
                     switch dataArray[i]["category"].stringValue {
@@ -534,7 +604,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     }
     
-    
+    //위치로, 지역이름 알아오기
     func convertAddress(from coordinate:CLLocation) {
         let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(coordinate) { (placemarks, error) in
@@ -662,15 +732,10 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! forecastCollectionViewCell
-        cell.forecastHour.text = "3시간"
+        cell.forecastHour.text = "3시"
         cell.forecastTemp.text = "8"
         cell.weatherImageView.image = UIImage(named: "SKY_M02")
         return cell
-    }
-}
-extension ViewController : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 75, height: 100)
     }
 }
 
