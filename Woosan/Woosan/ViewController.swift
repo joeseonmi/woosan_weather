@@ -350,6 +350,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         let setTomorrow:String = dateFommater.string(from: tomorrow)
         let setDayaftertomorrow:String = dateFommater.string(from: dayaftertomorrow)
         var date:String = dateFommater.string(from: now)
+        var realDate:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
         
@@ -422,15 +423,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 yesterDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
                 yesterDict["fcstTime"] = fcsttime
                 yesterDict["fcstDate"] = i["fcstDate"].stringValue
-                
                 self.yesterParseData[fcsttime] = yesterDict
             }
-            print("어제 정보좀: ",self.yesterParseData)
+            print("어제 정보: ",self.yesterParseData)
             
             //오늘 날짜인 예보들을 불러옵니다.
             let todayForecastArray = dataArray.filter({ (dic) -> Bool in
                 let today:String = dic["fcstDate"].stringValue
-                return today == date
+                return today == realDate
             })
             print("오늘예보만 보여주세요: ",todayForecastArray)
             for i in todayForecastArray {
@@ -439,10 +439,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 todayDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
                 todayDict["fcstTime"] = fcsttime
                 todayDict["fcstDate"] = i["fcstDate"].stringValue
-                
                 self.todayParseData[fcsttime] = todayDict
             }
-            print("오늘 정보좀: ",self.todayParseData)
+            print("오늘 예보: ",self.todayParseData)
             
             
             //내일 날짜인 예보들을 불러옵니다.
@@ -457,7 +456,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 tomorrowDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
                 tomorrowDict["fcstTime"] = fcsttime
                 tomorrowDict["fcstDate"] = i["fcstDate"].stringValue
-                
                 self.tommorowParseData[fcsttime] = tomorrowDict
             }
             print("내일 예보:", self.tommorowParseData)
@@ -469,13 +467,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             })
             
             for i in afterForecastArray {
-                
                 var fcsttime:String = i["fcstTime"].stringValue
                 fcsttime = i["fcstTime"].stringValue
                 afterDict["\(i["category"].stringValue)"] = "\(i["fcstValue"].stringValue)"
                 afterDict["fcstTime"] = fcsttime
                 afterDict["fcstDate"] = i["fcstDate"].stringValue
-                
                 self.afterParseData[fcsttime] = afterDict
             }
             print("모레 예보:", self.afterParseData)
@@ -536,8 +532,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
             for i in 0...dataArray.count - 1 {
-                
-                
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
                     switch dataArray[i]["category"].stringValue {
                     case Constants.api_rain:
@@ -715,13 +709,13 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! forecastCollectionViewCell
-        let time:[String] = ["0000","0300","0600","0900","1200","1500","1800","2100"]
         switch indexPath.section {
         //TODO: - 여기 극혐인부분 수정할수있는지~_~
         case 0:
+            let time = self.yesterParseData.keys.sorted()
             guard let data = self.yesterParseData[time[indexPath.row]] else { return cell }
-            guard let time = data["fcstTime"] else { return cell }
-            cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+            guard let fcstTime = data["fcstTime"] else { return cell }
+            cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
@@ -732,12 +726,14 @@ extension ViewController : UICollectionViewDataSource {
             }
             return cell
         case 1:
+             let time = self.todayParseData.keys.sorted()
             guard let data = self.todayParseData[time[indexPath.row]] else { return cell }
-            guard let time = data["fcstTime"] else { return cell }
+            guard let fcstTime = data["fcstTime"] else { return cell }
+            //TODO: - data가 없으면 셀을 안만들고, 있을때만 만들고싶음 그럼 return cell 하면 안됨
             if indexPath.row == 0 {
-                cell.forecastHour.text = "오늘 " + "\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "오늘 " + "\(Int(fcstTime)! / 100)" + "시"
             } else {
-                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
             }
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
@@ -749,12 +745,13 @@ extension ViewController : UICollectionViewDataSource {
             }
             return cell
         case 2:
+            let time = self.tommorowParseData.keys.sorted()
             guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
-            guard let time = data["fcstTime"] else { return cell }
+            guard let fcstTime = data["fcstTime"] else { return cell }
             if indexPath.row == 0 {
-                cell.forecastHour.text = "내일 "+"\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "내일 "+"\(Int(fcstTime)! / 100)" + "시"
             } else {
-                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
             }
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
@@ -766,14 +763,14 @@ extension ViewController : UICollectionViewDataSource {
             }
             return cell
         case 3:
+            let time = self.afterParseData.keys.sorted()
             guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
-            guard let time = data["fcstTime"] else { return cell }
+            guard let fcstTime = data["fcstTime"] else { return cell }
             if indexPath.row == 0 {
-                cell.forecastHour.text = "모레 "+"\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "모레 "+"\(Int(fcstTime)! / 100)" + "시"
             } else {
-                cell.forecastHour.text = "\(Int(time)! / 100)" + "시"
+                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
             }
-            
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
