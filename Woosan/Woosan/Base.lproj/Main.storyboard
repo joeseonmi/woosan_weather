@@ -22,7 +22,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Woosan" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Woosan" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -102,19 +102,19 @@
                                                                 <rect key="frame" x="222.66666666666663" y="-2" width="134" height="50"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LK-Yf-1h6">
-                                                                        <rect key="frame" x="8.3333333333333428" y="-4.3333333333333144" width="42" height="44.333333333333336"/>
+                                                                        <rect key="frame" x="8.3333333333333428" y="-4" width="42" height="44.333333333333336"/>
                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                         <color key="textColor" red="0.90980392160000001" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgc-NB-94y">
-                                                                        <rect key="frame" x="58.33333333333335" y="2.6666666666666856" width="18.333333333333336" height="45.666666666666664"/>
+                                                                        <rect key="frame" x="58.33333333333335" y="3" width="18.333333333333336" height="45.666666666666664"/>
                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="35"/>
                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-Ti-GOy">
-                                                                        <rect key="frame" x="84.666666666666657" y="10.666666666666689" width="42" height="44.333333333333343"/>
+                                                                        <rect key="frame" x="84.666666666666657" y="11.000000000000004" width="42" height="44.333333333333343"/>
                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                         <color key="textColor" red="0.42745098040000001" green="0.64313725489999995" blue="0.77647058820000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
