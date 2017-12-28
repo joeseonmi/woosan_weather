@@ -27,6 +27,8 @@
 		D84B174B1FDC5302007F14A1 /* ThemeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D84B17491FDC5302007F14A1 /* ThemeTableViewCell.xib */; };
 		D84B174F1FDC595D007F14A1 /* BGCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B174D1FDC595D007F14A1 /* BGCollectionViewCell.swift */; };
 		D84B17501FDC595D007F14A1 /* BGCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */; };
+		D868A82F1FF5283A0001030B /* SKY_D09.json in Resources */ = {isa = PBXBuildFile; fileRef = D868A82D1FF5283A0001030B /* SKY_D09.json */; };
+		D868A8301FF5283A0001030B /* SKY_D08.json in Resources */ = {isa = PBXBuildFile; fileRef = D868A82E1FF5283A0001030B /* SKY_D08.json */; };
 		D88DBE491FEDAF260082F44D /* forecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */; };
 		D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */; };
 		D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EA1FD0433600EB1CBB /* SKY_D01.json */; };
@@ -96,6 +98,8 @@
 		D84B17491FDC5302007F14A1 /* ThemeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeTableViewCell.xib; sourceTree = "<group>"; };
 		D84B174D1FDC595D007F14A1 /* BGCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGCollectionViewCell.swift; sourceTree = "<group>"; };
 		D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BGCollectionViewCell.xib; sourceTree = "<group>"; };
+		D868A82D1FF5283A0001030B /* SKY_D09.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D09.json; path = ../../../../Woosan/Woosan/Lottie/SKY_D09.json; sourceTree = "<group>"; };
+		D868A82E1FF5283A0001030B /* SKY_D08.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D08.json; path = ../../../../Woosan/Woosan/Lottie/SKY_D08.json; sourceTree = "<group>"; };
 		D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = forecastCollectionViewCell.xib; sourceTree = "<group>"; };
 		D89620EA1FD0433600EB1CBB /* SKY_D01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D01.json; path = Woosan/Lottie/SKY_D01.json; sourceTree = SOURCE_ROOT; };
@@ -183,6 +187,8 @@
 				D89620ED1FD0EDAC00EB1CBB /* SKY_D05.json */,
 				D89620EF1FD0EDAC00EB1CBB /* SKY_D06.json */,
 				D89620F01FD0EDAD00EB1CBB /* SKY_D07.json */,
+				D868A82E1FF5283A0001030B /* SKY_D08.json */,
+				D868A82D1FF5283A0001030B /* SKY_D09.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -363,7 +369,9 @@
 				D8ED0FA01FC1E76A001D1FC0 /* Assets.xcassets in Resources */,
 				D89620F71FD0EDAD00EB1CBB /* SKY_D03.json in Resources */,
 				D84B174B1FDC5302007F14A1 /* ThemeTableViewCell.xib in Resources */,
+				D868A8301FF5283A0001030B /* SKY_D08.json in Resources */,
 				D89620F61FD0EDAD00EB1CBB /* SKY_D07.json in Resources */,
+				D868A82F1FF5283A0001030B /* SKY_D09.json in Resources */,
 				D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */,
 				D89620F31FD0EDAD00EB1CBB /* SKY_D05.json in Resources */,
 				D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */,
