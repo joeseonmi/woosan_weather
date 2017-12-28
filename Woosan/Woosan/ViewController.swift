@@ -137,6 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 0)
         
         self.todayInfoScrollView.delegate = self
@@ -160,6 +161,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             getForecast()
             getForecastSpaceData()
             get2amData()
+            getPM10()
         }
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
@@ -260,7 +262,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         time = time + "00"
         
-        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
@@ -275,7 +277,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            //            print("=================결과:",dataArray)
+//            print("=================초단기실황 결과:",data)
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_presentTemp :
@@ -287,16 +289,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 case Constants.api_wind :
                     let value = dataArray[i]["obsrValue"].stringValue
                     self.todayWeather[Constants.today_key_Wind] = value
-                    
+
                 case Constants.api_sky :
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        self.todayWeather[Constants.today_key_Sky] = "맑음"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
+                        guard let dayNightTime = Int(time) else { return }
+                        if dayNightTime > 0700 || dayNightTime < 2000 {
+                            self.todayWeather[Constants.today_key_Sky] = "맑음"
+                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
+                        } else {
+                            self.todayWeather[Constants.today_key_Sky] = "맑음"
+                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D08"
+                        }
                     case "2":
-                        self.todayWeather[Constants.today_key_Sky] = "구름 조금"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
+                        guard let dayNightTime = Int(time) else { return }
+                        if dayNightTime > 0700 || dayNightTime < 2000 {
+                            self.todayWeather[Constants.today_key_Sky] = "구름 조금"
+                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
+                        } else {
+                            self.todayWeather[Constants.today_key_Sky] = "구름 조금"
+                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D09"
+                        }
                     case "3":
                         self.todayWeather[Constants.today_key_Sky] = "구름 많음"
                         self.todayWeather[Constants.today_key_SkyCode] = "SKY_D03"
@@ -326,7 +340,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 default:
                     print("필요없는 값")
                 }
-                
+
             }
         }
         
@@ -353,7 +367,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         let setTomorrow:String = dateFommater.string(from: tomorrow)
         let setDayaftertomorrow:String = dateFommater.string(from: dayaftertomorrow)
         var date:String = dateFommater.string(from: now)
-        var realDate:String = dateFommater.string(from: now)
+        let realDate:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
         
@@ -392,7 +406,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
@@ -517,7 +531,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
-        let appid = "9s0j9KihvN8OALwUgj4s9wV6ItX7piyt3vr0U4povDmWGRg3QNQdzeanu9xNViZNicLxqrYjI%2FDKC8wHvFUMHg%3D%3D"
+        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
         let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
@@ -566,6 +580,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     }
                 }
             }
+        }
+        
+    }
+    
+    //미세먼지
+    func getPM10() {
+        
+        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureLIst"
+        let key = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
+        let parameter = ["itemCode":"PM10",
+                         "dataGubun":"HOUR",
+                         "ServiceKey":key.removingPercentEncoding,
+                         "_returnType":"json"]
+        
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseString { (response) in
+            guard let pmData = response.value else { return }
+            print("미세먼지----------: ", pmData)
         }
         
     }
@@ -745,6 +777,7 @@ extension ViewController : UICollectionViewDataSource {
                 guard let rain = data["PTY"] else { return cell }
                 cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
+            cell.timeBGView.backgroundColor = UIColor.init(red: 232/255, green: 166/255, blue: 166/255, alpha: 0.1)
             return cell
         case 2:
             let time = self.tommorowParseData.keys.sorted()
@@ -763,6 +796,7 @@ extension ViewController : UICollectionViewDataSource {
                     guard let rain = data["PTY"] else { return cell }
                     cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
+             cell.timeBGView.backgroundColor = UIColor(red: 109/255, green: 164/255, blue: 198/255, alpha: 0.1)
             return cell
         case 3:
             let time = self.afterParseData.keys.sorted()
@@ -781,10 +815,17 @@ extension ViewController : UICollectionViewDataSource {
                     guard let rain = data["PTY"] else { return cell }
                     cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
                 }
+             cell.timeBGView.backgroundColor = UIColor(red: 251/255, green: 207/255, blue: 8/255, alpha: 0.1)
             return cell
         default:
             return cell
         }
+    }
+}
+
+extension ViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
 

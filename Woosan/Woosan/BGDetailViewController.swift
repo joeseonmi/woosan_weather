@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Photos
 
 class BGDetailViewController: UIViewController {
     
@@ -75,6 +76,7 @@ class BGDetailViewController: UIViewController {
         alert.addAction(alertBtn)
         self.present(alert, animated: true, completion: nil)
     }
+    
     
 }
 
