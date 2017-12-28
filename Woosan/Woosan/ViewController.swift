@@ -30,11 +30,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.viewMobinWeather(today: self.skyCode)
             
             switch skyCode {
-            case "SKY_M01":
+            case "SKY_D01":
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
-            case "SKY_M02":
+            case "SKY_D02":
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
-            case "SKY_M03":
+            case "SKY_D03":
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
             default:
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
@@ -137,7 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
-        //        self.collectionView.delegate = self
+        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 0)
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -171,14 +171,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             convertAddress(from: coordinate)
         }
         
-        // Lottie 부분 : 개
-        let animationView = LOTAnimationView(name: "doggy")
-        self.movinImageView.addSubview(animationView)
-        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
-        animationView.loopAnimation = true
-        animationView.contentMode = .scaleAspectFit
-        animationView.play()
-        
         
         /* 위젯과 데이터를 공유하는 UserDefaults
          guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
@@ -192,13 +184,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         print("@@@@@@@@@@@ViewWillAppear@@@@@@@@@@@@@@@")
         
         if let code:String = todayWeather[Constants.today_key_SkyCode]{
-            viewMobinWeather(today: code)
+            self.viewMobinWeather(today: code)
         }
+        self.viewMovinAnimal(animal: "doggy")
     }
     /*******************************************/
     //MARK:-            Func                   //
     /*******************************************/
     
+    func viewMovinAnimal(animal name:String) {
+        self.movinImageView.layer.sublayers = nil
+        let animationView = LOTAnimationView(name: name)
+        self.movinImageView.addSubview(animationView)
+        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
+        animationView.loopAnimation = true
+        animationView.contentMode = .scaleAspectFit
+        animationView.play()
+        
+    }
     
     func viewMobinWeather(today weatherString:String) {
         // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
@@ -709,13 +712,13 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! forecastCollectionViewCell
+        //TODO: - 여기 극혐인부분 수정할수있는지~_~ 혼돈의카오스다..........
         switch indexPath.section {
-        //TODO: - 여기 극혐인부분 수정할수있는지~_~
         case 0:
             let time = self.yesterParseData.keys.sorted()
             guard let data = self.yesterParseData[time[indexPath.row]] else { return cell }
             guard let fcstTime = data["fcstTime"] else { return cell }
-            cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
+            cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
@@ -726,14 +729,13 @@ extension ViewController : UICollectionViewDataSource {
             }
             return cell
         case 1:
-             let time = self.todayParseData.keys.sorted()
+            let time = self.todayParseData.keys.sorted()
             guard let data = self.todayParseData[time[indexPath.row]] else { return cell }
             guard let fcstTime = data["fcstTime"] else { return cell }
-            //TODO: - data가 없으면 셀을 안만들고, 있을때만 만들고싶음 그럼 return cell 하면 안됨
             if indexPath.row == 0 {
-                cell.forecastHour.text = "오늘 " + "\(Int(fcstTime)! / 100)" + "시"
+                cell.forecastHour.text = "오늘 " + "\(Int(fcstTime)! / 100)시"
             } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
+                cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             }
             cell.forecastTemp.text = data["T3H"]
             if data["PTY"] == "0"{
@@ -746,39 +748,39 @@ extension ViewController : UICollectionViewDataSource {
             return cell
         case 2:
             let time = self.tommorowParseData.keys.sorted()
-            guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
-            if indexPath.row == 0 {
-                cell.forecastHour.text = "내일 "+"\(Int(fcstTime)! / 100)" + "시"
-            } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
-            }
-            cell.forecastTemp.text = data["T3H"]
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
+                guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
+                guard let fcstTime = data["fcstTime"] else { return cell }
+                if indexPath.row == 0 {
+                    cell.forecastHour.text = "내일 "+"\(Int(fcstTime)! / 100)시"
+                } else {
+                    cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
+                }
+                cell.forecastTemp.text = data["T3H"]
+                if data["PTY"] == "0"{
+                    guard let sky = data["SKY"] else { return cell }
+                    cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+                }else{
+                    guard let rain = data["PTY"] else { return cell }
+                    cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
             }
             return cell
         case 3:
             let time = self.afterParseData.keys.sorted()
-            guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
-            if indexPath.row == 0 {
-                cell.forecastHour.text = "모레 "+"\(Int(fcstTime)! / 100)" + "시"
-            } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)" + "시"
-            }
-            cell.forecastTemp.text = data["T3H"]
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-            }
+                guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
+                guard let fcstTime = data["fcstTime"] else { return cell }
+                if indexPath.row == 0 {
+                    cell.forecastHour.text = "모레 "+"\(Int(fcstTime)! / 100)시"
+                } else {
+                    cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
+                }
+                cell.forecastTemp.text = data["T3H"]
+                if data["PTY"] == "0"{
+                    guard let sky = data["SKY"] else { return cell }
+                    cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
+                }else{
+                    guard let rain = data["PTY"] else { return cell }
+                    cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
+                }
             return cell
         default:
             return cell
