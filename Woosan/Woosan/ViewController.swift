@@ -138,7 +138,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 0)
+        self.collectionView.isPagingEnabled = false
+        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 0)
         
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
@@ -277,7 +278,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            guard let dayNightTime = Int(time) else { return }
 //            print("=================초단기실황 결과:",data)
+            
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_presentTemp :
@@ -294,8 +297,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        guard let dayNightTime = Int(time) else { return }
-                        if dayNightTime > 0700 || dayNightTime < 2000 {
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
                             self.todayWeather[Constants.today_key_Sky] = "맑음"
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
                         } else {
@@ -303,8 +305,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D08"
                         }
                     case "2":
-                        guard let dayNightTime = Int(time) else { return }
-                        if dayNightTime > 0700 || dayNightTime < 2000 {
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
                             self.todayWeather[Constants.today_key_Sky] = "구름 조금"
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
                         } else {
@@ -587,17 +588,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     //미세먼지
     func getPM10() {
         
-        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureLIst"
-        let key = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let parameter = ["itemCode":"PM10",
-                         "dataGubun":"HOUR",
-                         "ServiceKey":key.removingPercentEncoding,
-                         "_returnType":"json"]
+        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst"
+        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
+        let parameter = ["sidoName":"서울",
+                         "ServiceKey":appid.removingPercentEncoding!,
+                         "_returnType":"json",
+                         "searchCondition":"DAILY"]
         
-        
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseString { (response) in
-            guard let pmData = response.value else { return }
-            print("미세먼지----------: ", pmData)
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            guard let responsData = response.value else { return }
+            let pm10Data = JSON(responsData)
+            print("미세먼지=-----:", pm10Data)
         }
         
     }
