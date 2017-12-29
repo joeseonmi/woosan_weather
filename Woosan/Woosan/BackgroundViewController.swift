@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Kingfisher
+import Photos
 
 class BackgroundViewController: UIViewController {
     

@@ -22,14 +22,13 @@ class BGDetailViewController: UIViewController {
     @IBOutlet weak var bgImageView: UIImageView!
     
     @IBAction func tappedDownload(_ sender: UIButton) {
-    print("누르면 포토라이브러리에 저장되게")
-//        if let image = bgImageView.image {
-//            UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveAlert), nil)
-//        }
+        self.checkPermission()
+        if let image = bgImageView.image {
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
     }
     
     @IBAction func tappedClose(_ sender: UIButton) {
-        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -70,13 +69,44 @@ class BGDetailViewController: UIViewController {
          */
     }
     
-    @objc func saveAlert() {
-        let alert:UIAlertController = UIAlertController.init(title: "저장완료!", message: "배경화면이 저장됐어요.", preferredStyle: .alert)
-        let alertBtn:UIAlertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(alertBtn)
-        self.present(alert, animated: true, completion: nil)
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
+        if error != nil {
+            let alert = UIAlertController.init(title: "저장 실패", message: "저장에 실패했어요.", preferredStyle: .alert)
+            let action = UIAlertAction.init(title: "확인", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController.init(title: "저장!😘", message: "사진첩에 저장되었어요.", preferredStyle: .alert)
+            let action = UIAlertAction.init(title: "확인", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+        }
     }
     
+    func checkPermission() {
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized: break
+        case .denied, .restricted: self.permissionAlert()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                switch status {
+                case .authorized: break
+                case .denied, .restricted: self.permissionAlert()
+                case .notDetermined: break
+                    
+                }
+            })
+        }
+    }
+    
+    func permissionAlert() {
+        let alert = UIAlertController.init(title: "사진첩 접근 권한이 없습니다.", message: "설정에서 사진접근 권한을 허가해주세요.", preferredStyle: .alert)
+        let action = UIAlertAction.init(title: "확인", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
     
 }
 
