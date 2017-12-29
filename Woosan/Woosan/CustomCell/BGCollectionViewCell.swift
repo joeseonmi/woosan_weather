@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class BGCollectionViewCell: UICollectionViewCell {
 
@@ -19,5 +20,5 @@ class BGCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
 }
