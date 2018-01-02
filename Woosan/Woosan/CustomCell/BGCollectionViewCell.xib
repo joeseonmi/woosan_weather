@@ -48,6 +48,7 @@
             <size key="customSize" width="217" height="337"/>
             <connections>
                 <outlet property="bgthum" destination="O6I-W7-fhl" id="V67-N0-caJ"/>
+                <outlet property="downloadBtn" destination="dE3-BV-obb" id="nZ6-uW-itP"/>
             </connections>
             <point key="canvasLocation" x="46.5" y="72.5"/>
         </collectionViewCell>

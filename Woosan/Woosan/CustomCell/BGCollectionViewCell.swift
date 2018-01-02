@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import Photos
 
 class BGCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var downloadBtn: UIButton!
     @IBOutlet weak var bgthum: UIImageView!
     @IBAction func tappedDownload(_ sender: UIButton) {
         print("셀이있는게 눌려뜸")
@@ -18,6 +18,7 @@ class BGCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.downloadBtn.isHidden = true
         // Initialization code
     }
     
