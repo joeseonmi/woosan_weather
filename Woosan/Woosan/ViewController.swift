@@ -25,15 +25,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var locationManager:CLLocationManager!
     var dateformatter = DateFormatter()
     var now = Date()
+    var country:String = "" {
+        didSet{
+            //MARK: 나중에 수정
+            if country != "대한민국" {
+                let nextVC:notiPopup = storyboard?.instantiateViewController(withIdentifier: "onlyCanUseInKorea") as! notiPopup
+                present(nextVC, animated: true, completion: nil)
+            }
+        }
+    }
     
     var skyCode:String = "" {
         didSet {
             self.viewMobinWeather(today: self.skyCode)
-            
             switch skyCode {
             case "SKY_D01", "SKY_D02","SKY_D03" :
                 dateformatter.dateFormat = "HH"
-                var dayOrNight = dateformatter.string(from: self.now)
+                let dayOrNight = dateformatter.string(from: self.now)
                 guard let time = Int(dayOrNight) else { return }
                 if time > 07 && time <= 20 {
                     self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
@@ -175,7 +183,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             convertAddress(from: coordinate)
         }
         
+        /*
+         didBecomeActive상태일때, Lottie를 재생하기 위한 noti
+         */
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
+            
             if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
                 self.viewMobinWeather(today: code)
             }
@@ -190,13 +202,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print("@@@@@@@@@@@ViewWillAppear@@@@@@@@@@@@@@@")
         
         if let code:String = todayWeather[Constants.today_key_SkyCode]{
             self.viewMobinWeather(today: code)
         }
         self.viewMovinAnimal(animal: "doggy")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        //나갈때 노티 지워주기
+    }
+    
     /*******************************************/
     //MARK:-            Func                   //
     /*******************************************/
@@ -209,7 +226,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         animationView.loopAnimation = true
         animationView.contentMode = .scaleAspectFit
         animationView.play()
-        
     }
     
     func viewMobinWeather(today weatherString:String) {
@@ -599,9 +615,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     //미세먼지
     func getPM10() {
         
+        let cityArray:[String] = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주", "세종"]
+       
+        let cityName:String = ""
         let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
         let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let parameter = ["sidoName":"경기",
+
+        let parameter = ["sidoName":cityName,
                          "ServiceKey":appid.removingPercentEncoding!,
                          "_returnType":"json",
                          "searchCondition":"DAILY",
@@ -630,6 +650,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 let city = placemark.locality,
                 let subLocality = placemark.subLocality {
                 self.locationInfo = "\(state) " + "\(city) " + subLocality
+            }
+            
+            if let country = placemark.country {
+                self.country = country
             }
             return
         }

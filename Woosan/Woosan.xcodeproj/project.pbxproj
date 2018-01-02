@@ -41,6 +41,7 @@
 		D89A17E61FE2A2AE00B29B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */; };
 		D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */; };
 		D89A17EA1FE2C5FB00B29B03 /* EtcTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */; };
+		D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */; };
 		D8ED0F991FC1E76A001D1FC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */; };
 		D8ED0F9B1FC1E76A001D1FC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */; };
 		D8ED0F9E1FC1E76A001D1FC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0F9C1FC1E76A001D1FC0 /* Main.storyboard */; };
@@ -112,6 +113,7 @@
 		D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtcTableViewCell.swift; sourceTree = "<group>"; };
 		D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EtcTableViewCell.xib; sourceTree = "<group>"; };
+		D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notiPopup.swift; sourceTree = "<group>"; };
 		D8D637B31FD53E8400CBFFB3 /* todayWeatherWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = todayWeatherWidget.entitlements; sourceTree = "<group>"; };
 		D8ED0F951FC1E76A001D1FC0 /* Woosan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Woosan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				D84B17421FDC4BD4007F14A1 /* BackgroundViewController.swift */,
 				D80324EA1FDE86D000C3D06B /* BGDetailViewController.swift */,
 				D81B2E761FCEB5B10094CCB5 /* Constants.swift */,
+				D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */,
 				D84B174C1FDC530A007F14A1 /* CustomCell */,
 				D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */,
 				D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */,
@@ -503,6 +506,7 @@
 			files = (
 				D84B174A1FDC5302007F14A1 /* ThemeTableViewCell.swift in Sources */,
 				D84B174F1FDC595D007F14A1 /* BGCollectionViewCell.swift in Sources */,
+				D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */,
 				D84B17431FDC4BD4007F14A1 /* BackgroundViewController.swift in Sources */,
 				D84B17451FDC4DF8007F14A1 /* IntroduceViewController.swift in Sources */,
 				D88DBE491FEDAF260082F44D /* forecastCollectionViewCell.swift in Sources */,
@@ -711,7 +715,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.joe.Woosan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -730,7 +734,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.joe.Woosan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
