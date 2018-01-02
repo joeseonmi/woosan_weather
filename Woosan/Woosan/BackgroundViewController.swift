@@ -48,7 +48,6 @@ class BackgroundViewController: UIViewController {
         }
     }
     
-    
 }
 
 
@@ -64,37 +63,10 @@ extension BackgroundViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BGCollectionViewCell", for: indexPath) as! BGCollectionViewCell
-       
         cell.bgthum.kf.indicatorType = .activity
         if let url = URL(string: self.bgImagesData[indexPath.row]) {
             cell.bgthum.kf.setImage(with: url)
         }
-        
-        
-        /*
-        //이미지를 넣을검니다 (킹피셔 적용전)
-        let url = self.bgImagesData[indexPath.row]
-        if let thumbnailURL = URL(string: url) {
-            //URL만들어주고
-            let session = URLSession(configuration: .default)
-            //URL을 다운로드하고 지지고볶고하려면 URL세션을 만들어야댐
-            let download = session.dataTask(with: thumbnailURL) { (data, response, error) in
-                if let dataError = error {
-                    print("이미지 불러오기 에러: ",dataError)
-                }
-                if let dataResponse = response {
-                    print("이미지 불러오기 응답: ",dataResponse)
-                    guard let realData = data else { return }
-                    DispatchQueue.main.sync {
-                        cell.bgthum.image = UIImage(data: realData)
-                    }
-                }else{
-                    print("이미지가 엄성")
-                }
-            }
-            download.resume()
-        }
-         */
         return cell
     }
 }

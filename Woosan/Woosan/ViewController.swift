@@ -23,19 +23,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var lat:String = ""
     var lon:String = "" 
     var locationManager:CLLocationManager!
-    
+    var dateformatter = DateFormatter()
+    var now = Date()
     
     var skyCode:String = "" {
         didSet {
             self.viewMobinWeather(today: self.skyCode)
             
             switch skyCode {
-            case "SKY_D01":
-                self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
-            case "SKY_D02":
-                self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
-            case "SKY_D03":
-                self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
+            case "SKY_D01", "SKY_D02","SKY_D03" :
+                dateformatter.dateFormat = "HH"
+                var dayOrNight = dateformatter.string(from: self.now)
+                guard let time = Int(dayOrNight) else { return }
+                if time > 07 && time <= 20 {
+                    self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
+                }
+                self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
             default:
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
             }
@@ -233,6 +236,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
         let minFommater = DateFormatter()
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
         var nx = ""
         var ny = ""
         
@@ -242,9 +246,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
-        let date:String = dateFommater.string(from: now)
+        var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
+        let setYesterday = dateFommater.string(from: yesterday)
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
             nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
@@ -252,10 +257,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-        //TODO: -시간 계산이 00시일때 안맞음
+        //TODO: 12시에 실행해보기
         if Int(min)! < 30 {
             let setTime = Int(time)! - 1
-            if setTime < 10 {
+            if setTime < 0 {
+                date = setYesterday
+                time = "23"
+            } else if setTime < 10 {
                 time = "0"+"\(setTime)"
             } else {
                 time = "\(setTime)"
@@ -275,7 +283,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         print("파라미터들(초단기실황):",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.data else { return }
+            guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
@@ -426,7 +434,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.data else { return }
+            guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
@@ -450,7 +458,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 let today:String = dic["fcstDate"].stringValue
                 return today == realDate
             })
-            print("오늘예보만 보여주세요: ",todayForecastArray)
+//            print("오늘예보만 보여주세요: ",todayForecastArray)
             for i in todayForecastArray {
                 var fcsttime:String = i["fcstTime"].stringValue
                 fcsttime = i["fcstTime"].stringValue
@@ -542,10 +550,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                          "_type":"json",
                          "numOfRows":"999"]
         
-        //        print("파라미터들:",date,time,nx,ny)
+                print("파라미터들(두시데이터):",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.data else { return }
+            guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
@@ -588,17 +596,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     //미세먼지
     func getPM10() {
         
-        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst"
+        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
         let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let parameter = ["sidoName":"서울",
+        let parameter = ["sidoName":"경기",
                          "ServiceKey":appid.removingPercentEncoding!,
                          "_returnType":"json",
-                         "searchCondition":"DAILY"]
+                         "searchCondition":"DAILY",
+                         "numOfRows": "999",
+                         "ver":"1.3"]
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let responsData = response.value else { return }
             let pm10Data = JSON(responsData)
             print("미세먼지=-----:", pm10Data)
+            
         }
         
     }
