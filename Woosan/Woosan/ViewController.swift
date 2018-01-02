@@ -175,7 +175,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             convertAddress(from: coordinate)
         }
         
+        /*
+         didBecomeActive상태일때, Lottie를 재생하기 위한 noti
+         */
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
+            
             if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
                 self.viewMobinWeather(today: code)
             }
@@ -197,6 +201,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         self.viewMovinAnimal(animal: "doggy")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        //나갈때 노티 지워주기
+    }
+    
     /*******************************************/
     //MARK:-            Func                   //
     /*******************************************/
