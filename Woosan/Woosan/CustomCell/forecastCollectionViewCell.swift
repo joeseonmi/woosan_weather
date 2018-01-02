@@ -16,6 +16,8 @@ class forecastCollectionViewCell: UICollectionViewCell {
   
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.forecastHour.text = ""
+        self.forecastTemp.text = ""
 //        self.timeBGView.layer.cornerRadius = self.timeBGView.frame.height / 2
         // Initialization code
         

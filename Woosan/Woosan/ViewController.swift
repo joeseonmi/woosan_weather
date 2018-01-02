@@ -171,13 +171,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
          옵셔널바인딩을 하고나서는 통신 잘 됨.
          */
-        
-        
         if let coordinate = self.locationManager.location {
             convertAddress(from: coordinate)
         }
         
-        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
+            if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
+                self.viewMobinWeather(today: code)
+            }
+            self.viewMovinAnimal(animal: "doggy")
+        }
         /* 위젯과 데이터를 공유하는 UserDefaults
          guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
          shareData.set(22222, forKey: "int")
