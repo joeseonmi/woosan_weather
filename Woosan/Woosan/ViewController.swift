@@ -43,10 +43,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 dateformatter.dateFormat = "HH"
                 let dayOrNight = dateformatter.string(from: self.now)
                 guard let time = Int(dayOrNight) else { return }
-                if time > 07 && time <= 20 {
+                if time > 07 && time < 20 {
                     self.todaySkyImg.image = #imageLiteral(resourceName: "sky_clean")
+                } else {
+                    self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
                 }
-                self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
             default:
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
             }
