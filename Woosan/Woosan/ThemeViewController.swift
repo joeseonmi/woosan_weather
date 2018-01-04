@@ -17,6 +17,7 @@ class ThemeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     // TODO: - :: 지금은 model과 controller가 다 붙어있는...고쳐야댕
+    let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults")
     
     let titles:[String] = ["우산 챙기개!(기본)",
                            "우산 챙겼냥!"]
@@ -37,7 +38,7 @@ class ThemeViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "ThemeTableViewCell", bundle: nil), forCellReuseIdentifier: "ThemeTableViewCell")
-
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,8 +52,8 @@ class ThemeViewController: UIViewController {
         //디폴트는 인덱스 0번이 Selected 상태.
         //다른 태그의 버튼이 눌리면 그 태그 버튼 빼고 전부 off 되야되는 상황
         //어떤 테마를 선택했는지 userDefault에 저장하고 그 값으로 스위치를 켜야되나..
-        //TODO: - :: 테마 이미지로 변경되는거해주고, 위젯이미지 변경
         UserDefaults.standard.set(sender.tag, forKey: "Them")
+        saveShareData()
         self.tableView.reloadData()
         themAlert()
     }
@@ -62,6 +63,12 @@ class ThemeViewController: UIViewController {
         let action = UIAlertAction.init(title: "확인", style: .default, handler: nil)
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func saveShareData(){
+        guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
+        shareData.set(UserDefaults.standard.integer(forKey: "Them"), forKey: "Theme")
+        shareData.synchronize()
     }
 }
 

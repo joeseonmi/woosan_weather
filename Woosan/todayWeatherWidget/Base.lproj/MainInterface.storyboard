@@ -142,6 +142,7 @@
                                     <constraint firstItem="yqw-0p-hCX" firstAttribute="top" secondItem="R5g-9D-nUG" secondAttribute="bottom" id="jHv-VQ-6dB"/>
                                     <constraint firstItem="krW-Jg-gPS" firstAttribute="trailing" secondItem="FYK-Fo-cvy" secondAttribute="trailing" id="tP9-ed-yfa"/>
                                     <constraint firstItem="BQj-95-tXn" firstAttribute="leading" secondItem="yqw-0p-hCX" secondAttribute="trailing" constant="2" id="v01-fR-0f1"/>
+                                    <constraint firstItem="FYK-Fo-cvy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="R5g-9D-nUG" secondAttribute="trailing" constant="8" id="var-QE-QMt"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -165,6 +166,7 @@
                         <outlet property="presenTemp" destination="R5g-9D-nUG" id="hZJ-p1-jXw"/>
                         <outlet property="rainLabel" destination="8Nz-6x-3ZI" id="JCM-Cu-M3q"/>
                         <outlet property="rainTextLabel" destination="VLR-cf-d0g" id="LLG-pI-12O"/>
+                        <outlet property="themeCharacter" destination="VRc-Af-FuQ" id="xcw-u1-Uvs"/>
                         <outlet property="weatherImageView" destination="E8H-oz-fh6" id="W6c-Ux-hCb"/>
                     </connections>
                 </viewController>

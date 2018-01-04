@@ -19,6 +19,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     /*******************************************/
     
     let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults")
+    let themeName = ["doggy","catty"]
     
     var lat:String = ""
     var lon:String = "" 
@@ -27,7 +28,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var now = Date()
     var country:String = "" {
         didSet{
-            //MARK: 나중에 수정
+            //MARK: :::나중에 수정
             if country != "대한민국" {
                 let nextVC:notiPopup = storyboard?.instantiateViewController(withIdentifier: "onlyCanUseInKorea") as! notiPopup
                 present(nextVC, animated: true, completion: nil)
@@ -183,22 +184,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         if let coordinate = self.locationManager.location {
             convertAddress(from: coordinate)
         }
-        
-        /*
-         didBecomeActive상태일때, Lottie를 재생하기 위한 noti
-         */
+  
+        //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
             
             if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
                 self.viewMobinWeather(today: code)
             }
-            self.viewMovinAnimal(animal: "catty")
+            self.viewMovinAnimal(animal: self.themeName[UserDefaults.standard.integer(forKey: "Them")])
         }
-        /* 위젯과 데이터를 공유하는 UserDefaults
+        /*
+        // 위젯과 데이터를 공유하는 UserDefaults
          guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
-         shareData.set(22222, forKey: "int")
+         shareData.set(UserDefaults.standard.integer(forKey: "Them"), forKey: "Theme")
          shareData.synchronize()
-         */
+        */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,7 +207,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         if let code:String = todayWeather[Constants.today_key_SkyCode]{
             self.viewMobinWeather(today: code)
         }
-        self.viewMovinAnimal(animal: "catty")
+        self.viewMovinAnimal(animal: self.themeName[UserDefaults.standard.integer(forKey: "Them")])
     }
     
     deinit {

@@ -33,6 +33,10 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     @IBOutlet weak var maxTemp: UILabel!
     @IBOutlet weak var minTemp: UILabel!
     
+    @IBOutlet weak var themeCharacter: UIImageView!
+    let image:[String] = ["doggythemIcon",
+                          "dungsilcatthemIcon"]
+    
     var lat:String = ""
     var lon:String = ""
     var locationInfo:String = "" {
@@ -90,12 +94,10 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             convertAddress(from: coordinate)
         }
         
-        /*
-         guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else {return}
-         print("=================================================",shareData.value(forKey: "int"))
-         shareData.synchronize()
-         원 앱과 데이터 통신을 하는 방법으로 Userdefaults가 있다.
-         */
+        
+        //원 앱과 데이터 통신을 하는 방법으로 Userdefaults가 있다.
+        self.loadImage()
+        
         
     }
     
@@ -103,6 +105,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.loadImage()
         
         //SE버전은 강수확률이 안보이게 설정했다.
         let widthSize = self.bgView.frame.width
@@ -115,6 +118,14 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     //MARK:-              Func                 //
     /*******************************************/
+    
+    func loadImage(){
+        guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
+        let index = shareData.integer(forKey: "Theme")
+        self.themeCharacter.image = UIImage(named: self.image[index])
+        shareData.synchronize()
+    }
+    
     
     func convertAddress(from coordinate:CLLocation) {
         let geoCoder = CLGeocoder()
@@ -133,7 +144,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         }
         
     }
-
+    
     func getForecast() {
         let now = Date()
         let dateFommater = DateFormatter()
