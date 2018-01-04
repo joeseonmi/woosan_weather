@@ -192,7 +192,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
                 self.viewMobinWeather(today: code)
             }
-            self.viewMovinAnimal(animal: "doggy")
+            self.viewMovinAnimal(animal: "catty")
         }
         /* 위젯과 데이터를 공유하는 UserDefaults
          guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
@@ -207,7 +207,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         if let code:String = todayWeather[Constants.today_key_SkyCode]{
             self.viewMobinWeather(today: code)
         }
-        self.viewMovinAnimal(animal: "doggy")
+        self.viewMovinAnimal(animal: "catty")
     }
     
     deinit {

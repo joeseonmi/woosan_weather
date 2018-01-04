@@ -18,7 +18,8 @@ class ThemeTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       self.themeImage.layer.cornerRadius = 5
+
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
