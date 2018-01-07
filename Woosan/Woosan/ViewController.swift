@@ -28,8 +28,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var now = Date()
     var country:String = "" {
         didSet{
-            //MARK: :::나중에 수정
-            if country != "대한민국" {
+            //TODO: :::나중에 수정 - 해외API연결
+            if country != "대한민국" && country != "South Korea" {
                 let nextVC:notiPopup = storyboard?.instantiateViewController(withIdentifier: "onlyCanUseInKorea") as! notiPopup
                 present(nextVC, animated: true, completion: nil)
             }

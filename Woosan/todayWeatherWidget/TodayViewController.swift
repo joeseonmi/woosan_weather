@@ -34,8 +34,8 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     @IBOutlet weak var minTemp: UILabel!
     
     @IBOutlet weak var themeCharacter: UIImageView!
-    let image:[String] = ["doggythemIcon",
-                          "dungsilcatthemIcon"]
+    let image:[String] = ["widgetDoggyhead",
+                          "widgetCattyhead"]
     
     var lat:String = ""
     var lon:String = ""
