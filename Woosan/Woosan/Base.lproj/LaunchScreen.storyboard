@@ -27,7 +27,7 @@
                             <constraint firstItem="w5F-kM-yzV" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="CSV-2u-ri8"/>
                             <constraint firstItem="w5F-kM-yzV" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WYD-Ir-vWy"/>
                             <constraint firstItem="w5F-kM-yzV" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="lGg-aK-XCH"/>
-                            <constraint firstItem="w5F-kM-yzV" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="quO-8G-R2h"/>
+                            <constraint firstItem="w5F-kM-yzV" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="wyh-xF-iVA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
