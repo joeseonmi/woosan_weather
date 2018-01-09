@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 class IntroduceViewController: UIViewController,MFMailComposeViewControllerDelegate {
-
+    
     @IBAction func sendMail(_ sender: UIButton) {
         let mailViewcontroller = MFMailComposeViewController()
         mailViewcontroller.mailComposeDelegate = self
@@ -28,7 +28,7 @@ class IntroduceViewController: UIViewController,MFMailComposeViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "만든 사람"
-
+        
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
@@ -37,11 +37,11 @@ class IntroduceViewController: UIViewController,MFMailComposeViewControllerDeleg
         case .cancelled:
             print("취소됨")
         case .failed:
-           print("실패됨")
+            print("실패됨")
         case .saved:
-           print("임시저장됨")
+            print("임시저장됨")
         case .sent:
-           print("전송됨")
+            print("전송됨")
         }
         dismiss(animated: true, completion: nil)
     }
