@@ -229,13 +229,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                         self.weatherInfo[Constants.widget_key_RainCode] = ""
                     case "1":
                         self.weatherInfo[Constants.widget_key_RainForm] = "비와요!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M05"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M01"
                     case "2":
                         self.weatherInfo[Constants.widget_key_RainForm] = "진눈깨비!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M06"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M02"
                     case "3":
                         self.weatherInfo[Constants.widget_key_RainForm] = "눈와요!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M07"
+                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M03"
                     default:
                         self.weatherInfo[Constants.widget_key_RainForm] = "정보 없음"
                     }
