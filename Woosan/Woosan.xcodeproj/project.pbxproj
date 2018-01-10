@@ -43,6 +43,7 @@
 		D89A17E61FE2A2AE00B29B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */; };
 		D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */; };
 		D89A17EA1FE2C5FB00B29B03 /* EtcTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */; };
+		D8BE94CE2005DB7000C8AFC8 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BE94CD2005DB7000C8AFC8 /* LaunchScreenViewController.swift */; };
 		D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */; };
 		D8ED0F991FC1E76A001D1FC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */; };
 		D8ED0F9B1FC1E76A001D1FC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */; };
@@ -117,6 +118,7 @@
 		D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtcTableViewCell.swift; sourceTree = "<group>"; };
 		D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EtcTableViewCell.xib; sourceTree = "<group>"; };
+		D8BE94CD2005DB7000C8AFC8 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notiPopup.swift; sourceTree = "<group>"; };
 		D8D637B31FD53E8400CBFFB3 /* todayWeatherWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = todayWeatherWidget.entitlements; sourceTree = "<group>"; };
 		D8ED0F951FC1E76A001D1FC0 /* Woosan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Woosan.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,6 +254,7 @@
 				D81B2E761FCEB5B10094CCB5 /* Constants.swift */,
 				D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */,
 				D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */,
+				D8BE94CD2005DB7000C8AFC8 /* LaunchScreenViewController.swift */,
 				D84B174C1FDC530A007F14A1 /* CustomCell */,
 				D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */,
 				D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */,
@@ -521,6 +524,7 @@
 				D80324EB1FDE86D000C3D06B /* BGDetailViewController.swift in Sources */,
 				D8ED0F9B1FC1E76A001D1FC0 /* ViewController.swift in Sources */,
 				D8ED0F991FC1E76A001D1FC0 /* AppDelegate.swift in Sources */,
+				D8BE94CE2005DB7000C8AFC8 /* LaunchScreenViewController.swift in Sources */,
 				D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */,
 				D84B17471FDC4E10007F14A1 /* EtcViewController.swift in Sources */,
 				D85B53661FFE5B1D00D7C89D /* widgetSetting.swift in Sources */,

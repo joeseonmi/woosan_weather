@@ -187,11 +187,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
   
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
-            
             if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
                 self.viewMobinWeather(today: code)
             }
-            self.viewMovinAnimal(animal: self.themeName[UserDefaults.standard.integer(forKey: "Them")])
+                self.viewMovinAnimal(animal: self.themeName[UserDefaults.standard.integer(forKey: "Them")])
         }
         /*
         // 위젯과 데이터를 공유하는 UserDefaults
@@ -204,6 +203,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        //이게 사이즈가 안늘어나는데 왜때문?
         if let code:String = todayWeather[Constants.today_key_SkyCode]{
             self.viewMobinWeather(today: code)
         }
@@ -222,8 +222,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     func viewMovinAnimal(animal name:String) {
         self.movinImageView.layer.sublayers = nil
         let animationView = LOTAnimationView(name: name)
-        self.movinImageView.addSubview(animationView)
         animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
+        self.movinImageView.addSubview(animationView)
         animationView.loopAnimation = true
         animationView.contentMode = .scaleAspectFit
         animationView.play()
