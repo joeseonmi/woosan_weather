@@ -175,7 +175,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             getForecast()
             getForecastSpaceData()
             get2amData()
-            getPM10()
         }
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
@@ -613,30 +612,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     }
     
-    //미세먼지
-    func getPM10() {
-        
-        let cityArray:[String] = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주", "세종"]
-       
-        let cityName:String = ""
-        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-
-        let parameter = ["sidoName":cityName,
-                         "ServiceKey":appid.removingPercentEncoding!,
-                         "_returnType":"json",
-                         "searchCondition":"DAILY",
-                         "numOfRows": "999",
-                         "ver":"1.3"]
-        
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let responsData = response.value else { return }
-            let pm10Data = JSON(responsData)
-            print("미세먼지=-----:", pm10Data)
-            
-        }
-        
-    }
     
     //위치로, 지역이름 알아오기
     func convertAddress(from coordinate:CLLocation) {

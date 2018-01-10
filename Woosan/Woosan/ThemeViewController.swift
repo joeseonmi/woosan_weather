@@ -38,6 +38,7 @@ class ThemeViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "ThemeTableViewCell", bundle: nil), forCellReuseIdentifier: "ThemeTableViewCell")
+
         
     }
 
@@ -81,6 +82,7 @@ extension ThemeViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ThemeTableViewCell", for: indexPath) as! ThemeTableViewCell
+        cell.selectionStyle = .none
         cell.themeTitle.text = self.titles[indexPath.row]
         cell.themeSubsc.text = self.subscrip[indexPath.row]
         cell.themeImage.image = UIImage(named: self.image[indexPath.row])
@@ -99,7 +101,7 @@ extension ThemeViewController : UITableViewDataSource {
 }
 
 extension ThemeViewController : UITableViewDelegate {
-    
+   
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
