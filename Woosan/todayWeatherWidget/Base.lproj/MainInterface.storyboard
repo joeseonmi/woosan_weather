@@ -46,30 +46,17 @@
                                         <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미세먼지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krW-Jg-gPS">
-                                        <rect key="frame" x="265.5" y="25" width="38.5" height="13.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="강수확률" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLR-cf-d0g">
-                                        <rect key="frame" x="211" y="26" width="38.5" height="13.5"/>
+                                        <rect key="frame" x="265.5" y="26" width="38.5" height="13.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="widget_humi" translatesAutoresizingMaskIntoConstraints="NO" id="8Nz-6x-3ZI">
-                                        <rect key="frame" x="199" y="27.5" width="11" height="11"/>
+                                        <rect key="frame" x="253.5" y="27.5" width="11" height="11"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="11" id="2CB-CM-StR"/>
                                             <constraint firstAttribute="width" secondItem="8Nz-6x-3ZI" secondAttribute="height" multiplier="1:1" id="SUn-jC-z3F"/>
-                                        </constraints>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="widget_dust" translatesAutoresizingMaskIntoConstraints="NO" id="HqJ-JA-re7">
-                                        <rect key="frame" x="253.5" y="26.5" width="11" height="11"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="HqJ-JA-re7" secondAttribute="height" multiplier="1:1" id="MGJ-uq-u1K"/>
-                                            <constraint firstAttribute="width" constant="11" id="eUB-O4-qe1"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5g-9D-nUG">
@@ -111,7 +98,6 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="VLR-cf-d0g" firstAttribute="centerY" secondItem="HqJ-JA-re7" secondAttribute="centerY" id="061-la-Dsh"/>
                                     <constraint firstItem="E8H-oz-fh6" firstAttribute="height" secondItem="Ob8-V6-pKf" secondAttribute="height" multiplier="0.8" id="09R-mQ-Hw8"/>
                                     <constraint firstItem="eP3-fD-0Dj" firstAttribute="centerX" secondItem="zGM-mh-Kki" secondAttribute="centerX" id="12q-HG-0gj"/>
                                     <constraint firstItem="VRc-Af-FuQ" firstAttribute="leading" secondItem="zGM-mh-Kki" secondAttribute="trailing" id="1Yz-ff-gKO"/>
@@ -121,26 +107,23 @@
                                     <constraint firstItem="yqw-0p-hCX" firstAttribute="centerX" secondItem="R5g-9D-nUG" secondAttribute="centerX" constant="-1" id="BDF-Xm-As0"/>
                                     <constraint firstItem="zGM-mh-Kki" firstAttribute="height" secondItem="VRc-Af-FuQ" secondAttribute="height" multiplier="0.7" id="DDI-67-FJZ"/>
                                     <constraint firstItem="yqw-0p-hCX" firstAttribute="leading" secondItem="BKL-2O-mT6" secondAttribute="trailing" constant="2" id="F9f-x2-37h"/>
-                                    <constraint firstItem="HqJ-JA-re7" firstAttribute="centerY" secondItem="krW-Jg-gPS" secondAttribute="centerY" id="I7T-I6-AOo"/>
                                     <constraint firstItem="E8H-oz-fh6" firstAttribute="leading" secondItem="Ob8-V6-pKf" secondAttribute="leading" constant="16" id="IbF-dn-7Q5"/>
                                     <constraint firstItem="8Nz-6x-3ZI" firstAttribute="width" secondItem="8Nz-6x-3ZI" secondAttribute="height" multiplier="1:1" id="Je8-7X-hUP"/>
                                     <constraint firstItem="eP3-fD-0Dj" firstAttribute="centerY" secondItem="zGM-mh-Kki" secondAttribute="centerY" multiplier="0.95" id="KZE-Vn-Nfl"/>
-                                    <constraint firstItem="HqJ-JA-re7" firstAttribute="leading" secondItem="VLR-cf-d0g" secondAttribute="trailing" constant="4" id="Kve-oO-pYl"/>
-                                    <constraint firstItem="krW-Jg-gPS" firstAttribute="top" secondItem="FYK-Fo-cvy" secondAttribute="bottom" constant="2" id="N6T-hi-wDd"/>
+                                    <constraint firstItem="VLR-cf-d0g" firstAttribute="top" secondItem="FYK-Fo-cvy" secondAttribute="bottom" constant="3" id="Ry6-mR-sw9"/>
                                     <constraint firstItem="8Nz-6x-3ZI" firstAttribute="centerY" secondItem="VLR-cf-d0g" secondAttribute="centerY" id="S3X-XT-idb"/>
                                     <constraint firstItem="BKL-2O-mT6" firstAttribute="leading" secondItem="E8H-oz-fh6" secondAttribute="trailing" constant="16" id="TDq-Hi-AGV"/>
-                                    <constraint firstItem="krW-Jg-gPS" firstAttribute="leading" secondItem="HqJ-JA-re7" secondAttribute="trailing" constant="1" id="VFG-7B-XvI"/>
                                     <constraint firstAttribute="height" constant="95" id="W5n-Tw-na7"/>
                                     <constraint firstItem="zGM-mh-Kki" firstAttribute="top" secondItem="VRc-Af-FuQ" secondAttribute="top" id="ZQN-5h-sS9"/>
                                     <constraint firstItem="VRc-Af-FuQ" firstAttribute="bottom" secondItem="E8H-oz-fh6" secondAttribute="bottom" id="ayy-kZ-0Lf"/>
                                     <constraint firstItem="FYK-Fo-cvy" firstAttribute="trailing" secondItem="VRc-Af-FuQ" secondAttribute="trailing" id="cdW-zX-j3u"/>
                                     <constraint firstItem="BQj-95-tXn" firstAttribute="centerY" secondItem="yqw-0p-hCX" secondAttribute="centerY" id="cdn-mK-tLA"/>
                                     <constraint firstItem="R5g-9D-nUG" firstAttribute="top" secondItem="E8H-oz-fh6" secondAttribute="top" id="clM-OT-Ssf"/>
+                                    <constraint firstItem="VLR-cf-d0g" firstAttribute="trailing" secondItem="FYK-Fo-cvy" secondAttribute="trailing" id="fHe-vT-eWn"/>
                                     <constraint firstItem="E8H-oz-fh6" firstAttribute="centerY" secondItem="Ob8-V6-pKf" secondAttribute="centerY" id="fIJ-nW-6KN"/>
                                     <constraint firstItem="VLR-cf-d0g" firstAttribute="leading" secondItem="8Nz-6x-3ZI" secondAttribute="trailing" constant="1" id="hUG-S7-0Tn"/>
                                     <constraint firstAttribute="trailing" secondItem="VRc-Af-FuQ" secondAttribute="trailing" constant="16" id="hdw-TM-UB7"/>
                                     <constraint firstItem="yqw-0p-hCX" firstAttribute="top" secondItem="R5g-9D-nUG" secondAttribute="bottom" id="jHv-VQ-6dB"/>
-                                    <constraint firstItem="krW-Jg-gPS" firstAttribute="trailing" secondItem="FYK-Fo-cvy" secondAttribute="trailing" id="tP9-ed-yfa"/>
                                     <constraint firstItem="BQj-95-tXn" firstAttribute="leading" secondItem="yqw-0p-hCX" secondAttribute="trailing" constant="2" id="v01-fR-0f1"/>
                                     <constraint firstItem="FYK-Fo-cvy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="R5g-9D-nUG" secondAttribute="trailing" constant="8" id="var-QE-QMt"/>
                                 </constraints>
@@ -159,7 +142,6 @@
                     <connections>
                         <outlet property="bgView" destination="Ob8-V6-pKf" id="K0q-Oy-s5U"/>
                         <outlet property="commentLabel" destination="eP3-fD-0Dj" id="g1N-lE-ud9"/>
-                        <outlet property="dustLabel" destination="krW-Jg-gPS" id="Zw0-lI-7Lm"/>
                         <outlet property="locationLabel" destination="FYK-Fo-cvy" id="o0r-gR-lai"/>
                         <outlet property="maxTemp" destination="BKL-2O-mT6" id="IGc-y5-REc"/>
                         <outlet property="minTemp" destination="BQj-95-tXn" id="vWc-8f-dDs"/>
@@ -179,7 +161,6 @@
         <image name="weather_default" width="39" height="39"/>
         <image name="widgetBuble" width="58" height="22"/>
         <image name="widgetDoggyhead" width="133" height="146"/>
-        <image name="widget_dust" width="28" height="30"/>
         <image name="widget_humi" width="19" height="26"/>
     </resources>
 </document>

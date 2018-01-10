@@ -72,7 +72,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
             self.windms.text = todayWeather[Constants.today_key_Wind]
-            self.dust.text = todayWeather[Constants.today_key_Dust]
+//            self.dust.text = todayWeather[Constants.today_key_Dust]
             if let code = todayWeather[Constants.today_key_SkyCode] {
                 self.skyCode = code
             }

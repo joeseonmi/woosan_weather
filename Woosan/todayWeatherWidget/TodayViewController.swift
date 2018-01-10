@@ -108,11 +108,11 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         self.loadImage()
         
         //SE버전은 강수확률이 안보이게 설정했다.
-        let widthSize = self.bgView.frame.width
-        if widthSize <= 304.0 {
-            self.rainLabel.isHidden = true
-            self.rainTextLabel.isHidden = true
-        }
+//        let widthSize = self.bgView.frame.width
+//        if widthSize <= 304.0 {
+//            self.rainLabel.isHidden = true
+//            self.rainTextLabel.isHidden = true
+//        }
     }
     
     /*******************************************/
