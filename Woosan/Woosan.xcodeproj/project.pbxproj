@@ -35,10 +35,10 @@
 		D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */; };
 		D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EA1FD0433600EB1CBB /* SKY_D01.json */; };
 		D89620F21FD0EDAD00EB1CBB /* SKY_D04.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EC1FD0EDAC00EB1CBB /* SKY_D04.json */; };
-		D89620F31FD0EDAD00EB1CBB /* SKY_D05.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620ED1FD0EDAC00EB1CBB /* SKY_D05.json */; };
+		D89620F31FD0EDAD00EB1CBB /* RAIN_D01.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620ED1FD0EDAC00EB1CBB /* RAIN_D01.json */; };
 		D89620F41FD0EDAD00EB1CBB /* SKY_D02.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EE1FD0EDAC00EB1CBB /* SKY_D02.json */; };
-		D89620F51FD0EDAD00EB1CBB /* SKY_D06.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EF1FD0EDAC00EB1CBB /* SKY_D06.json */; };
-		D89620F61FD0EDAD00EB1CBB /* SKY_D07.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620F01FD0EDAD00EB1CBB /* SKY_D07.json */; };
+		D89620F51FD0EDAD00EB1CBB /* RAIN_D02.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EF1FD0EDAC00EB1CBB /* RAIN_D02.json */; };
+		D89620F61FD0EDAD00EB1CBB /* RAIN_D03.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620F01FD0EDAD00EB1CBB /* RAIN_D03.json */; };
 		D89620F71FD0EDAD00EB1CBB /* SKY_D03.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620F11FD0EDAD00EB1CBB /* SKY_D03.json */; };
 		D89A17E61FE2A2AE00B29B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */; };
 		D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */; };
@@ -110,10 +110,10 @@
 		D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = forecastCollectionViewCell.xib; sourceTree = "<group>"; };
 		D89620EA1FD0433600EB1CBB /* SKY_D01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D01.json; path = Woosan/Lottie/SKY_D01.json; sourceTree = SOURCE_ROOT; };
 		D89620EC1FD0EDAC00EB1CBB /* SKY_D04.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D04.json; path = Woosan/Lottie/SKY_D04.json; sourceTree = SOURCE_ROOT; };
-		D89620ED1FD0EDAC00EB1CBB /* SKY_D05.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D05.json; path = Woosan/Lottie/SKY_D05.json; sourceTree = SOURCE_ROOT; };
+		D89620ED1FD0EDAC00EB1CBB /* RAIN_D01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RAIN_D01.json; path = Woosan/Lottie/RAIN_D01.json; sourceTree = SOURCE_ROOT; };
 		D89620EE1FD0EDAC00EB1CBB /* SKY_D02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D02.json; path = Woosan/Lottie/SKY_D02.json; sourceTree = SOURCE_ROOT; };
-		D89620EF1FD0EDAC00EB1CBB /* SKY_D06.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D06.json; path = Woosan/Lottie/SKY_D06.json; sourceTree = SOURCE_ROOT; };
-		D89620F01FD0EDAD00EB1CBB /* SKY_D07.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D07.json; path = Woosan/Lottie/SKY_D07.json; sourceTree = SOURCE_ROOT; };
+		D89620EF1FD0EDAC00EB1CBB /* RAIN_D02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RAIN_D02.json; path = Woosan/Lottie/RAIN_D02.json; sourceTree = SOURCE_ROOT; };
+		D89620F01FD0EDAD00EB1CBB /* RAIN_D03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RAIN_D03.json; path = Woosan/Lottie/RAIN_D03.json; sourceTree = SOURCE_ROOT; };
 		D89620F11FD0EDAD00EB1CBB /* SKY_D03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D03.json; path = Woosan/Lottie/SKY_D03.json; sourceTree = SOURCE_ROOT; };
 		D89A17E51FE2A2AE00B29B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtcTableViewCell.swift; sourceTree = "<group>"; };
@@ -193,9 +193,9 @@
 				D89620EE1FD0EDAC00EB1CBB /* SKY_D02.json */,
 				D89620F11FD0EDAD00EB1CBB /* SKY_D03.json */,
 				D89620EC1FD0EDAC00EB1CBB /* SKY_D04.json */,
-				D89620ED1FD0EDAC00EB1CBB /* SKY_D05.json */,
-				D89620EF1FD0EDAC00EB1CBB /* SKY_D06.json */,
-				D89620F01FD0EDAD00EB1CBB /* SKY_D07.json */,
+				D89620ED1FD0EDAC00EB1CBB /* RAIN_D01.json */,
+				D89620EF1FD0EDAC00EB1CBB /* RAIN_D02.json */,
+				D89620F01FD0EDAD00EB1CBB /* RAIN_D03.json */,
 				D868A82E1FF5283A0001030B /* SKY_D08.json */,
 				D868A82D1FF5283A0001030B /* SKY_D09.json */,
 			);
@@ -373,7 +373,7 @@
 			files = (
 				D89620F41FD0EDAD00EB1CBB /* SKY_D02.json in Resources */,
 				D89A17E61FE2A2AE00B29B03 /* GoogleService-Info.plist in Resources */,
-				D89620F51FD0EDAD00EB1CBB /* SKY_D06.json in Resources */,
+				D89620F51FD0EDAD00EB1CBB /* RAIN_D02.json in Resources */,
 				D84B17501FDC595D007F14A1 /* BGCollectionViewCell.xib in Resources */,
 				D89A17EA1FE2C5FB00B29B03 /* EtcTableViewCell.xib in Resources */,
 				D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */,
@@ -383,10 +383,10 @@
 				D89620F71FD0EDAD00EB1CBB /* SKY_D03.json in Resources */,
 				D84B174B1FDC5302007F14A1 /* ThemeTableViewCell.xib in Resources */,
 				D868A8301FF5283A0001030B /* SKY_D08.json in Resources */,
-				D89620F61FD0EDAD00EB1CBB /* SKY_D07.json in Resources */,
+				D89620F61FD0EDAD00EB1CBB /* RAIN_D03.json in Resources */,
 				D868A82F1FF5283A0001030B /* SKY_D09.json in Resources */,
 				D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */,
-				D89620F31FD0EDAD00EB1CBB /* SKY_D05.json in Resources */,
+				D89620F31FD0EDAD00EB1CBB /* RAIN_D01.json in Resources */,
 				D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */,
 				D8ED0F9E1FC1E76A001D1FC0 /* Main.storyboard in Resources */,
 				D89620F21FD0EDAD00EB1CBB /* SKY_D04.json in Resources */,

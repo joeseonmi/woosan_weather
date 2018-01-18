@@ -33,6 +33,7 @@ struct Constants {
     static let today_key_Sky:String = "today_key_Sky"
     static let today_key_Rain:String = "today_key_Rain"
     static let today_key_Rainform:String = "today_key_RainForm"
+    static let today_key_RainCode:String = "today_key_RainCode"
     static let today_key_SkyCode:String = "today_key_Code"
     static let today_key_Wind = "today_key_Wind"
     static let today_key_Humi = "today_key_Humi"

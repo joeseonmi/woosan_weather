@@ -67,15 +67,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         didSet{
             self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
             self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+            if todayWeather[Constants.today_key_Rainform] == "" {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+                guard let code = todayWeather[Constants.today_key_SkyCode] else { return }
+                self.skyCode = code
+            } else {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
+                guard let code = todayWeather[Constants.today_key_RainCode] else { return }
+                self.skyCode = code
+            }
             self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
             self.windms.text = todayWeather[Constants.today_key_Wind]
-//            self.dust.text = todayWeather[Constants.today_key_Dust]
-            if let code = todayWeather[Constants.today_key_SkyCode] {
-                self.skyCode = code
-            }
         }
     }
     
@@ -175,7 +179,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             getForecast()
             getForecastSpaceData()
             get2amData()
-            getPM10()
         }
         /*
          locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
@@ -356,13 +359,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                         self.todayWeather[Constants.today_key_Rainform] = ""
                     case "1":
                         self.todayWeather[Constants.today_key_Rainform] = "비"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D05"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D01"
                     case "2":
                         self.todayWeather[Constants.today_key_Rainform] = "진눈깨비"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D06"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D02"
                     case "3":
                         self.todayWeather[Constants.today_key_Rainform] = "눈"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D07"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D03"
                     default:
                         self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
                     }
@@ -613,30 +616,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     }
     
-    //미세먼지
-    func getPM10() {
-        
-        let cityArray:[String] = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주", "세종"]
-       
-        let cityName:String = ""
-        let url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-
-        let parameter = ["sidoName":cityName,
-                         "ServiceKey":appid.removingPercentEncoding!,
-                         "_returnType":"json",
-                         "searchCondition":"DAILY",
-                         "numOfRows": "999",
-                         "ver":"1.3"]
-        
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let responsData = response.value else { return }
-            let pm10Data = JSON(responsData)
-            print("미세먼지=-----:", pm10Data)
-            
-        }
-        
-    }
     
     //위치로, 지역이름 알아오기
     func convertAddress(from coordinate:CLLocation) {
