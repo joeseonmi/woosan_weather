@@ -67,15 +67,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         didSet{
             self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
             self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+            if todayWeather[Constants.today_key_Rainform] == "" {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+                guard let code = todayWeather[Constants.today_key_SkyCode] else { return }
+                self.skyCode = code
+            } else {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
+                guard let code = todayWeather[Constants.today_key_RainCode] else { return }
+                self.skyCode = code
+            }
             self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
             self.windms.text = todayWeather[Constants.today_key_Wind]
-//            self.dust.text = todayWeather[Constants.today_key_Dust]
-            if let code = todayWeather[Constants.today_key_SkyCode] {
-                self.skyCode = code
-            }
         }
     }
     
@@ -355,13 +359,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                         self.todayWeather[Constants.today_key_Rainform] = ""
                     case "1":
                         self.todayWeather[Constants.today_key_Rainform] = "비"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D05"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D01"
                     case "2":
                         self.todayWeather[Constants.today_key_Rainform] = "진눈깨비"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D06"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D02"
                     case "3":
                         self.todayWeather[Constants.today_key_Rainform] = "눈"
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D07"
+                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D03"
                     default:
                         self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
                     }
