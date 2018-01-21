@@ -18,8 +18,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     //MARK:-          Property                 //
     /*******************************************/
     
-    let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults")
-    var themeName = Theme.doggy.switchName()
+    let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey)
+    var themeName = Theme.doggy.convertName()
     
     var lat:String = ""
     var lon:String = "" 
@@ -207,9 +207,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         super.viewWillAppear(true)
         
         //현재 테마 체크
-        let themeValue = UserDefaults.standard.integer(forKey: "Them")
+        let themeValue = UserDefaults.standard.integer(forKey: DataShare.selectedThemeKey)
         guard let theme = Theme(rawValue: themeValue) else { return }
-        self.themeName = theme.switchName()
+        self.themeName = theme.convertName()
         
         
         //이게 사이즈가 안늘어나는데 왜때문?
@@ -300,8 +300,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         time = time + "00"
         
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
+        let appid = DataShare.appKey
+        let url = DataShare.forecastChoDangi
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
@@ -316,7 +316,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
-            //            print("=================초단기실황 결과:",data)
+//                        print("=================초단기실황 결과:",data)
             
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
@@ -335,25 +335,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     switch value {
                     case "1":
                         if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = "맑음"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D01.convertName()
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
                         } else {
-                            self.todayWeather[Constants.today_key_Sky] = "맑음"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D08.convertName()
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D08"
                         }
                     case "2":
                         if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = "구름 조금"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D02.convertName()
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
                         } else {
-                            self.todayWeather[Constants.today_key_Sky] = "구름 조금"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D09.convertName()
                             self.todayWeather[Constants.today_key_SkyCode] = "SKY_D09"
                         }
                     case "3":
-                        self.todayWeather[Constants.today_key_Sky] = "구름 많음"
+                        self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D03.convertName()
                         self.todayWeather[Constants.today_key_SkyCode] = "SKY_D03"
                     case "4":
-                        self.todayWeather[Constants.today_key_Sky] = "흐림"
+                        self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D04.convertName()
                         self.todayWeather[Constants.today_key_SkyCode] = "SKY_D04"
                     default:
                         self.todayWeather[Constants.today_key_Sky] = "정보 없음"
@@ -364,13 +364,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     case "0":
                         self.todayWeather[Constants.today_key_Rainform] = ""
                     case "1":
-                        self.todayWeather[Constants.today_key_Rainform] = "비"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D01.convertName()
                         self.todayWeather[Constants.today_key_RainCode] = "RAIN_D01"
                     case "2":
-                        self.todayWeather[Constants.today_key_Rainform] = "진눈깨비"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D02.convertName()
                         self.todayWeather[Constants.today_key_RainCode] = "RAIN_D02"
                     case "3":
-                        self.todayWeather[Constants.today_key_Rainform] = "눈"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D03.convertName()
                         self.todayWeather[Constants.today_key_RainCode] = "RAIN_D03"
                     default:
                         self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
@@ -444,8 +444,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
+        let appid = DataShare.appKey
+        let url = DataShare.forecastSpace
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
@@ -555,6 +555,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         let setTomorrow:String = dateFommater.string(from: tomorrow)
         var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
+        var realToday:String = dateFommater.string(from: now)
         
         guard let setTime = Int(time) else { return }
         if setTime < 2 {
@@ -569,8 +570,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
+        let appid = DataShare.appKey
+        let url = DataShare.forecastSpace
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
@@ -584,10 +585,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
+            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
             for i in 0...dataArray.count - 1 {
-                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
+                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
                     switch dataArray[i]["category"].stringValue {
                     case Constants.api_rain:
                         let value = dataArray[i]["fcstValue"].stringValue
