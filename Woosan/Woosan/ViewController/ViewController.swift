@@ -335,26 +335,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     switch value {
                     case "1":
                         if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D01.convertName()
-                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D01"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.Sunny.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.Sunny.convertName().code
                         } else {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D08.convertName()
-                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D08"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.ClearNight.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.ClearNight.convertName().code
                         }
                     case "2":
                         if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D02.convertName()
-                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D02"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudy.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudy.convertName().code
                         } else {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D09.convertName()
-                            self.todayWeather[Constants.today_key_SkyCode] = "SKY_D09"
+                            self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudyNight.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudyNight.convertName().code
                         }
                     case "3":
-                        self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D03.convertName()
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D03"
+                        self.todayWeather[Constants.today_key_Sky] = Weather.MoreCloudy.convertName().subs
+                        self.todayWeather[Constants.today_key_SkyCode] = Weather.MoreCloudy.convertName().code
                     case "4":
-                        self.todayWeather[Constants.today_key_Sky] = Weather.SKY_D04.convertName()
-                        self.todayWeather[Constants.today_key_SkyCode] = "SKY_D04"
+                        self.todayWeather[Constants.today_key_Sky] = Weather.Cloudy.convertName().subs
+                        self.todayWeather[Constants.today_key_SkyCode] = Weather.Cloudy.convertName().code
                     default:
                         self.todayWeather[Constants.today_key_Sky] = "정보 없음"
                     }
@@ -364,14 +364,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     case "0":
                         self.todayWeather[Constants.today_key_Rainform] = ""
                     case "1":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D01.convertName()
-                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D01"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.Rainy.convertName().subs
+                        self.todayWeather[Constants.today_key_RainCode] = Weather.Rainy.convertName().code
                     case "2":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D02.convertName()
-                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D02"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.Sleet.convertName().subs
+                        self.todayWeather[Constants.today_key_RainCode] = Weather.Sleet.convertName().code
                     case "3":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.RAIN_D03.convertName()
-                        self.todayWeather[Constants.today_key_RainCode] = "RAIN_D03"
+                        self.todayWeather[Constants.today_key_Rainform] = Weather.Snow.convertName().subs
+                        self.todayWeather[Constants.today_key_RainCode] = Weather.Snow.convertName().code
                     default:
                         self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
                     }

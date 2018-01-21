@@ -22,13 +22,13 @@ struct DataShare {
 
 struct ThemeInfo {
     static let titles:[String] = ["우산 챙기개!(기본)",
-                           "우산 챙겼냥!"]
+                                  "우산 챙겼냥!"]
     
     static let subscrip:[String] = ["우산챙기개! 기본테마. 강아지가 뛰어댕겨요.",
-                             "얼룩이 고양이가 뛰어댕겨요."]
+                                    "얼룩이 고양이가 뛰어댕겨요."]
     
     static let image:[String] = ["doggythemIcon",
-                          "dungsilcatthemIcon"]
+                                 "dungsilcatthemIcon"]
 }
 
 enum Theme: Int {
@@ -46,36 +46,36 @@ enum Theme: Int {
 }
 
 enum Weather {
-    case SKY_D01
-    case SKY_D02
-    case SKY_D03
-    case SKY_D04
-    case SKY_D08
-    case SKY_D09
-    case RAIN_D01
-    case RAIN_D02
-    case RAIN_D03
+    case Sunny
+    case LittleCloudy
+    case MoreCloudy
+    case Cloudy
+    case ClearNight
+    case LittleCloudyNight
+    case Rainy
+    case Sleet
+    case Snow
     
-    func convertName() -> String{
+    func convertName() -> (code:String, subs:String){
         switch self {
-        case .SKY_D01:
-            return "맑음"
-        case .SKY_D02:
-            return "구름 조금"
-        case .SKY_D03:
-            return "구름 많음"
-        case .SKY_D04:
-            return "흐림"
-        case .SKY_D08:
-            return "맑음"
-        case .SKY_D09:
-            return "구름 조금"
-        case .RAIN_D01:
-            return "비"
-        case .RAIN_D02:
-            return "진눈깨비"
-        case .RAIN_D03:
-            return "눈"
+        case .Sunny:
+            return ("SKY_D01","맑음")
+        case .LittleCloudy:
+            return ("SKY_D02","구름 조금")
+        case .MoreCloudy:
+            return ("SKY_D03","구름 많음")
+        case .Cloudy:
+            return ("SKY_D04","흐림")
+        case .ClearNight:
+            return ("SKY_D08","맑음")
+        case .LittleCloudyNight:
+            return ("SKY_D09","구름 조금")
+        case .Rainy:
+            return ("RAIN_D01","비")
+        case .Sleet:
+            return ("RAIN_D02","진눈깨비")
+        case .Snow:
+            return ("RAIN_D03","눈")
         }
     }
 }
