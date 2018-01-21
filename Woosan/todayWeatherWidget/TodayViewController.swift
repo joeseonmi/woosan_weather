@@ -270,6 +270,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         let setTomorrow:String = dateFommater.string(from: tomorrow)
         var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
+        let realToday = dateFommater.string(from: now)
         
         guard let setTime = Int(time) else { return }
         if setTime < 2 {
@@ -306,7 +307,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                 print("======================값:",dataArray[i]["fcstValue"].stringValue)
                 print("======================값:",dataArray[i]["fcstDate"].stringValue)
                 
-                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == setTomorrow {
+                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
                     
                     switch dataArray[i]["category"].stringValue {
                     case Constants.api_rain:
