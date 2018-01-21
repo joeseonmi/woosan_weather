@@ -17,6 +17,7 @@
 		D807E5E81FD2739500EC5CC6 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D807E5E61FD2739500EC5CC6 /* MainInterface.storyboard */; };
 		D807E5EC1FD2739500EC5CC6 /* todayWeatherWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D807E5E01FD2739500EC5CC6 /* todayWeatherWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D81B2E771FCEB5B10094CCB5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81B2E761FCEB5B10094CCB5 /* Constants.swift */; };
+		D849EEF920146E5D00011250 /* theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* theme.swift */; };
 		D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */ = {isa = PBXBuildFile; fileRef = D84B17371FDAA6BD007F14A1 /* doggy.json */; };
 		D84B173E1FDC412F007F14A1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B173D1FDC412F007F14A1 /* SettingViewController.swift */; };
 		D84B17411FDC4B98007F14A1 /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */; };
@@ -91,6 +92,7 @@
 		D807E5E91FD2739500EC5CC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D807E5F11FD2745A00EC5CC6 /* Woosan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Woosan.entitlements; sourceTree = "<group>"; };
 		D81B2E761FCEB5B10094CCB5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D849EEF820146E5D00011250 /* theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = theme.swift; sourceTree = "<group>"; };
 		D84B17371FDAA6BD007F14A1 /* doggy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = doggy.json; sourceTree = "<group>"; };
 		D84B173D1FDC412F007F14A1 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +184,22 @@
 			path = todayWeatherWidget;
 			sourceTree = "<group>";
 		};
+		D849EEF720146E0900011250 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */,
+				D84B173D1FDC412F007F14A1 /* SettingViewController.swift */,
+				D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */,
+				D84B17461FDC4E10007F14A1 /* EtcViewController.swift */,
+				D84B17441FDC4DF8007F14A1 /* IntroduceViewController.swift */,
+				D84B17421FDC4BD4007F14A1 /* BackgroundViewController.swift */,
+				D80324EA1FDE86D000C3D06B /* BGDetailViewController.swift */,
+				D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */,
+				D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		D84B173F1FDC435F007F14A1 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,16 +260,9 @@
 				D84B173F1FDC435F007F14A1 /* Lottie */,
 				D8ED0F9C1FC1E76A001D1FC0 /* Main.storyboard */,
 				D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */,
-				D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */,
-				D84B173D1FDC412F007F14A1 /* SettingViewController.swift */,
-				D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */,
-				D84B17461FDC4E10007F14A1 /* EtcViewController.swift */,
-				D84B17441FDC4DF8007F14A1 /* IntroduceViewController.swift */,
-				D84B17421FDC4BD4007F14A1 /* BackgroundViewController.swift */,
-				D80324EA1FDE86D000C3D06B /* BGDetailViewController.swift */,
+				D849EEF720146E0900011250 /* ViewController */,
 				D81B2E761FCEB5B10094CCB5 /* Constants.swift */,
-				D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */,
-				D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */,
+				D849EEF820146E5D00011250 /* theme.swift */,
 				D84B174C1FDC530A007F14A1 /* CustomCell */,
 				D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */,
 				D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */,
@@ -520,6 +531,7 @@
 				D84B17411FDC4B98007F14A1 /* ThemeViewController.swift in Sources */,
 				D80324EB1FDE86D000C3D06B /* BGDetailViewController.swift in Sources */,
 				D8ED0F9B1FC1E76A001D1FC0 /* ViewController.swift in Sources */,
+				D849EEF920146E5D00011250 /* theme.swift in Sources */,
 				D8ED0F991FC1E76A001D1FC0 /* AppDelegate.swift in Sources */,
 				D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */,
 				D84B17471FDC4E10007F14A1 /* EtcViewController.swift in Sources */,
