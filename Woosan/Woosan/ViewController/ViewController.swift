@@ -36,30 +36,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
     }
     
-    var lottieAnimal:LOTAnimationView = LOTAnimationView(name: Theme.doggy.convertName())
-    var lottieSky:LOTAnimationView = LOTAnimationView(name: Weather.Sunny.convertName().code)
-    
     var skyCode:String = "" {
         didSet {
-            
-            //날씨뷰
-            self.weatherIconView.layer.sublayers = nil
-            let lottieSky = LOTAnimationView(name: self.skyCode)
-            self.weatherIconView.addSubview(lottieSky)
-            lottieSky.frame.size = CGSize(width: self.weatherIconView.frame.width, height: self.weatherIconView.frame.height)
-            lottieSky.loopAnimation = true
-            lottieSky.contentMode = .scaleAspectFit
-            lottieSky.play()
-            
-            //테마:동물뷰
-            self.movinImageView.layer.sublayers = nil
-            self.lottieAnimal = LOTAnimationView(name: self.themeName)
-            lottieAnimal.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
-            self.movinImageView.addSubview(lottieAnimal)
-            lottieAnimal.loopAnimation = true
-            lottieAnimal.contentMode = .scaleAspectFit
-            lottieAnimal.play()
-            
+            self.viewMobinWeather(today: self.skyCode)
             print("스카이코드먼가여:",self.skyCode)
             switch skyCode {
             case Weather.Sunny.convertName().code,
@@ -211,8 +190,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
-            self.lottieSky.play()
-            self.lottieAnimal.play()
+            self.viewMobinWeather(today: self.skyCode)
+            self.viewMovinAnimal(animal: self.themeName)
         }
         /*
          // 위젯과 데이터를 공유하는 UserDefaults
@@ -232,8 +211,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         
         //이게 사이즈가 안늘어나는데 왜때문?
-        self.lottieSky.play()
-        self.lottieAnimal.play()
+        self.viewMobinWeather(today: self.skyCode)
+        self.viewMovinAnimal(animal: self.themeName)
     }
     
     deinit {
@@ -245,27 +224,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     //MARK:-            Func                   //
     /*******************************************/
     
-//    func viewMovinAnimal(animal name:String) {
-//        self.movinImageView.layer.sublayers = nil
-//        let animationView = LOTAnimationView(name: name)
-//        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
-//        self.movinImageView.addSubview(animationView)
-//        animationView.loopAnimation = true
-//        animationView.contentMode = .scaleAspectFit
-//        animationView.play()
-//    }
+    func viewMovinAnimal(animal name:String) {
+        self.movinImageView.layer.sublayers = nil
+        let animationView = LOTAnimationView(name: name)
+        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
+        self.movinImageView.addSubview(animationView)
+        animationView.loopAnimation = true
+        animationView.contentMode = .scaleAspectFit
+        animationView.play()
+    }
     
-//    func viewMobinWeather(today weatherString:String) {
-//        // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
-//        self.weatherIconView.layer.sublayers = nil
-//        let weatherMotion = LOTAnimationView(name: weatherString)
-//        self.weatherIconView.addSubview(weatherMotion)
-//        weatherMotion.frame.size = CGSize(width: self.weatherIconView.frame.width, height: self.weatherIconView.frame.height)
-//        weatherMotion.loopAnimation = true
-//        weatherMotion.contentMode = .scaleAspectFit
-//        weatherMotion.play()
-//    }
-//
+    func viewMobinWeather(today weatherString:String) {
+        // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
+        self.weatherIconView.layer.sublayers = nil
+        let weatherMotion = LOTAnimationView(name: weatherString)
+        self.weatherIconView.addSubview(weatherMotion)
+        weatherMotion.frame.size = CGSize(width: self.weatherIconView.frame.width, height: self.weatherIconView.frame.height)
+        weatherMotion.loopAnimation = true
+        weatherMotion.contentMode = .scaleAspectFit
+        weatherMotion.play()
+    }
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치 변경됐을때
