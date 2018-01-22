@@ -120,7 +120,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     
     func loadImage(){
-        guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
+        guard let shareData = UserDefaults(suiteName: "group.devjoe.TodayExtensionSharingDefaults") else { return }
         let index = shareData.integer(forKey: "Theme")
         self.themeCharacter.image = UIImage(named: self.image[index])
         shareData.synchronize()
