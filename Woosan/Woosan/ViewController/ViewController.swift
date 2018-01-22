@@ -39,8 +39,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var skyCode:String = "" {
         didSet {
             self.viewMobinWeather(today: self.skyCode)
+            print("스카이코드먼가여:",self.skyCode)
             switch skyCode {
-            case "SKY_D01", "SKY_D02","SKY_D03" :
+            case Weather.Sunny.convertName().code,
+                 Weather.LittleCloudy.convertName().code,
+                 Weather.MoreCloudy.convertName().code :
                 dateformatter.dateFormat = "HH"
                 let dayOrNight = dateformatter.string(from: self.now)
                 guard let time = Int(dayOrNight) else { return }
@@ -52,7 +55,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             default:
                 self.todaySkyImg.image = #imageLiteral(resourceName: "sky_gloomy")
             }
-            
         }
     }
     
@@ -67,19 +69,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         didSet{
             self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
             self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            if todayWeather[Constants.today_key_Rainform] == "" {
-                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
-                guard let code = todayWeather[Constants.today_key_SkyCode] else { return }
-                self.skyCode = code
-            } else {
-                self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
-                guard let code = todayWeather[Constants.today_key_RainCode] else { return }
-                self.skyCode = code
-            }
+            self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+            self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
             self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
             self.windms.text = todayWeather[Constants.today_key_Wind]
+            if let tempRain = todayWeather[Constants.today_key_RainCode] {
+                self.skyCode = tempRain
+            } else {
+                guard let tempSky = todayWeather[Constants.today_key_SkyCode] else { return }
+                self.skyCode = tempSky
+            }
         }
     }
     
@@ -189,9 +190,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
-            if let code:String = self.todayWeather[Constants.today_key_SkyCode]{
-                self.viewMobinWeather(today: code)
-            }
+            self.viewMobinWeather(today: self.skyCode)
             self.viewMovinAnimal(animal: self.themeName)
         }
         /*
@@ -200,7 +199,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          shareData.set(UserDefaults.standard.integer(forKey: "Them"), forKey: "Theme")
          shareData.synchronize()
          */
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,9 +211,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
         
         //이게 사이즈가 안늘어나는데 왜때문?
-        if let code:String = todayWeather[Constants.today_key_SkyCode]{
-            self.viewMobinWeather(today: code)
-        }
+        self.viewMobinWeather(today: self.skyCode)
         self.viewMovinAnimal(animal: self.themeName)
     }
     
@@ -269,6 +265,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         var nx = ""
         var ny = ""
         
+        
         dateFommater.dateFormat = "yyyyMMdd"
         timeFommater.dateFormat = "HH"
         minFommater.dateFormat = "mm"
@@ -316,7 +313,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
-//                        print("=================초단기실황 결과:",data)
+            //                        print("=================초단기실황 결과:",data)
             
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
@@ -332,7 +329,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 case Constants.api_wind :
                     let value = dataArray[i]["obsrValue"].stringValue
                     self.todayWeather[Constants.today_key_Wind] = value
-                    
                 case Constants.api_sky :
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
@@ -365,7 +361,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "0":
-                        self.todayWeather[Constants.today_key_Rainform] = ""
+                        self.todayWeather[Constants.today_key_Rainform] = nil
                     case "1":
                         self.todayWeather[Constants.today_key_Rainform] = Weather.Rainy.convertName().subs
                         self.todayWeather[Constants.today_key_RainCode] = Weather.Rainy.convertName().code
