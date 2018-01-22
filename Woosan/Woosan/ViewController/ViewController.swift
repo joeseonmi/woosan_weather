@@ -195,7 +195,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         /*
          // 위젯과 데이터를 공유하는 UserDefaults
-         guard let shareData = UserDefaults(suiteName: "group.joe.TodayExtensionSharingDefaults") else { return }
+         guard let shareData = UserDefaults(suiteName: "group.devjoe.TodayExtensionSharingDefaults") else { return }
          shareData.set(UserDefaults.standard.integer(forKey: "Them"), forKey: "Theme")
          shareData.synchronize()
          */

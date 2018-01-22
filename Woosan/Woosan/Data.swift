@@ -11,7 +11,7 @@ import Foundation
 struct DataShare {
     //Userdefult Key
     static let selectedThemeKey = "Them"
-    static let widgetShareDataKey = "group.joe.TodayExtensionSharingDefaults"
+    static let widgetShareDataKey = "group.devjoe.TodayExtensionSharingDefaults"
     
     static let appKey = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
     static let forecastChoDangi = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
