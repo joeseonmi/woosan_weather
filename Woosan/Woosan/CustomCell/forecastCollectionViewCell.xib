@@ -46,9 +46,15 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9a-N9-nEs">
-                                <rect key="frame" x="27" y="68.5" width="21" height="22"/>
+                                <rect key="frame" x="27" y="66.5" width="21" height="22"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i03-94-pNX">
+                                <rect key="frame" x="24.5" y="88" width="26.5" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -61,9 +67,11 @@
                             <constraint firstItem="i40-Nb-sRY" firstAttribute="centerX" secondItem="tVk-a1-pxZ" secondAttribute="centerX" id="OUy-88-soc"/>
                             <constraint firstAttribute="height" constant="100" id="POF-dk-JIN"/>
                             <constraint firstItem="upL-Tn-9xb" firstAttribute="centerX" secondItem="tVk-a1-pxZ" secondAttribute="centerX" id="Wlo-5Z-Uss"/>
+                            <constraint firstItem="i03-94-pNX" firstAttribute="centerX" secondItem="O9a-N9-nEs" secondAttribute="centerX" id="b0u-At-YD3"/>
                             <constraint firstItem="tVk-a1-pxZ" firstAttribute="centerX" secondItem="74O-nW-Bt9" secondAttribute="centerX" id="fcv-Sv-Z8p"/>
                             <constraint firstItem="i40-Nb-sRY" firstAttribute="centerY" secondItem="tVk-a1-pxZ" secondAttribute="centerY" id="oDd-qM-2rI"/>
-                            <constraint firstItem="O9a-N9-nEs" firstAttribute="top" secondItem="upL-Tn-9xb" secondAttribute="bottom" constant="6" id="qfL-60-Sft"/>
+                            <constraint firstItem="i03-94-pNX" firstAttribute="top" secondItem="O9a-N9-nEs" secondAttribute="bottom" id="pTv-ra-auB"/>
+                            <constraint firstItem="O9a-N9-nEs" firstAttribute="top" secondItem="upL-Tn-9xb" secondAttribute="bottom" constant="4" id="qfL-60-Sft"/>
                             <constraint firstItem="i40-Nb-sRY" firstAttribute="width" secondItem="74O-nW-Bt9" secondAttribute="width" id="tUM-4P-Gvv"/>
                             <constraint firstItem="upL-Tn-9xb" firstAttribute="top" secondItem="tVk-a1-pxZ" secondAttribute="bottom" constant="8" id="wLV-n8-1nF"/>
                         </constraints>
@@ -81,6 +89,7 @@
             <connections>
                 <outlet property="forecastHour" destination="tVk-a1-pxZ" id="xhu-5S-2bB"/>
                 <outlet property="forecastTemp" destination="O9a-N9-nEs" id="W2g-mm-nAl"/>
+                <outlet property="rainPopLable" destination="i03-94-pNX" id="3ai-8Y-2QN"/>
                 <outlet property="timeBGView" destination="i40-Nb-sRY" id="HwN-mj-4rh"/>
                 <outlet property="weatherImageView" destination="upL-Tn-9xb" id="nac-bm-Md1"/>
             </connections>

@@ -181,8 +181,8 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         }
         time = time + "00"
         
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
+        let appid = Constants.appKey
+        let url = Constants.forecastChoDangi
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
@@ -200,6 +200,9 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
+                case Constants.api_hourRain :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    self.weatherInfo[Constants.widget_key_Rain] = "강수량: " + value + "mm"
                 case Constants.api_presentTemp :
                     let value = dataArray[i]["obsrValue"].stringValue
                     self.weatherInfo[Constants.widget_key_Present] = self.roundedTemperature(from: value)
@@ -207,17 +210,17 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        self.weatherInfo[Constants.widget_key_sky] = "맑아요!"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M01"
+                        self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
+                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
                     case "2":
-                        self.weatherInfo[Constants.widget_key_sky] = "구름 조금!"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M02"
+                        self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
+                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
                     case "3":
-                        self.weatherInfo[Constants.widget_key_sky] = "구름 많음!"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M03"
+                        self.weatherInfo[Constants.widget_key_sky] = Weather.MoreCloudy.convertName().subs
+                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.MoreCloudy.convertName().code
                     case "4":
-                        self.weatherInfo[Constants.widget_key_sky] = "흐려요!"
-                        self.weatherInfo[Constants.widget_key_skyCode] = "SKY_M04"
+                        self.weatherInfo[Constants.widget_key_sky] = Weather.Cloudy.convertName().subs
+                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.Cloudy.convertName().code
                     default:
                         self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
                     }
@@ -228,14 +231,14 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                         self.weatherInfo[Constants.widget_key_RainForm] = ""
                         self.weatherInfo[Constants.widget_key_RainCode] = ""
                     case "1":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "비와요!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M01"
+                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Rainy.convertName().subs
+                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Rainy.convertName().code
                     case "2":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "진눈깨비!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M02"
+                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Sleet.convertName().subs
+                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Sleet.convertName().code
                     case "3":
-                        self.weatherInfo[Constants.widget_key_RainForm] = "눈와요!"
-                        self.weatherInfo[Constants.widget_key_RainCode] = "RAIN_M03"
+                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Snow.convertName().subs
+                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Snow.convertName().code
                     default:
                         self.weatherInfo[Constants.widget_key_RainForm] = "정보 없음"
                     }
@@ -247,8 +250,8 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             
             
         }
+        
     }
-    
     //오늘 새벽 2시예보 부르기
     func get2amData() {
         let now = Date()
@@ -267,25 +270,25 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
         let setYesterday:String = dateFommater.string(from: yesterday)
-        let setTomorrow:String = dateFommater.string(from: tomorrow)
         var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
-        let realToday = dateFommater.string(from: now)
+        var realToday:String = dateFommater.string(from: now)
         
         guard let setTime = Int(time) else { return }
         if setTime < 2 {
             date = setYesterday
             time = "2300"
+        } else {
+            time = "0200"
         }
-        time = "0200"
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
             nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
-        let appid = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
-        let url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
+        let appid = Constants.appKey
+        let url = Constants.forecastSpace
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
@@ -294,25 +297,17 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                          "_type":"json",
                          "numOfRows":"999"]
         
-        print("파라미터들두시꺼:",date,time,nx,ny)
+        print("파라미터들(두시데이터):",date,time,nx,ny)
         
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.data else { return }
+            guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
+            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            print("=================결과:",dataArray)
             
             for i in 0...dataArray.count - 1 {
-                print("======================이름:",dataArray[i]["category"].stringValue)
-                print("======================값:",dataArray[i]["fcstValue"].stringValue)
-                print("======================값:",dataArray[i]["fcstDate"].stringValue)
-                
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
-                    
                     switch dataArray[i]["category"].stringValue {
-                    case Constants.api_rain:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Rain] = "강수확률 \(value)%"
                     case Constants.api_max:
                         let value = dataArray[i]["fcstValue"].stringValue
                         self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
@@ -325,9 +320,6 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     
                 } else if dataArray[i]["fcstDate"].stringValue == date {
                     switch dataArray[i]["category"].stringValue {
-                    case Constants.api_rain:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Rain] = "강수확률 \(value)%"
                     case Constants.api_max:
                         let value = dataArray[i]["fcstValue"].stringValue
                         self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
@@ -339,8 +331,8 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     }
                 }
             }
-            
         }
+        
         
     }
     

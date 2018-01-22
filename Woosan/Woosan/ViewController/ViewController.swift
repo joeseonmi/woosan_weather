@@ -320,6 +320,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
+                case Constants.api_hourRain :
+                    let value = dataArray[i]["obsrValue"].stringValue
+                    self.todayWeather[Constants.today_key_Rain] = "\(value)mm"
                 case Constants.api_presentTemp :
                     let value = dataArray[i]["obsrValue"].stringValue
                     self.todayWeather[Constants.today_key_Present] = self.roundedTemperature(from: value)
@@ -591,9 +594,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             for i in 0...dataArray.count - 1 {
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
                     switch dataArray[i]["category"].stringValue {
-                    case Constants.api_rain:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Rain] = value + "%"
                     case Constants.api_max:
                         let value = dataArray[i]["fcstValue"].stringValue
                         self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
@@ -606,9 +606,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                     
                 } else if dataArray[i]["fcstDate"].stringValue == date {
                     switch dataArray[i]["category"].stringValue {
-                    case Constants.api_rain:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Rain] = value + "%"
                     case Constants.api_max:
                         let value = dataArray[i]["fcstValue"].stringValue
                         self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
@@ -779,6 +776,8 @@ extension ViewController : UICollectionViewDataSource {
             guard let fcstTime = data["fcstTime"] else { return cell }
             cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             cell.forecastTemp.text = data["T3H"]
+            guard let rainPop = data[Constants.api_rain] else { return cell }
+            cell.rainPopLable.text = "\(rainPop)%"
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
                 cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
@@ -797,6 +796,8 @@ extension ViewController : UICollectionViewDataSource {
                 cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             }
             cell.forecastTemp.text = data["T3H"]
+            guard let rainPop = data[Constants.api_rain] else { return cell }
+            cell.rainPopLable.text = "\(rainPop)%"
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
                 cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
@@ -816,6 +817,8 @@ extension ViewController : UICollectionViewDataSource {
                 cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             }
             cell.forecastTemp.text = data["T3H"]
+            guard let rainPop = data[Constants.api_rain] else { return cell }
+            cell.rainPopLable.text = "\(rainPop)%"
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
                 cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
@@ -835,6 +838,8 @@ extension ViewController : UICollectionViewDataSource {
                 cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
             }
             cell.forecastTemp.text = data["T3H"]
+            guard let rainPop = data[Constants.api_rain] else { return cell }
+            cell.rainPopLable.text = "\(rainPop)%"
             if data["PTY"] == "0"{
                 guard let sky = data["SKY"] else { return cell }
                 cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
