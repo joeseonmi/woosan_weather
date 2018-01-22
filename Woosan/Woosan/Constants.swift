@@ -12,6 +12,7 @@ import Foundation
 struct Constants {
     
     //- for API
+    static let api_hourRain:String = "RN1"
     static let api_rain:String = "POP"
     static let api_rainform:String = "PTY"
     static let api_humi:String = "REH"
