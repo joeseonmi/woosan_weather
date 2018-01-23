@@ -19,7 +19,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     /*******************************************/
     
     let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey)
-    var themeName = Theme.doggy.convertName()
+    var themeName = Theme.doggy.convertName() {
+        didSet{
+            self.viewMovinAnimal(animal: self.themeName)
+        }
+    }
     
     var lat:String = ""
     var lon:String = "" 
@@ -39,7 +43,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var skyCode:String = "" {
         didSet {
             self.viewMobinWeather(today: self.skyCode)
-            print("스카이코드먼가여:",self.skyCode)
             switch skyCode {
             case Weather.Sunny.convertName().code,
                  Weather.LittleCloudy.convertName().code,
@@ -230,15 +233,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     func viewMovinAnimal(animal name:String) {
         self.movinImageView.layer.sublayers = nil
         let animationView = LOTAnimationView(name: name)
-        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
         self.movinImageView.addSubview(animationView)
+        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
         animationView.loopAnimation = true
         animationView.contentMode = .scaleAspectFit
         animationView.play()
     }
     
     func viewMobinWeather(today weatherString:String) {
-        // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
         self.weatherIconView.layer.sublayers = nil
         let weatherMotion = LOTAnimationView(name: weatherString)
         self.weatherIconView.addSubview(weatherMotion)
