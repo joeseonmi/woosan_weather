@@ -69,8 +69,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         didSet{
             self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
             self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
+            if let tempRainsub = todayWeather[Constants.today_key_Rainform] {
+                self.todaySkyLabel.text = tempRainsub
+            } else {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+            }
             self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
@@ -169,8 +172,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          */
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization() //위치 권한요청
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
             self.lat = "\(realLat)"
@@ -245,7 +248,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         weatherMotion.play()
     }
     
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치 변경됐을때
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
@@ -253,7 +255,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.lon = "\(realLon)"
         }
     }
-    
     
     //MARK: - 기상청API로 요청하기 초단기실황조회
     func getForecast() {
