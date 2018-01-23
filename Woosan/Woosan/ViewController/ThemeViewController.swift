@@ -15,10 +15,7 @@ class ThemeViewController: UIViewController {
     /*******************************************/
     
     @IBOutlet weak var tableView: UITableView!
-    
-    // TODO: - :: 지금은 model과 controller가 다 붙어있는...고쳐야댕
     let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey)
-
     
     /*******************************************/
     //MARK:-          LifeCycle                //
@@ -60,7 +57,7 @@ class ThemeViewController: UIViewController {
     
     func saveShareData(){
         guard let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
-        shareData.set(UserDefaults.standard.integer(forKey: DataShare.selectedThemeKey), forKey: DataShare.widgetShareDataKey)
+        shareData.set(UserDefaults.standard.integer(forKey: DataShare.selectedThemeKey), forKey: DataShare.widgetThemeDataKey)
         shareData.synchronize()
     }
 }
