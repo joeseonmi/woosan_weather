@@ -13,11 +13,13 @@ class ThemeTableViewCell: UITableViewCell {
     @IBOutlet weak var themeImage: UIImageView!
     @IBOutlet weak var themeTitle: UILabel!
     @IBOutlet weak var themeSubsc: UILabel!
+    @IBOutlet weak var clickedCheck: UIButton!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       self.themeImage.layer.cornerRadius = 5
+
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

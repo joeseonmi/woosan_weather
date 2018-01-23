@@ -27,7 +27,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="350" height="74.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="weather_default" translatesAutoresizingMaskIntoConstraints="NO" id="uSx-mo-moc">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="weather_default" translatesAutoresizingMaskIntoConstraints="NO" id="uSx-mo-moc">
                         <rect key="frame" x="8" y="4" width="66.5" height="66.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="uSx-mo-moc" secondAttribute="height" multiplier="1:1" id="Lp9-4Q-JKm"/>
@@ -71,6 +71,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="clickedCheck" destination="G0q-wJ-lNx" id="vhz-uR-qjN"/>
                 <outlet property="themeImage" destination="uSx-mo-moc" id="vBr-Rj-QO6"/>
                 <outlet property="themeSubsc" destination="uEW-Lr-7mK" id="8fh-DE-ygQ"/>
                 <outlet property="themeTitle" destination="vlc-nF-skt" id="QPW-Dw-s8c"/>

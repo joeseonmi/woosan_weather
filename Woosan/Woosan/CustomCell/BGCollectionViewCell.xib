@@ -20,7 +20,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="217" height="337"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SKY_M01" translatesAutoresizingMaskIntoConstraints="NO" id="O6I-W7-fhl">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="weather_default" translatesAutoresizingMaskIntoConstraints="NO" id="O6I-W7-fhl">
                         <rect key="frame" x="0.0" y="0.0" width="217" height="337"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dE3-BV-obb">
@@ -48,12 +48,13 @@
             <size key="customSize" width="217" height="337"/>
             <connections>
                 <outlet property="bgthum" destination="O6I-W7-fhl" id="V67-N0-caJ"/>
+                <outlet property="downloadBtn" destination="dE3-BV-obb" id="nZ6-uW-itP"/>
             </connections>
             <point key="canvasLocation" x="46.5" y="72.5"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="SKY_M01" width="39" height="39"/>
         <image name="downloadBtn" width="35" height="36"/>
+        <image name="weather_default" width="39" height="39"/>
     </resources>
 </document>
