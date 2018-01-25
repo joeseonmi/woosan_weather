@@ -19,7 +19,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     /*******************************************/
     
     let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey)
-    var themeName = Theme.doggy.convertName()
+    var themeName = Theme.doggy.convertName() {
+        didSet{
+            self.viewMovinAnimal(animal: self.themeName)
+        }
+    }
     
     var lat:String = ""
     var lon:String = "" 
@@ -39,7 +43,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     var skyCode:String = "" {
         didSet {
             self.viewMobinWeather(today: self.skyCode)
-            print("스카이코드먼가여:",self.skyCode)
             switch skyCode {
             case Weather.Sunny.convertName().code,
                  Weather.LittleCloudy.convertName().code,
@@ -69,8 +72,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         didSet{
             self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
             self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
-            self.todaySkyLabel.text = todayWeather[Constants.today_key_Rainform]
+            if let tempRainsub = todayWeather[Constants.today_key_Rainform] {
+                self.todaySkyLabel.text = tempRainsub
+            } else {
+                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+            }
             self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
             self.presentTemp.text = todayWeather[Constants.today_key_Present]
             self.humidity.text = todayWeather[Constants.today_key_Humi]
@@ -169,8 +175,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
          */
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization() //위치 권한요청
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
             self.lat = "\(realLat)"
@@ -209,7 +215,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         guard let theme = Theme(rawValue: themeValue) else { return }
         self.themeName = theme.convertName()
         
-        
         //이게 사이즈가 안늘어나는데 왜때문?
         self.viewMobinWeather(today: self.skyCode)
         self.viewMovinAnimal(animal: self.themeName)
@@ -227,15 +232,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     func viewMovinAnimal(animal name:String) {
         self.movinImageView.layer.sublayers = nil
         let animationView = LOTAnimationView(name: name)
-        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
         self.movinImageView.addSubview(animationView)
+        animationView.frame.size = CGSize(width: self.movinImageView.frame.width, height: self.movinImageView.frame.height)
         animationView.loopAnimation = true
         animationView.contentMode = .scaleAspectFit
         animationView.play()
     }
     
     func viewMobinWeather(today weatherString:String) {
-        // 이미 weatherMotion이 있으면 지우고 새로만들어줘야됨
         self.weatherIconView.layer.sublayers = nil
         let weatherMotion = LOTAnimationView(name: weatherString)
         self.weatherIconView.addSubview(weatherMotion)
@@ -245,7 +249,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         weatherMotion.play()
     }
     
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치 변경됐을때
         if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
@@ -253,7 +256,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.lon = "\(realLon)"
         }
     }
-    
     
     //MARK: - 기상청API로 요청하기 초단기실황조회
     func getForecast() {
