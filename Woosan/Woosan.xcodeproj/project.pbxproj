@@ -17,6 +17,8 @@
 		D807E5E81FD2739500EC5CC6 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D807E5E61FD2739500EC5CC6 /* MainInterface.storyboard */; };
 		D807E5EC1FD2739500EC5CC6 /* todayWeatherWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D807E5E01FD2739500EC5CC6 /* todayWeatherWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D81B2E771FCEB5B10094CCB5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81B2E761FCEB5B10094CCB5 /* Constants.swift */; };
+		D8298554201A606E00FECC68 /* SKY_D09.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298552201A606E00FECC68 /* SKY_D09.json */; };
+		D8298555201A606E00FECC68 /* SKY_D08.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298553201A606E00FECC68 /* SKY_D08.json */; };
 		D849EEF920146E5D00011250 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* Data.swift */; };
 		D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */ = {isa = PBXBuildFile; fileRef = D84B17371FDAA6BD007F14A1 /* doggy.json */; };
 		D84B173E1FDC412F007F14A1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B173D1FDC412F007F14A1 /* SettingViewController.swift */; };
@@ -30,8 +32,6 @@
 		D84B17501FDC595D007F14A1 /* BGCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */; };
 		D85B53641FFE461600D7C89D /* catty.json in Resources */ = {isa = PBXBuildFile; fileRef = D85B53631FFE461600D7C89D /* catty.json */; };
 		D85B53661FFE5B1D00D7C89D /* widgetSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */; };
-		D868A82F1FF5283A0001030B /* SKY_D09.json in Resources */ = {isa = PBXBuildFile; fileRef = D868A82D1FF5283A0001030B /* SKY_D09.json */; };
-		D868A8301FF5283A0001030B /* SKY_D08.json in Resources */ = {isa = PBXBuildFile; fileRef = D868A82E1FF5283A0001030B /* SKY_D08.json */; };
 		D88DBE491FEDAF260082F44D /* forecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */; };
 		D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */; };
 		D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EA1FD0433600EB1CBB /* SKY_D01.json */; };
@@ -93,6 +93,8 @@
 		D807E5E91FD2739500EC5CC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D807E5F11FD2745A00EC5CC6 /* Woosan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Woosan.entitlements; sourceTree = "<group>"; };
 		D81B2E761FCEB5B10094CCB5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D8298552201A606E00FECC68 /* SKY_D09.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SKY_D09.json; sourceTree = "<group>"; };
+		D8298553201A606E00FECC68 /* SKY_D08.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SKY_D08.json; sourceTree = "<group>"; };
 		D849EEF820146E5D00011250 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		D84B17371FDAA6BD007F14A1 /* doggy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = doggy.json; sourceTree = "<group>"; };
 		D84B173D1FDC412F007F14A1 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -106,8 +108,6 @@
 		D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BGCollectionViewCell.xib; sourceTree = "<group>"; };
 		D85B53631FFE461600D7C89D /* catty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = catty.json; path = ../../../../Desktop/catty.json; sourceTree = "<group>"; };
 		D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetSetting.swift; sourceTree = "<group>"; };
-		D868A82D1FF5283A0001030B /* SKY_D09.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D09.json; path = ../../../../Woosan/Woosan/Lottie/SKY_D09.json; sourceTree = "<group>"; };
-		D868A82E1FF5283A0001030B /* SKY_D08.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D08.json; path = ../../../../Woosan/Woosan/Lottie/SKY_D08.json; sourceTree = "<group>"; };
 		D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = forecastCollectionViewCell.xib; sourceTree = "<group>"; };
 		D89620EA1FD0433600EB1CBB /* SKY_D01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D01.json; path = Woosan/Lottie/SKY_D01.json; sourceTree = SOURCE_ROOT; };
@@ -215,8 +215,8 @@
 				D89620ED1FD0EDAC00EB1CBB /* RAIN_D01.json */,
 				D89620F01FD0EDAD00EB1CBB /* RAIN_D02.json */,
 				D89620EF1FD0EDAC00EB1CBB /* RAIN_D03.json */,
-				D868A82E1FF5283A0001030B /* SKY_D08.json */,
-				D868A82D1FF5283A0001030B /* SKY_D09.json */,
+				D8298553201A606E00FECC68 /* SKY_D08.json */,
+				D8298552201A606E00FECC68 /* SKY_D09.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -393,10 +393,10 @@
 				D8ED0FA01FC1E76A001D1FC0 /* Assets.xcassets in Resources */,
 				D89620F71FD0EDAD00EB1CBB /* SKY_D03.json in Resources */,
 				D84B174B1FDC5302007F14A1 /* ThemeTableViewCell.xib in Resources */,
-				D868A8301FF5283A0001030B /* SKY_D08.json in Resources */,
 				D89620F61FD0EDAD00EB1CBB /* RAIN_D02.json in Resources */,
-				D868A82F1FF5283A0001030B /* SKY_D09.json in Resources */,
+				D8298555201A606E00FECC68 /* SKY_D08.json in Resources */,
 				D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */,
+				D8298554201A606E00FECC68 /* SKY_D09.json in Resources */,
 				D89620F31FD0EDAD00EB1CBB /* RAIN_D01.json in Resources */,
 				D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */,
 				D8ED0F9E1FC1E76A001D1FC0 /* Main.storyboard in Resources */,
