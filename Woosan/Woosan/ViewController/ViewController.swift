@@ -781,12 +781,12 @@ extension ViewController : UICollectionViewDataSource {
             guard let data = self.todayParseData[time[indexPath.row]] else { return cell }
             let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "오늘 " + "\(cellData.forecastTime)시"
+                cell.forecastHour.text = "오늘 " + cellData.forecastTime
             } else {
-                cell.forecastHour.text = "\(cellData.forecastTime)시"
+                cell.forecastHour.text = cellData.forecastTime
             }
             cell.forecastTemp.text = cellData.temperature
-            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.rainPopLable.text = cellData.rainPOP
             cell.weatherImageView.image = UIImage(named:cellData.icon)
             cell.timeBGView.backgroundColor = UIColor.init(red: 232/255, green: 166/255, blue: 166/255, alpha: 0.1)
             return cell
@@ -795,12 +795,12 @@ extension ViewController : UICollectionViewDataSource {
             guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
             let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "내일 "+"\(cellData.forecastTime)시"
+                cell.forecastHour.text = "내일 " + cellData.forecastTime
             } else {
-                cell.forecastHour.text = "\(cellData.forecastTime)시"
+                cell.forecastHour.text = cellData.forecastTime
             }
             cell.forecastTemp.text = cellData.temperature
-            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.rainPopLable.text = cellData.rainPOP
             cell.weatherImageView.image = UIImage(named:cellData.icon)
             cell.timeBGView.backgroundColor = UIColor(red: 109/255, green: 164/255, blue: 198/255, alpha: 0.1)
             return cell
@@ -809,12 +809,12 @@ extension ViewController : UICollectionViewDataSource {
             guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
             let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "모레 "+"\(cellData.forecastTime)시"
+                cell.forecastHour.text = "모레 " + cellData.forecastTime
             } else {
-                cell.forecastHour.text = "\(cellData.forecastTime)시"
+                cell.forecastHour.text = cellData.forecastTime
             }
             cell.forecastTemp.text = cellData.temperature
-            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.rainPopLable.text = cellData.rainPOP
             cell.weatherImageView.image = UIImage(named: cellData.icon)
             cell.timeBGView.backgroundColor = UIColor(red: 251/255, green: 207/255, blue: 8/255, alpha: 0.1)
             return cell

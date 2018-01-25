@@ -23,19 +23,19 @@ class forecastCollectionViewCell: UICollectionViewCell {
     }
 
     
-    func weatherData(dataPerHour:[String:String]) -> (forecastTime: Int, temperature: String, rainPOP: String, icon:String) {
+    func weatherData(dataPerHour:[String:String]) -> (forecastTime: String, temperature: String, rainPOP: String, icon:String) {
        
         guard let tempTime = dataPerHour["fcstTime"],
         let tempRain = dataPerHour[Constants.api_rain],
-        let tempTemper = dataPerHour["T3H"] else { return (0,"0","0","")}
+        let tempTemper = dataPerHour["T3H"] else { return ("0","0","0","")}
         
         let realTime = Int(tempTime)! / 100
-        let realRainPOP = "\(tempRain)"
+        let realRainPOP = "\(tempRain)%"
         let realTemp = tempTemper
         var realIcon = "weather_default"
         
         if dataPerHour["PTY"] == "0" {
-            guard let sky = dataPerHour["SKY"] else { return (realTime, realTemp, realRainPOP, realIcon) }
+            guard let sky = dataPerHour["SKY"] else { return ("\(realTime)", realTemp, realRainPOP, realIcon) }
             switch sky {
             case "1":
                 if realTime > 07 && realTime < 20 {
@@ -57,7 +57,7 @@ class forecastCollectionViewCell: UICollectionViewCell {
                 realIcon = "weather_default"
             }
         } else {
-            guard let rain = dataPerHour["PTY"] else { return (realTime, realTemp, realRainPOP, realIcon) }
+            guard let rain = dataPerHour["PTY"] else { return ("\(realTime)", realTemp, realRainPOP, realIcon) }
             switch rain {
             case "1":
                 realIcon = IconForCell.Rainy.convertIcon()
@@ -69,7 +69,7 @@ class forecastCollectionViewCell: UICollectionViewCell {
                 realIcon = "weather_default"
             }
         }
-        return (realTime, realTemp, realRainPOP, realIcon)
+        return ("\(realTime)시", realTemp, realRainPOP, realIcon)
     }
     
 }

@@ -196,6 +196,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            guard let dayNightTime = Int(time) else { return }
             print("=================결과:",dataArray)
             
             for i in 0...dataArray.count - 1{
@@ -210,11 +211,21 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
+                        } else {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.ClearNight.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.ClearNight.convertName().code
+                        }
                     case "2":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
+                        } else {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudyNight.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudyNight.convertName().code
+                        }
                     case "3":
                         self.weatherInfo[Constants.widget_key_sky] = Weather.MoreCloudy.convertName().subs
                         self.weatherInfo[Constants.widget_key_skyCode] = Weather.MoreCloudy.convertName().code
