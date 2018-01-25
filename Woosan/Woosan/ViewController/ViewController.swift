@@ -766,85 +766,56 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! forecastCollectionViewCell
-        //TODO: - 여기 극혐인부분 수정할수있는지~_~ 혼돈의카오스다..........
         switch indexPath.section {
         case 0:
             let time = self.yesterParseData.keys.sorted()
             guard let data = self.yesterParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
-            cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
-            cell.forecastTemp.text = data["T3H"]
-            guard let rainPop = data[Constants.api_rain] else { return cell }
-            cell.rainPopLable.text = "\(rainPop)%"
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-            }
+            let cellData = cell.weatherData(dataPerHour: data)
+            cell.forecastHour.text = "\(cellData.forecastTime)시"
+            cell.forecastTemp.text = cellData.temperature
+            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.weatherImageView.image = UIImage(named:cellData.icon)
             return cell
         case 1:
             let time = self.todayParseData.keys.sorted()
             guard let data = self.todayParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
+            let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "오늘 " + "\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "오늘 " + "\(cellData.forecastTime)시"
             } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "\(cellData.forecastTime)시"
             }
-            cell.forecastTemp.text = data["T3H"]
-            guard let rainPop = data[Constants.api_rain] else { return cell }
-            cell.rainPopLable.text = "\(rainPop)%"
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-            }
+            cell.forecastTemp.text = cellData.temperature
+            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.weatherImageView.image = UIImage(named:cellData.icon)
             cell.timeBGView.backgroundColor = UIColor.init(red: 232/255, green: 166/255, blue: 166/255, alpha: 0.1)
             return cell
         case 2:
             let time = self.tommorowParseData.keys.sorted()
             guard let data = self.tommorowParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
+            let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "내일 "+"\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "내일 "+"\(cellData.forecastTime)시"
             } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "\(cellData.forecastTime)시"
             }
-            cell.forecastTemp.text = data["T3H"]
-            guard let rainPop = data[Constants.api_rain] else { return cell }
-            cell.rainPopLable.text = "\(rainPop)%"
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-            }
+            cell.forecastTemp.text = cellData.temperature
+            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.weatherImageView.image = UIImage(named:cellData.icon)
             cell.timeBGView.backgroundColor = UIColor(red: 109/255, green: 164/255, blue: 198/255, alpha: 0.1)
             return cell
         case 3:
             let time = self.afterParseData.keys.sorted()
             guard let data = self.afterParseData[time[indexPath.row]] else { return cell }
-            guard let fcstTime = data["fcstTime"] else { return cell }
+            let cellData = cell.weatherData(dataPerHour: data)
             if indexPath.row == 0 {
-                cell.forecastHour.text = "모레 "+"\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "모레 "+"\(cellData.forecastTime)시"
             } else {
-                cell.forecastHour.text = "\(Int(fcstTime)! / 100)시"
+                cell.forecastHour.text = "\(cellData.forecastTime)시"
             }
-            cell.forecastTemp.text = data["T3H"]
-            guard let rainPop = data[Constants.api_rain] else { return cell }
-            cell.rainPopLable.text = "\(rainPop)%"
-            if data["PTY"] == "0"{
-                guard let sky = data["SKY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "SKY_M0" + sky) ?? #imageLiteral(resourceName: "weather_default")
-            }else{
-                guard let rain = data["PTY"] else { return cell }
-                cell.weatherImageView.image = UIImage(named: "RAIN_M0" + rain) ?? #imageLiteral(resourceName: "weather_default")
-            }
+            cell.forecastTemp.text = cellData.temperature
+            cell.rainPopLable.text = cellData.rainPOP + "%"
+            cell.weatherImageView.image = UIImage(named: cellData.icon)
             cell.timeBGView.backgroundColor = UIColor(red: 251/255, green: 207/255, blue: 8/255, alpha: 0.1)
             return cell
         default:
