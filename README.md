@@ -8,6 +8,7 @@
 * 앱을 켜면 내가 있는 지역의 예보도 볼 수 있어요!
 
 ## 출시하며
+![이미지](https://github.com/joeseonmi/woosan_weather/blob/dev/Woosan/mdImage/md.jpg?raw=true)
 
 * **Swift를 배우고 첫 번째로 만들어 본 개인Project 입니다.**
 * `Lottie` 라이브러리를 이용하여, GIF가 아닌 움직이는 View를 구현해보았습니다.
