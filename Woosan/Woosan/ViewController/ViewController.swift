@@ -215,7 +215,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         guard let theme = Theme(rawValue: themeValue) else { return }
         self.themeName = theme.convertName()
         
-        
         //이게 사이즈가 안늘어나는데 왜때문?
         self.viewMobinWeather(today: self.skyCode)
         self.viewMovinAnimal(animal: self.themeName)
