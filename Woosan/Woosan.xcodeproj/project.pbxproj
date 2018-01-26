@@ -32,6 +32,7 @@
 		D84B17501FDC595D007F14A1 /* BGCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */; };
 		D85B53641FFE461600D7C89D /* catty.json in Resources */ = {isa = PBXBuildFile; fileRef = D85B53631FFE461600D7C89D /* catty.json */; };
 		D85B53661FFE5B1D00D7C89D /* widgetSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */; };
+		D8601AAE201B31330018A166 /* CheckPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8601AAD201B31330018A166 /* CheckPermission.swift */; };
 		D88DBE491FEDAF260082F44D /* forecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */; };
 		D88DBE4A1FEDAF260082F44D /* forecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */; };
 		D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */ = {isa = PBXBuildFile; fileRef = D89620EA1FD0433600EB1CBB /* SKY_D01.json */; };
@@ -45,7 +46,6 @@
 		D89A17E91FE2C5FB00B29B03 /* EtcTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89A17E71FE2C5FB00B29B03 /* EtcTableViewCell.swift */; };
 		D89A17EA1FE2C5FB00B29B03 /* EtcTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */; };
 		D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */; };
-		D8EAA9A420173B9D00618395 /* CheckPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EAA9A320173B9D00618395 /* CheckPermission.swift */; };
 		D8ED0F991FC1E76A001D1FC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */; };
 		D8ED0F9B1FC1E76A001D1FC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */; };
 		D8ED0F9E1FC1E76A001D1FC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0F9C1FC1E76A001D1FC0 /* Main.storyboard */; };
@@ -108,6 +108,7 @@
 		D84B174E1FDC595D007F14A1 /* BGCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BGCollectionViewCell.xib; sourceTree = "<group>"; };
 		D85B53631FFE461600D7C89D /* catty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = catty.json; path = ../../../../Desktop/catty.json; sourceTree = "<group>"; };
 		D85B53651FFE5B1D00D7C89D /* widgetSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetSetting.swift; sourceTree = "<group>"; };
+		D8601AAD201B31330018A166 /* CheckPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPermission.swift; sourceTree = "<group>"; };
 		D88DBE471FEDAF260082F44D /* forecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		D88DBE481FEDAF260082F44D /* forecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = forecastCollectionViewCell.xib; sourceTree = "<group>"; };
 		D89620EA1FD0433600EB1CBB /* SKY_D01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SKY_D01.json; path = Woosan/Lottie/SKY_D01.json; sourceTree = SOURCE_ROOT; };
@@ -122,7 +123,6 @@
 		D89A17E81FE2C5FB00B29B03 /* EtcTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EtcTableViewCell.xib; sourceTree = "<group>"; };
 		D8CE532F1FFBDC1E00CE171A /* notiPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notiPopup.swift; sourceTree = "<group>"; };
 		D8D637B31FD53E8400CBFFB3 /* todayWeatherWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = todayWeatherWidget.entitlements; sourceTree = "<group>"; };
-		D8EAA9A320173B9D00618395 /* CheckPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPermission.swift; sourceTree = "<group>"; };
 		D8ED0F951FC1E76A001D1FC0 /* Woosan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Woosan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		D849EEF720146E0900011250 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D8EAA9A320173B9D00618395 /* CheckPermission.swift */,
+				D8601AAD201B31330018A166 /* CheckPermission.swift */,
 				D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */,
 				D84B173D1FDC412F007F14A1 /* SettingViewController.swift */,
 				D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */,
@@ -539,7 +539,7 @@
 				D85B53661FFE5B1D00D7C89D /* widgetSetting.swift in Sources */,
 				D81B2E771FCEB5B10094CCB5 /* Constants.swift in Sources */,
 				D84B173E1FDC412F007F14A1 /* SettingViewController.swift in Sources */,
-				D8EAA9A420173B9D00618395 /* CheckPermission.swift in Sources */,
+				D8601AAE201B31330018A166 /* CheckPermission.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

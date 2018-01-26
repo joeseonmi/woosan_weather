@@ -130,33 +130,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     @IBOutlet weak var todaySkyLabel: UILabel!
     @IBOutlet weak var todayRainfallLabel: UILabel!
     
-    // Yesterday outlet
-    @IBOutlet weak var yesterdaySkyIcon: UIImageView!
-    @IBOutlet weak var yesterdayMaxLabel: UILabel!
-    @IBOutlet weak var yseterdayMinLabel: UILabel!
-    
-    // tomorrow outlet
-    @IBOutlet weak var tomorrowSkyIcon: UIImageView!
-    @IBOutlet weak var tomorrowMaxLabel: UILabel!
-    @IBOutlet weak var tomorrowMinLabel: UILabel!
-    
-    // aftertomorrow outlet
-    @IBOutlet weak var aftertomorrowSkyIcon: UIImageView!
-    @IBOutlet weak var aftertomorrowMaxLabel: UILabel!
-    @IBOutlet weak var aftertomorrowMinLabel: UILabel!
-    
     //scrollView
     @IBOutlet weak var todayInfoScrollView: UIScrollView!
     @IBOutlet weak var todayInfoPageControll: UIPageControl!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var firstRunning:Bool = true
+    var denied:Bool = false
     /*******************************************/
     //MARK:-          Life Cycle               //
     /*******************************************/
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: viewDidLoad")
+        //정보 들어오기전 아무것도 안뜨게 초기화
+        self.locationLabel.text = ""
+        self.todayRainfallLabel.text = ""
+        self.todaySkyLabel.text = ""
         
         self.collectionView.register(UINib(nibName: "forecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
         self.collectionView.dataSource = self
@@ -167,6 +160,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         self.todayInfoScrollView.delegate = self
         self.todayInfoScrollView.showsHorizontalScrollIndicator = false
         self.todayInfoScrollView.isPagingEnabled = true
+        
         /*
          locationManager를 인스턴스해주고, 델리게이트를 연결해준다.
          locationManager가 인스턴스 됐으니 속해있는 메소드들을 사용 할 수 있다.
@@ -176,46 +170,63 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        if let realLat = locationManager.location?.coordinate.latitude, let realLon = locationManager.location?.coordinate.longitude {
-            self.lat = "\(realLat)"
-            self.lon = "\(realLon)"
+        
+        let status = CLLocationManager.authorizationStatus()
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("----------------------pass")
+            self.firstRunning = false
+        case .denied, .restricted:
+            print("----------------------denied")
+            self.denied = true
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        }
+        if !firstRunning {
+            guard let coordinate = locationManager.location else { return }
+            self.convertAddress(from: coordinate)
             
-            getForecast()
-            getForecastSpaceData()
-            get2amData()
+            if let realLat = locationManager.location?.coordinate.latitude,
+                let realLon = locationManager.location?.coordinate.longitude {
+                self.lat = "\(realLat)"
+                self.lon = "\(realLon)"
+                
+                getForecast()
+                getForecastSpaceData()
+                get2amData()
+            }
         }
-        /*
-         locationManager에서 위치정보를 가져와준다. 옵셔널타입으로 들어오기때문에 자꾸 통신상의 파라메터 오류가 떴다.
-         옵셔널바인딩을 하고나서는 통신 잘 됨.
-         */
-        if let coordinate = self.locationManager.location {
-            convertAddress(from: coordinate)
-        }
+        
+        
+        
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
             self.viewMobinWeather(today: self.skyCode)
             self.viewMovinAnimal(animal: self.themeName)
         }
-        /*
-         // 위젯과 데이터를 공유하는 UserDefaults
-         guard let shareData = UserDefaults(suiteName: "group.devjoe.TodayExtensionSharingDefaults") else { return }
-         shareData.set(UserDefaults.standard.integer(forKey: "Them"), forKey: "Theme")
-         shareData.synchronize()
-         */
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: viewWillAppear")
         
         //현재 테마 체크
         let themeValue = UserDefaults.standard.integer(forKey: DataShare.selectedThemeKey)
         guard let theme = Theme(rawValue: themeValue) else { return }
         self.themeName = theme.convertName()
         
-        //이게 사이즈가 안늘어나는데 왜때문?
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: viewDidAppear")
+        
+        if denied {
+            self.alert(alertTitle: "위치 정보 사용 불가", alertmessage: "설정에서 위치 정보 사용을 허용해주세요!")
+        }
+        
         self.viewMobinWeather(today: self.skyCode)
         self.viewMovinAnimal(animal: self.themeName)
     }
@@ -228,6 +239,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     /*******************************************/
     //MARK:-            Func                   //
     /*******************************************/
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: ChangeStatus")
+        
+        if firstRunning {
+            guard let coordinate = locationManager.location else { return }
+            self.convertAddress(from: coordinate)
+            
+            if let realLat = locationManager.location?.coordinate.latitude,
+                let realLon = locationManager.location?.coordinate.longitude {
+                self.lat = "\(realLat)"
+                self.lon = "\(realLon)"
+                
+                getForecast()
+                getForecastSpaceData()
+                get2amData()
+            }
+        }
+    }
+    
+    func alert(alertTitle:String, alertmessage: String){
+        let alert:UIAlertController = UIAlertController.init(title: alertTitle, message: alertmessage, preferredStyle: .alert)
+        let alertAction:UIAlertAction = UIAlertAction.init(title: "확인", style: .cancel, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func viewMovinAnimal(animal name:String) {
         self.movinImageView.layer.sublayers = nil
@@ -586,7 +623,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+            //            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
             for i in 0...dataArray.count - 1 {
