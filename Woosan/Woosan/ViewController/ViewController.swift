@@ -137,6 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     @IBOutlet weak var collectionView: UICollectionView!
     
     var firstRunning:Bool = true
+    var denied:Bool = false
     /*******************************************/
     //MARK:-          Life Cycle               //
     /*******************************************/
@@ -177,7 +178,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             print("----------------------pass")
             self.firstRunning = false
         case .denied, .restricted:
-            self.alert(alertTitle: "위치 정보 사용불가", alertmessage: "설정에서 위치정보를 허용해 주세요.")
+            print("----------------------denied")
+            self.denied = true
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         }
@@ -221,6 +223,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         super.viewDidAppear(true)
         print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: viewDidAppear")
         
+        if denied {
+            self.alert(alertTitle: "위치 정보 사용 불가", alertmessage: "설정에서 위치 정보 사용을 허용해주세요!")
+        }
+        
         self.viewMobinWeather(today: self.skyCode)
         self.viewMovinAnimal(animal: self.themeName)
     }
@@ -251,7 +257,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 get2amData()
             }
         }
-        
     }
     
     func alert(alertTitle:String, alertmessage: String){

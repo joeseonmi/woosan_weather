@@ -189,9 +189,9 @@
 		D849EEF720146E0900011250 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D8601AAD201B31330018A166 /* CheckPermission.swift */,
 				D8ED0F9A1FC1E76A001D1FC0 /* ViewController.swift */,
 				D84B173D1FDC412F007F14A1 /* SettingViewController.swift */,
-				D8601AAD201B31330018A166 /* CheckPermission.swift */,
 				D84B17401FDC4B98007F14A1 /* ThemeViewController.swift */,
 				D84B17461FDC4E10007F14A1 /* EtcViewController.swift */,
 				D84B17441FDC4DF8007F14A1 /* IntroduceViewController.swift */,

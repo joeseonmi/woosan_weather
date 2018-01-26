@@ -78,11 +78,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="Yvf-si-7a7">
-                                <rect key="frame" x="-0.5" y="146" width="375" height="375"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notiImage" translatesAutoresizingMaskIntoConstraints="NO" id="Yvf-si-7a7">
+                                <rect key="frame" x="56" y="202.5" width="262.5" height="262.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Yvf-si-7a7" secondAttribute="height" multiplier="1:1" id="LVv-w7-gkr"/>
-                                    <constraint firstAttribute="width" constant="375" id="poc-j4-nHx"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -90,6 +89,7 @@
                         <constraints>
                             <constraint firstItem="Yvf-si-7a7" firstAttribute="centerX" secondItem="QIO-1i-SeA" secondAttribute="centerX" id="CsG-gY-PiX"/>
                             <constraint firstItem="Yvf-si-7a7" firstAttribute="centerY" secondItem="QIO-1i-SeA" secondAttribute="centerY" id="QA3-rg-h8I"/>
+                            <constraint firstItem="Yvf-si-7a7" firstAttribute="width" secondItem="QIO-1i-SeA" secondAttribute="width" multiplier="0.7" id="sy4-ZC-Sbw"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -182,19 +182,19 @@
                                                                                 <rect key="frame" x="196" y="12" width="134" height="50"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LK-Yf-1h6">
-                                                                                        <rect key="frame" x="8.5" y="-4" width="42" height="44.5"/>
+                                                                                        <rect key="frame" x="8.5" y="-4.5" width="42" height="44.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                                         <color key="textColor" red="0.90980392160000001" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgc-NB-94y">
-                                                                                        <rect key="frame" x="58.5" y="3.5" width="18.5" height="45.5"/>
+                                                                                        <rect key="frame" x="58.5" y="2.5" width="18.5" height="45.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="35"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-Ti-GOy">
-                                                                                        <rect key="frame" x="85" y="11.5" width="42" height="44.5"/>
+                                                                                        <rect key="frame" x="85" y="10" width="42" height="44.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                                         <color key="textColor" red="0.42745098040000001" green="0.64313725489999995" blue="0.77647058820000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -218,17 +218,17 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="QkD-mX-0LJ">
-                                                                                <rect key="frame" x="222.5" y="66.5" width="80" height="20"/>
+                                                                                <rect key="frame" x="222.5" y="65" width="80" height="22.5"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="강수량" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mQp-fL-Xao">
-                                                                                        <rect key="frame" x="0.0" y="0.5" width="42" height="20"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="22.5"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6re-Gc-M7N">
-                                                                                        <rect key="frame" x="48" y="0.5" width="32" height="20"/>
+                                                                                        <rect key="frame" x="48" y="0.0" width="32" height="22.5"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -969,8 +969,8 @@
         <image name="downloadBtn" width="35" height="36"/>
         <image name="gom" width="100" height="86"/>
         <image name="humi" width="19" height="26"/>
-        <image name="launch" width="375" height="667"/>
         <image name="menu" width="22" height="15"/>
+        <image name="notiImage" width="252" height="281"/>
         <image name="sky_clean" width="106" height="106"/>
         <image name="wigetSetting_01" width="375" height="667"/>
         <image name="wigetSetting_02" width="375" height="667"/>
