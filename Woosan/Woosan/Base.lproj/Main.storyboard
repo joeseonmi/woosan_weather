@@ -566,7 +566,7 @@
                                             <segue destination="jg6-aX-pAs" kind="show" id="yP4-bN-Af8"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="np0-aJ-KrM" detailTextLabel="ZYg-j5-YTg" style="IBUITableViewCellStyleValue1" id="ICD-e3-ytq">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="np0-aJ-KrM" detailTextLabel="ZYg-j5-YTg" style="IBUITableViewCellStyleValue1" id="ICD-e3-ytq">
                                         <rect key="frame" x="0.0" y="331.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ICD-e3-ytq" id="KG0-jd-3jn">

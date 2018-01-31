@@ -36,6 +36,23 @@ class SettingViewController: UITableViewController {
     //MARK:-            Func                   //
     /*******************************************/
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row == 3 {
+            if isUpdateAvailable() {
+                if let appStoreURL = URL(string: "https://itunes.apple.com/app/id1338730084?mt=8"),
+                    UIApplication.shared.canOpenURL(appStoreURL) {
+                    if #available(iOS 10.2, *) {
+                        UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(appStoreURL)
+                    }
+                }
+            } else {
+                
+            }
+        }
+    }
+    
     @IBAction func tappedCloseBtn(_ sender: UIBarButtonItem) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
