@@ -12,7 +12,7 @@ class EtcViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    let info:[String] = ["Alamofire","SwiftyJSON","KingFisher","FireBase","Lottie"]
+    let info:[String] = ["Alamofire","SwiftyJSON","KingFisher","FireBase","Lottie","API출처 - 동네예보정보조회서비스"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
