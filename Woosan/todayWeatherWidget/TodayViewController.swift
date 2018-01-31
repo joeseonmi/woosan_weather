@@ -201,6 +201,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
+            
             print("=================결과:",dayNightTime , "시간은 여기")
             
             for i in 0...dataArray.count - 1{
@@ -317,7 +318,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+//            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
             for i in 0...dataArray.count - 1 {
