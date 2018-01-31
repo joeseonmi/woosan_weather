@@ -150,6 +150,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
         let minFommater = DateFormatter()
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
         var nx = ""
         var ny = ""
         
@@ -159,9 +160,10 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
-        let date:String = dateFommater.string(from: now)
+        var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
+        let setYesterday = dateFommater.string(from: yesterday)
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
             nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
@@ -172,11 +174,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
         if Int(min)! < 30 {
             let setTime = Int(time)! - 1
-            if setTime < 10 {
+            if setTime < 0 {
+                date = setYesterday
+                time = "23"
+            } else if setTime < 10 {
                 time = "0"+"\(setTime)"
             } else {
                 time = "\(setTime)"
-                time = time + "00"
             }
         }
         time = time + "00"
@@ -197,7 +201,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
-            print("=================결과:",dataArray)
+            print("=================결과:",dayNightTime , "시간은 여기")
             
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
