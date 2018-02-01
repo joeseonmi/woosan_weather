@@ -23,8 +23,6 @@ class notiPopup: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playNotiLottie()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,15 +35,5 @@ class notiPopup: UIViewController {
     //MARK:-            Func                   //
     /*******************************************/
     
-    func playNotiLottie() {
-        self.bgView.layer.sublayers = nil
-        let animationView = LOTAnimationView(name: "doggy")
-        self.bgView.addSubview(animationView)
-        animationView.frame.size = CGSize(width: self.bgView.frame.width, height: self.bgView.frame.height)
-        animationView.loopAnimation = true
-        animationView.contentMode = .scaleAspectFit
-        animationView.play()
-        
-    }
 
 }

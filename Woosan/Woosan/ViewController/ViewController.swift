@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  Woosan
-//
-//  Created by joe on 2017. 11. 20..
-//  Copyright © 2017년 joe. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 import SwiftyJSON
@@ -26,7 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     }
     
     var lat:String = ""
-    var lon:String = "" 
+    var lon:String = ""
     var locationManager:CLLocationManager!
     var dateformatter = DateFormatter()
     var now = Date()
