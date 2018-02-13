@@ -27,7 +27,7 @@ class forecastCollectionViewCell: UICollectionViewCell {
        
         guard let tempTime = dataPerHour["fcstTime"],
         let tempRain = dataPerHour[Constants.api_rain],
-        let tempTemper = dataPerHour["T3H"] else { return ("0","0","0","")}
+        let tempTemper = dataPerHour["T3H"] else { return ("-","-","-","weather_default")}
         
         let realTime = Int(tempTime)! / 100
         let realRainPOP = "\(tempRain)%"

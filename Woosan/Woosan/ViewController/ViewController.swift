@@ -342,74 +342,85 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             guard let dayNightTime = Int(time) else { return }
-            //                        print("=================초단기실황 결과:",data)
-            
-            for i in 0...dataArray.count - 1{
-                switch dataArray[i]["category"].stringValue {
-                case Constants.api_hourRain :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.todayWeather[Constants.today_key_Rain] = "\(value)mm"
-                case Constants.api_presentTemp :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.todayWeather[Constants.today_key_Present] = self.roundedTemperature(from: value)
-                case Constants.api_humi :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.todayWeather[Constants.today_key_Humi] = value + "%"
-                case Constants.api_wind :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.todayWeather[Constants.today_key_Wind] = value
-                case Constants.api_sky :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    switch value {
-                    case "1":
-                        if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.Sunny.convertName().subs
-                            self.todayWeather[Constants.today_key_SkyCode] = Weather.Sunny.convertName().code
-                        } else {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.ClearNight.convertName().subs
-                            self.todayWeather[Constants.today_key_SkyCode] = Weather.ClearNight.convertName().code
+            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+            //data는 무조건 들어오지만, 성공이 아닐때가있음.
+            print("=================초단기실드 결과 코드:",data)
+            if dataArray.count == 0 {
+                self.todayWeather[Constants.today_key_Rain] = "-"
+                self.todayWeather[Constants.today_key_Present] = "-"
+                self.todayWeather[Constants.today_key_Humi] = "-"
+                self.todayWeather[Constants.today_key_Wind] = "-"
+                self.todayWeather[Constants.today_key_Rainform] = nil
+                self.todayWeather[Constants.today_key_Sky] = "정보 없음"
+                self.todayWeather[Constants.today_key_SkyCode] = "-"
+            } else {
+                for i in 0...dataArray.count - 1{
+                    switch dataArray[i]["category"].stringValue {
+                    case Constants.api_hourRain :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        self.todayWeather[Constants.today_key_Rain] = "\(value)mm"
+                    case Constants.api_presentTemp :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        self.todayWeather[Constants.today_key_Present] = self.roundedTemperature(from: value)
+                    case Constants.api_humi :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        self.todayWeather[Constants.today_key_Humi] = value + "%"
+                    case Constants.api_wind :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        self.todayWeather[Constants.today_key_Wind] = value
+                    case Constants.api_sky :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        switch value {
+                        case "1":
+                            if dayNightTime > 0700 && dayNightTime < 2000 {
+                                self.todayWeather[Constants.today_key_Sky] = Weather.Sunny.convertName().subs
+                                self.todayWeather[Constants.today_key_SkyCode] = Weather.Sunny.convertName().code
+                            } else {
+                                self.todayWeather[Constants.today_key_Sky] = Weather.ClearNight.convertName().subs
+                                self.todayWeather[Constants.today_key_SkyCode] = Weather.ClearNight.convertName().code
+                            }
+                        case "2":
+                            if dayNightTime > 0700 && dayNightTime < 2000 {
+                                self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudy.convertName().subs
+                                self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudy.convertName().code
+                            } else {
+                                self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudyNight.convertName().subs
+                                self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudyNight.convertName().code
+                            }
+                        case "3":
+                            self.todayWeather[Constants.today_key_Sky] = Weather.MoreCloudy.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.MoreCloudy.convertName().code
+                        case "4":
+                            self.todayWeather[Constants.today_key_Sky] = Weather.Cloudy.convertName().subs
+                            self.todayWeather[Constants.today_key_SkyCode] = Weather.Cloudy.convertName().code
+                        default:
+                            self.todayWeather[Constants.today_key_Sky] = "정보 없음"
                         }
-                    case "2":
-                        if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudy.convertName().subs
-                            self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudy.convertName().code
-                        } else {
-                            self.todayWeather[Constants.today_key_Sky] = Weather.LittleCloudyNight.convertName().subs
-                            self.todayWeather[Constants.today_key_SkyCode] = Weather.LittleCloudyNight.convertName().code
+                    case Constants.api_rainform :
+                        let value = dataArray[i]["obsrValue"].stringValue
+                        switch value {
+                        case "0":
+                            self.todayWeather[Constants.today_key_Rainform] = nil
+                        case "1":
+                            self.todayWeather[Constants.today_key_Rainform] = Weather.Rainy.convertName().subs
+                            self.todayWeather[Constants.today_key_RainCode] = Weather.Rainy.convertName().code
+                        case "2":
+                            self.todayWeather[Constants.today_key_Rainform] = Weather.Sleet.convertName().subs
+                            self.todayWeather[Constants.today_key_RainCode] = Weather.Sleet.convertName().code
+                        case "3":
+                            self.todayWeather[Constants.today_key_Rainform] = Weather.Snow.convertName().subs
+                            self.todayWeather[Constants.today_key_RainCode] = Weather.Snow.convertName().code
+                        default:
+                            self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
                         }
-                    case "3":
-                        self.todayWeather[Constants.today_key_Sky] = Weather.MoreCloudy.convertName().subs
-                        self.todayWeather[Constants.today_key_SkyCode] = Weather.MoreCloudy.convertName().code
-                    case "4":
-                        self.todayWeather[Constants.today_key_Sky] = Weather.Cloudy.convertName().subs
-                        self.todayWeather[Constants.today_key_SkyCode] = Weather.Cloudy.convertName().code
                     default:
-                        self.todayWeather[Constants.today_key_Sky] = "정보 없음"
+                        print("필요없는 값")
                     }
-                case Constants.api_rainform :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    switch value {
-                    case "0":
-                        self.todayWeather[Constants.today_key_Rainform] = nil
-                    case "1":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.Rainy.convertName().subs
-                        self.todayWeather[Constants.today_key_RainCode] = Weather.Rainy.convertName().code
-                    case "2":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.Sleet.convertName().subs
-                        self.todayWeather[Constants.today_key_RainCode] = Weather.Sleet.convertName().code
-                    case "3":
-                        self.todayWeather[Constants.today_key_Rainform] = Weather.Snow.convertName().subs
-                        self.todayWeather[Constants.today_key_RainCode] = Weather.Snow.convertName().code
-                    default:
-                        self.todayWeather[Constants.today_key_Rainform] = "정보 없음"
-                    }
-                default:
-                    print("필요없는 값")
+                    
                 }
-                
             }
+            
         }
         
     }
@@ -497,7 +508,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             
-            //어제 날짜인 정보를 불러옵니다
+            
             let yesterFroecastArray = dataArray.filter({ (dic) -> Bool in
                 let yesterday:String = dic["fcstDate"].stringValue
                 return yesterday == setYesterday
@@ -562,6 +573,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             print("모레 예보:", self.afterParseData)
         }
         
+        
     }
     
     //오늘 새벽 2시예보 부르기 -> 오늘의 최저/최고온도가 2시에 발표되기때문에 label에 띄우려면 갖구와야댐
@@ -617,30 +629,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             let data = JSON(weatherData)
             //            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            
-            for i in 0...dataArray.count - 1 {
-                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-                    case Constants.api_min:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
-                    }
-                    
-                } else if dataArray[i]["fcstDate"].stringValue == date {
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
-                    case Constants.api_min:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
+            if dataArray.count == 0 {
+                self.todayWeather[Constants.today_key_Max] = "-"
+                self.todayWeather[Constants.today_key_Min] = "-"
+            } else {
+                for i in 0...dataArray.count - 1 {
+                    if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
+                        switch dataArray[i]["category"].stringValue {
+                        case Constants.api_max:
+                            let value = dataArray[i]["fcstValue"].stringValue
+                            self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                        case Constants.api_min:
+                            let value = dataArray[i]["fcstValue"].stringValue
+                            self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                        default:
+                            print("필요없는 값")
+                        }
+                        
+                    } else if dataArray[i]["fcstDate"].stringValue == date {
+                        switch dataArray[i]["category"].stringValue {
+                        case Constants.api_max:
+                            let value = dataArray[i]["fcstValue"].stringValue
+                            self.todayWeather[Constants.today_key_Max] = self.roundedTemperature(from: value)
+                        case Constants.api_min:
+                            let value = dataArray[i]["fcstValue"].stringValue
+                            self.todayWeather[Constants.today_key_Min] = self.roundedTemperature(from: value)
+                        default:
+                            print("필요없는 값")
+                        }
                     }
                 }
             }
