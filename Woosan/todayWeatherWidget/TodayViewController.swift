@@ -203,7 +203,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             guard let dayNightTime = Int(time) else { return }
             
             print("=================결과:",dayNightTime , "시간은 여기")
-            
+            if dataArray.count == 0 {
+                self.weatherInfo[Constants.widget_key_Rain] = "강수량: - mm"
+                self.weatherInfo[Constants.widget_key_Present] = "-"
+                self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
+                self.weatherInfo[Constants.widget_key_skyCode] = "weather_default"
+                
+            } else {
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_hourRain :
@@ -263,7 +269,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                 }
                 
             }
-            
+            }
             
         }
         
@@ -320,7 +326,10 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             let data = JSON(weatherData)
 //            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            
+            if dataArray.count == 0 {
+                self.weatherInfo[Constants.widget_key_Max] = "-"
+                self.weatherInfo[Constants.widget_key_Min] = "-"
+            } else {
             for i in 0...dataArray.count - 1 {
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
                     switch dataArray[i]["category"].stringValue {
@@ -346,6 +355,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                         print("필요없는 값")
                     }
                 }
+            }
             }
         }
         
