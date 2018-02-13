@@ -354,6 +354,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 self.todayWeather[Constants.today_key_Rainform] = nil
                 self.todayWeather[Constants.today_key_Sky] = "정보 없음"
                 self.todayWeather[Constants.today_key_SkyCode] = "-"
+                self.errorAlert(subTitle: "현재 날씨 정보 로드 실패😱", subMessage: "서버에서 정보를 불러오지 못했어요.\n나중에 다시 시도해주세요!")
             } else {
                 for i in 0...dataArray.count - 1{
                     switch dataArray[i]["category"].stringValue {
@@ -632,6 +633,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Max] = "-"
                 self.todayWeather[Constants.today_key_Min] = "-"
+                self.errorAlert(subTitle: "최고/최저 온도 로드 실패😱", subMessage: "서버에서 정보를 불러오지 못했어요.\n나중에 다시 시도해주세요!")
             } else {
                 for i in 0...dataArray.count - 1 {
                     if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
@@ -688,7 +690,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         
     }
     
-    
+    func errorAlert(subTitle:String, subMessage:String) {
+        let alert:UIAlertController = UIAlertController.init(title: subTitle, message: subMessage, preferredStyle: .alert)
+        let alertAction = UIAlertAction.init(title: "확인", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
+    }
     
     //반올림하기
     func roundedTemperature(from temperature:String) -> String {
@@ -875,4 +882,3 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
     }
 }
 
-//TODO:- 설정창에 API출처, 로고 넣어주어야함.
