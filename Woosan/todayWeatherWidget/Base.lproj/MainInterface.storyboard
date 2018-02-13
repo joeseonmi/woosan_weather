@@ -92,11 +92,13 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="정보 없음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eP3-fD-0Dj">
                                         <rect key="frame" x="208.5" y="51" width="45" height="15"/>
+                                        <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="E8H-oz-fh6" firstAttribute="height" secondItem="Ob8-V6-pKf" secondAttribute="height" multiplier="0.8" id="09R-mQ-Hw8"/>
                                     <constraint firstItem="eP3-fD-0Dj" firstAttribute="centerX" secondItem="zGM-mh-Kki" secondAttribute="centerX" id="12q-HG-0gj"/>

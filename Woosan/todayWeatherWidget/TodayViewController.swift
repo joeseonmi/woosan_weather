@@ -33,6 +33,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     @IBOutlet weak var maxTemp: UILabel!
     @IBOutlet weak var minTemp: UILabel!
     
+    
     @IBOutlet weak var themeCharacter: UIImageView!
     let image:[String] = ["widgetDoggyhead",
                           "widgetCattyhead"]
@@ -75,7 +76,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -119,6 +120,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     //MARK:-              Func                 //
     /*******************************************/
     
+
     func loadImage(){
         guard let shareData = UserDefaults(suiteName: Constants.widgetShareDataKey) else { return }
         let index = shareData.integer(forKey: Constants.widgetThemeDataKey)
