@@ -191,8 +191,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-        
-        
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
             self.viewMobinWeather(today: self.skyCode)

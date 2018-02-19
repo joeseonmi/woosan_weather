@@ -52,10 +52,69 @@ class KMAapiController {
     static let shared = KMAapiController()
     private let appKey = "Nz1AZqAjQYidfKtkqDExWFKmAbO%2Bn3kcfRZd7Ut%2FzMpTaTH67raoJo599zfgUTDip9IGUXa%2FZpnkCCn7p%2BXd5w%3D%3D"
     
-//    func curruntWeather(lat:String, lon:String) -> WeatherModel {
-//        
-//    }
-//    
+    
+    private func callWeather(lat:String, lon:String, completionHandler: @escaping (NSDictionary? ,Error?) -> ()) {
+    
+        let now = Date()
+        let dateFommater = DateFormatter()
+        let timeFommater = DateFormatter()
+        let minFommater = DateFormatter()
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
+        var nx = ""
+        var ny = ""
+        
+        
+        dateFommater.dateFormat = "yyyyMMdd"
+        timeFommater.dateFormat = "HH"
+        minFommater.dateFormat = "mm"
+        
+        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+        
+        var date:String = dateFommater.string(from: now)
+        var time:String = timeFommater.string(from: now)
+        let min:String = minFommater.string(from: now)
+        let setYesterday = dateFommater.string(from: yesterday)
+        
+        if let lat = Double(lat), let lon = Double(lon) {
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
+        }
+        
+        
+        //TODO: 12시에 실행해보기
+        if Int(min)! < 30 {
+            let setTime = Int(time)! - 1
+            if setTime < 0 {
+                date = setYesterday
+                time = "23"
+            } else if setTime < 10 {
+                time = "0"+"\(setTime)"
+            } else {
+                time = "\(setTime)"
+            }
+        }
+        time = time + "00"
+        
+        let appid = DataShare.appKey
+        let url = DataShare.forecastChoDangi
+        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
+                         "base_date":date,
+                         "base_time":time,
+                         "nx":nx,
+                         "ny":ny,
+                         "_type":"json"]
+        
+        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil)
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    completionHandler(value as? NSDictionary , nil)
+                case .failure(let error):
+                    completionHandler(nil, error)
+                }
+        }
+    }
+    
     //반올림하기
     private func roundedTemperature(from temperature:String) -> String {
         var result:String = ""
