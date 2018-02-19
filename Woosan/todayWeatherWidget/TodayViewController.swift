@@ -33,6 +33,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     @IBOutlet weak var maxTemp: UILabel!
     @IBOutlet weak var minTemp: UILabel!
     
+    
     @IBOutlet weak var themeCharacter: UIImageView!
     let image:[String] = ["widgetDoggyhead",
                           "widgetCattyhead"]
@@ -75,7 +76,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -119,6 +120,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     //MARK:-              Func                 //
     /*******************************************/
     
+
     func loadImage(){
         guard let shareData = UserDefaults(suiteName: Constants.widgetShareDataKey) else { return }
         let index = shareData.integer(forKey: Constants.widgetThemeDataKey)
@@ -150,6 +152,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
         let minFommater = DateFormatter()
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
         var nx = ""
         var ny = ""
         
@@ -159,9 +162,10 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
         dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
         
-        let date:String = dateFommater.string(from: now)
+        var date:String = dateFommater.string(from: now)
         var time:String = timeFommater.string(from: now)
         let min:String = minFommater.string(from: now)
+        let setYesterday = dateFommater.string(from: yesterday)
         
         if let lat = Double(self.lat), let lon = Double(self.lon) {
             nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
@@ -172,11 +176,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
         if Int(min)! < 30 {
             let setTime = Int(time)! - 1
-            if setTime < 10 {
+            if setTime < 0 {
+                date = setYesterday
+                time = "23"
+            } else if setTime < 10 {
                 time = "0"+"\(setTime)"
             } else {
                 time = "\(setTime)"
-                time = time + "00"
             }
         }
         time = time + "00"
@@ -196,8 +202,16 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             guard let weatherData = response.data else { return }
             let data = JSON(weatherData)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            print("=================결과:",dataArray)
+            guard let dayNightTime = Int(time) else { return }
             
+            print("=================결과:",dayNightTime , "시간은 여기")
+            if dataArray.count == 0 {
+                self.weatherInfo[Constants.widget_key_Rain] = "강수량: - mm"
+                self.weatherInfo[Constants.widget_key_Present] = "-"
+                self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
+                self.weatherInfo[Constants.widget_key_skyCode] = "weather_default"
+                
+            } else {
             for i in 0...dataArray.count - 1{
                 switch dataArray[i]["category"].stringValue {
                 case Constants.api_hourRain :
@@ -210,11 +224,21 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                     let value = dataArray[i]["obsrValue"].stringValue
                     switch value {
                     case "1":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
+                        } else {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.ClearNight.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.ClearNight.convertName().code
+                        }
                     case "2":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
+                        if dayNightTime > 0700 && dayNightTime < 2000 {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
+                        } else {
+                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudyNight.convertName().subs
+                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudyNight.convertName().code
+                        }
                     case "3":
                         self.weatherInfo[Constants.widget_key_sky] = Weather.MoreCloudy.convertName().subs
                         self.weatherInfo[Constants.widget_key_skyCode] = Weather.MoreCloudy.convertName().code
@@ -247,7 +271,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                 }
                 
             }
-            
+            }
             
         }
         
@@ -302,9 +326,12 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+//            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            
+            if dataArray.count == 0 {
+                self.weatherInfo[Constants.widget_key_Max] = "-"
+                self.weatherInfo[Constants.widget_key_Min] = "-"
+            } else {
             for i in 0...dataArray.count - 1 {
                 if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
                     switch dataArray[i]["category"].stringValue {
@@ -330,6 +357,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                         print("필요없는 값")
                     }
                 }
+            }
             }
         }
         
