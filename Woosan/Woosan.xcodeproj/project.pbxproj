@@ -54,6 +54,7 @@
 		D8ED0F9E1FC1E76A001D1FC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0F9C1FC1E76A001D1FC0 /* Main.storyboard */; };
 		D8ED0FA01FC1E76A001D1FC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */; };
 		D8ED0FA31FC1E76A001D1FC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */; };
+		D8F2FECB203D8D52000B563F /* dustApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2FECA203D8D52000B563F /* dustApiController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +137,7 @@
 		D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8ED0FA21FC1E76A001D1FC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8ED0FA41FC1E76A001D1FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D8F2FECA203D8D52000B563F /* dustApiController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dustApiController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 				D849EEF720146E0900011250 /* ViewController */,
 				D81B2E761FCEB5B10094CCB5 /* Constants.swift */,
 				D86C8F822032F11F00BBB9CD /* WeatherModel.swift */,
+				D8F2FECA203D8D52000B563F /* dustApiController.swift */,
 				D849EEF820146E5D00011250 /* Data.swift */,
 				D84B174C1FDC530A007F14A1 /* CustomCell */,
 				D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */,
@@ -540,6 +543,7 @@
 				D84B174F1FDC595D007F14A1 /* BGCollectionViewCell.swift in Sources */,
 				D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */,
 				D84B17431FDC4BD4007F14A1 /* BackgroundViewController.swift in Sources */,
+				D8F2FECB203D8D52000B563F /* dustApiController.swift in Sources */,
 				D84B17451FDC4DF8007F14A1 /* IntroduceViewController.swift in Sources */,
 				D88DBE491FEDAF260082F44D /* forecastCollectionViewCell.swift in Sources */,
 				D84B17411FDC4B98007F14A1 /* ThemeViewController.swift in Sources */,

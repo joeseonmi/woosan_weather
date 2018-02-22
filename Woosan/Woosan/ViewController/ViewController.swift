@@ -190,6 +190,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             }
         }
         
+        dustAPIController.shared.todayDustInfo()
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
@@ -343,7 +344,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let dayNightTime = Int(time) else { return }
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             //data는 무조건 들어오지만, 성공이 아닐때가있음.
-            print("=================초단기실드 결과 코드:",data)
+//            print("=================초단기실드 결과 코드:",data)
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Rain] = "-"
                 self.todayWeather[Constants.today_key_Present] = "-"
