@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="x8z-9t-vqm">
+            <objects>
+                <viewController id="RpU-75-51a" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AEI-gy-Qdh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미세먼지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lfi-MO-2hO" userLabel="location">
+                                <rect key="frame" x="60" y="20" width="255" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Par-YL-xCq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gk1-Bb-2UV" userLabel="menu">
+                                <rect key="frame" x="16" y="33" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="VJ6-Of-q7u"/>
+                                    <constraint firstAttribute="width" secondItem="Gk1-Bb-2UV" secondAttribute="height" multiplier="1:1" id="WkD-oT-Bdo"/>
+                                </constraints>
+                                <state key="normal" image="menu"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Lfi-MO-2hO" firstAttribute="leading" secondItem="Gk1-Bb-2UV" secondAttribute="trailing" constant="9" id="6yT-AG-C1B"/>
+                            <constraint firstItem="z9h-Ea-im3" firstAttribute="trailing" secondItem="Lfi-MO-2hO" secondAttribute="trailing" constant="60" id="Nyk-si-uGd"/>
+                            <constraint firstItem="Gk1-Bb-2UV" firstAttribute="leading" secondItem="z9h-Ea-im3" secondAttribute="leading" constant="16" id="T38-jb-9zG"/>
+                            <constraint firstItem="Lfi-MO-2hO" firstAttribute="top" secondItem="z9h-Ea-im3" secondAttribute="top" id="rDH-wm-3DA"/>
+                            <constraint firstItem="Lfi-MO-2hO" firstAttribute="centerY" secondItem="Gk1-Bb-2UV" secondAttribute="centerY" id="y76-vC-gtx"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="z9h-Ea-im3"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="URA-6w-ppz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-107" y="-172"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="menu" width="22" height="15"/>
+    </resources>
+</document>

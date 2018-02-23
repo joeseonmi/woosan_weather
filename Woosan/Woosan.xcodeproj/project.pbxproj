@@ -55,6 +55,7 @@
 		D8ED0FA01FC1E76A001D1FC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */; };
 		D8ED0FA31FC1E76A001D1FC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */; };
 		D8F2FECB203D8D52000B563F /* dustApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2FECA203D8D52000B563F /* dustApiController.swift */; };
+		D8F2FECD203F443D000B563F /* dustDataStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8F2FECC203F443D000B563F /* dustDataStoryboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		D8ED0FA21FC1E76A001D1FC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8ED0FA41FC1E76A001D1FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8F2FECA203D8D52000B563F /* dustApiController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dustApiController.swift; sourceTree = "<group>"; };
+		D8F2FECC203F443D000B563F /* dustDataStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = dustDataStoryboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 				D84B173F1FDC435F007F14A1 /* Lottie */,
 				D8ED0F9C1FC1E76A001D1FC0 /* Main.storyboard */,
 				D8ED0F981FC1E76A001D1FC0 /* AppDelegate.swift */,
+				D8F2FECC203F443D000B563F /* dustDataStoryboard.storyboard */,
 				D8830FFB202864AE0015A6E1 /* MainViewController.swift */,
 				D849EEF720146E0900011250 /* ViewController */,
 				D81B2E761FCEB5B10094CCB5 /* Constants.swift */,
@@ -405,6 +408,7 @@
 				D89A17EA1FE2C5FB00B29B03 /* EtcTableViewCell.xib in Resources */,
 				D89620EB1FD0433600EB1CBB /* SKY_D01.json in Resources */,
 				D8ED0FA31FC1E76A001D1FC0 /* LaunchScreen.storyboard in Resources */,
+				D8F2FECD203F443D000B563F /* dustDataStoryboard.storyboard in Resources */,
 				D85B53641FFE461600D7C89D /* catty.json in Resources */,
 				D8ED0FA01FC1E76A001D1FC0 /* Assets.xcassets in Resources */,
 				D89620F71FD0EDAD00EB1CBB /* SKY_D03.json in Resources */,
@@ -501,6 +505,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
@@ -513,6 +518,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",

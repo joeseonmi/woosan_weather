@@ -13,11 +13,25 @@ import SwiftyJSON
 class dustAPIController {
     
     static let shared = dustAPIController()
-    
-    func todayDustInfo() {
-        self.requestDust { (dustData) in
-            print("요기나오면 참 좋게따:", dustData)
+  
+    func todayDustInfo(_ location:String) {
+        requestDust { (json) in
+            print("요기에요: ",json["list"][0])
         }
+    }
+    
+    private func convertComment(dustScore:String) -> String {
+        guard let score = Int(dustScore) else { return "정보 없음" }
+        if 0 < score && score <= 30 {
+            return "좋음"
+        } else if 30 < score && score <= 80 {
+            return "보통"
+        } else if 80 < score && score <= 150 {
+            return "나쁨"
+        } else if score > 150 {
+            return "매우 나쁨"
+        }
+        return "정보 없음"
     }
     
     private func requestDust(completion: @escaping (_ dustValue:JSON) -> Void) {
@@ -44,9 +58,9 @@ class dustAPIController {
 
 struct todayDust {
     
-    let location:String
-    let grade:String
-    let dustComment:String
+    var location:String
+    var dustValue:String
+    var dustComment:String
 
 }
 
