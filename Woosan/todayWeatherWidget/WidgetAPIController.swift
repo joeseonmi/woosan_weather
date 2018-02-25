@@ -27,7 +27,7 @@ class WidgetAPIController {
             let time:String = timeFommater.string(from: now)
             
             guard let dayNightTime = Int(time) else { return }
-            let temp = todayWeather.init(curruntTemp: "00", rain: "강수정보 없음", weatherIcon: "default", comment: "정보 없음")
+            let temp = todayWeather.init(curruntTemp: "00", rain: "강수정보 없음", weatherIcon: "weather_default", comment: "정보 없음")
             print("=================결과:",dayNightTime , "시간은 여기")
             var weatherInfo:[String:String] = [:]
             
@@ -193,10 +193,14 @@ class WidgetAPIController {
         let url = Constants.forecastChoDangi
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil)
             .responseJSON { (response) in
-                guard let weatherData = response.data else { return }
-                let data = JSON(weatherData)
-                let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-                competed(dataArray)
+                switch response.result {
+                case .success :
+                        guard let weatherData = response.data else { return }
+                        let data = JSON(weatherData)
+                        let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+                        competed(dataArray)
+                case .failure( _) : break
+                }
         }
     }
     //오늘 새벽 2시예보 부르기
