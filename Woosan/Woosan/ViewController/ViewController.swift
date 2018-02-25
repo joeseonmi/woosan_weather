@@ -190,7 +190,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             }
         }
         
-        dustAPIController.shared.todayDustInfo("sejong")
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
@@ -627,7 +626,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            //            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+                        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Max] = "-"

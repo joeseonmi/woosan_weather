@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Futura.ttc">
+            <string>Futura-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DustView" customModule="Woosan" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="131" height="192"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dust_ong" translatesAutoresizingMaskIntoConstraints="NO" id="SkM-tO-4Xr">
+                    <rect key="frame" x="0.0" y="0.0" width="131" height="192"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="SkM-tO-4Xr" secondAttribute="height" multiplier="13:19" id="3cB-Ow-eLE"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="i5L-Iw-6Jl">
+                    <rect key="frame" x="36" y="4" width="59" height="149.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="지역" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pYi-HM-Bau">
+                            <rect key="frame" x="20" y="0.0" width="19.5" height="13.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="widgetDoggyhead" translatesAutoresizingMaskIntoConstraints="NO" id="eJO-EJ-clK">
+                            <rect key="frame" x="0.0" y="29.5" width="59" height="59"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="eJO-EJ-clK" secondAttribute="height" multiplier="1:1" id="BjP-S4-eAO"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2co-s9-g31">
+                            <rect key="frame" x="22.5" y="104.5" width="14" height="14.5"/>
+                            <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="11"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미세먼지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kT6-An-ycq">
+                            <rect key="frame" x="8.5" y="135" width="42" height="14.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="eJO-EJ-clK" firstAttribute="width" secondItem="SkM-tO-4Xr" secondAttribute="width" multiplier="0.45" id="A4i-9I-i9v"/>
+                <constraint firstItem="SkM-tO-4Xr" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="AUt-US-Dog"/>
+                <constraint firstItem="i5L-Iw-6Jl" firstAttribute="height" secondItem="SkM-tO-4Xr" secondAttribute="height" multiplier="0.8" constant="-4" id="F4X-ec-RZS"/>
+                <constraint firstItem="i5L-Iw-6Jl" firstAttribute="centerX" secondItem="SkM-tO-4Xr" secondAttribute="centerX" id="IHi-tB-0fs"/>
+                <constraint firstItem="SkM-tO-4Xr" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="PXa-Or-GUw"/>
+                <constraint firstItem="SkM-tO-4Xr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="YY4-pI-IgM"/>
+                <constraint firstItem="i5L-Iw-6Jl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="kwT-76-tAv"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="background" destination="SkM-tO-4Xr" id="wgc-yc-Fq7"/>
+                <outlet property="dustIcon" destination="eJO-EJ-clK" id="pIh-Pv-acI"/>
+                <outlet property="dustScore" destination="2co-s9-g31" id="kje-8Z-Ozc"/>
+                <outlet property="dustScrip" destination="kT6-An-ycq" id="eiz-Ze-ewx"/>
+                <outlet property="location" destination="pYi-HM-Bau" id="W4H-yz-E2F"/>
+            </connections>
+            <point key="canvasLocation" x="-86.5" y="-169"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="dust_ong" width="43" height="64"/>
+        <image name="widgetDoggyhead" width="133" height="146"/>
+    </resources>
+</document>

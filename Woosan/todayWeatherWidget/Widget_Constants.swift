@@ -10,6 +10,19 @@ import Foundation
 
 struct Constants {
     
+    static let cache_curruntTemp = "cache_curruntTemp"
+    static let cache_rain = "cache_rain"
+    static let cache_icon = "cache_icon"
+    static let cache_comment = "cache_comment"
+    static let cache_min = "cache_min"
+    static let cache_max = "cache_max"
+    
+    
+    static let parameter2am = "2amParameter"
+    static let parameterCurrunt = "parameterCurrunt"
+    static let data2am = "data2am"
+    static let dataCurrunt = "dataCurrunt"
+    
     static let widgetThemeDataKey = "Theme"
     static let widgetShareDataKey = "group.devjoe.TodayExtensionSharingDefaults"
     
@@ -39,6 +52,19 @@ struct Constants {
     static let widget_key_comment = "widget_key_comment"
     static let widget_key_sky = "widget_key_sky"
     static let widget_key_skyCode = "widget_key_skyCode"
+}
+
+struct todayWeather {
+    
+    let curruntTemp:String
+    let rain:String
+    let weatherIcon:String
+    let comment:String
+    
+}
+struct todayMaxMin {
+    let max:String
+    let min:String
 }
 
 enum Weather {

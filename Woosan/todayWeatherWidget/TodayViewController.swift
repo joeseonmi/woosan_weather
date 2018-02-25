@@ -45,30 +45,30 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.locationLabel.text = locationInfo
         }
     }
-    var weatherInfo:[String:String] = [:] {
+    var cacheCurruntWeather:[String:String] = [:] {
+        didSet {
+            UserDefaults.standard.set(cacheCurruntWeather, forKey: Constants.dataCurrunt)
+        }
+    }
+    
+    var cacheMaxMin:[String:String] = [:] {
+        didSet {
+            UserDefaults.standard.set(cacheMaxMin, forKey: Constants.data2am)
+        }
+    }
+    
+    var maxmin = todayMaxMin.init(max: "-", min: "-") {
         didSet{
-            self.rainTextLabel.text = self.weatherInfo[Constants.widget_key_Rain]
-            self.presenTemp.text = self.weatherInfo[Constants.widget_key_Present]
-            self.minTemp.text = self.weatherInfo[Constants.widget_key_Min]
-            self.maxTemp.text = self.weatherInfo[Constants.widget_key_Max]
-            if self.weatherInfo[Constants.widget_key_RainCode] == "" {
-                if let image = self.weatherInfo[Constants.widget_key_skyCode] {
-                    self.weatherImageView.image = UIImage(named: image)
-                }
-            } else {
-                if let image = self.weatherInfo[Constants.widget_key_RainCode] {
-                    self.weatherImageView.image = UIImage(named: image)
-                }
-            }
-            if self.weatherInfo[Constants.widget_key_RainForm] == "" {
-                if let comment = self.weatherInfo[Constants.widget_key_sky] {
-                    self.commentLabel.text = comment
-                }
-            } else {
-                if let comment = self.weatherInfo[Constants.widget_key_RainForm] {
-                    self.commentLabel.text = comment
-                }
-            }
+            self.maxTemp.text = maxmin.max
+            self.minTemp.text = maxmin.min
+        }
+    }
+    var curruntWeather = todayWeather.init(curruntTemp: "00", rain: "정보 없음", weatherIcon: "default", comment: "정보 없음") {
+        didSet {
+            self.rainTextLabel.text = curruntWeather.rain
+            self.presenTemp.text = curruntWeather.curruntTemp
+            self.weatherImageView.image = UIImage(named:curruntWeather.weatherIcon)
+            self.commentLabel.text = curruntWeather.comment
         }
     }
     /*******************************************/
@@ -76,25 +76,69 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
+        
         if let realLat = locationManager.location?.coordinate.latitude,
             let realLon = locationManager.location?.coordinate.longitude{
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
             
-            get2amData()
-            getForecast()
+            if UserDefaults.standard.dictionary(forKey: Constants.parameter2am) == nil {
+                UserDefaults.standard.set(["none":"none"], forKey: Constants.parameter2am)
+            }
+            let cacheParameter2am:[String:String] = UserDefaults.standard.dictionary(forKey: Constants.parameter2am) as! [String : String]
+            let newParameter2am = WidgetAPIController.shared.make2amAPIParameter(lat: lat, lon: lon)
+            
+            if cacheParameter2am != newParameter2am {
+                print("2시데이터 불림")
+                WidgetAPIController.shared.maxMinTemp(lat: lat, lon: lon, completed: { (maxmintemperature) in
+                    self.maxmin = maxmintemperature
+                    self.cacheMaxMin[Constants.cache_max] = maxmintemperature.max
+                    self.cacheMaxMin[Constants.cache_min] = maxmintemperature.min
+                })
+            } else {
+                guard let cacheData = UserDefaults.standard.dictionary(forKey: Constants.data2am) else { return }
+                print("=============2시데이터 안불림: ",cacheData)
+                self.maxTemp.text = cacheData[Constants.cache_max] as? String
+                self.minTemp.text = cacheData[Constants.cache_min] as? String
+            }
+            
+            if UserDefaults.standard.dictionary(forKey: Constants.parameterCurrunt) == nil {
+                UserDefaults.standard.set(["none":"none"], forKey: Constants.parameterCurrunt)
+            }
+            let cacheParameterCurrunt:[String:String] = UserDefaults.standard.dictionary(forKey: Constants.parameterCurrunt) as! [String : String]
+            let newParameterCurrunt = WidgetAPIController.shared.makeCurruntAPIParameter(lat: lat, lon: lon)
+            if cacheParameterCurrunt != newParameterCurrunt {
+                WidgetAPIController.shared.curruntWeather(lat: lat, lon: lon, completed: { (info) in
+                    self.curruntWeather = info
+                    self.cacheCurruntWeather[Constants.cache_curruntTemp] = info.curruntTemp
+                    self.cacheCurruntWeather[Constants.cache_icon] = info.weatherIcon
+                    self.cacheCurruntWeather[Constants.cache_comment] = info.comment
+                    self.cacheCurruntWeather[Constants.cache_rain] = info.rain
+                })
+            } else {
+                guard let cacheData = UserDefaults.standard.dictionary(forKey: Constants.dataCurrunt) else { return }
+                print("=============캐시데이터 불림: ",cacheData)
+                self.rainTextLabel.text = cacheData[Constants.cache_rain] as? String
+                self.presenTemp.text = cacheData[Constants.cache_curruntTemp] as? String
+                let image = cacheData[Constants.cache_icon] as! String
+                self.weatherImageView.image = UIImage(named: image)
+                self.commentLabel.text = cacheData[Constants.cache_comment] as? String
+            }
+            
+            
+        
         }
+        
         if let coordinate = locationManager.location{
             convertAddress(from: coordinate)
         }
-        
         
         //원 앱과 데이터 통신을 하는 방법으로 Userdefaults가 있다.
         self.loadImage()
@@ -109,18 +153,18 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         self.loadImage()
         
         //SE버전은 강수확률이 안보이게 설정했다.
-//        let widthSize = self.bgView.frame.width
-//        if widthSize <= 304.0 {
-//            self.rainLabel.isHidden = true
-//            self.rainTextLabel.isHidden = true
-//        }
+        //        let widthSize = self.bgView.frame.width
+        //        if widthSize <= 304.0 {
+        //            self.rainLabel.isHidden = true
+        //            self.rainTextLabel.isHidden = true
+        //        }
     }
     
     /*******************************************/
     //MARK:-              Func                 //
     /*******************************************/
     
-
+    
     func loadImage(){
         guard let shareData = UserDefaults(suiteName: Constants.widgetShareDataKey) else { return }
         let index = shareData.integer(forKey: Constants.widgetThemeDataKey)
@@ -147,7 +191,213 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
     }
     
-    func getForecast() {
+    //    func getForecast(base parameter:[String:String],
+    //                     competed: @escaping (_ curruntData:[JSON]) -> Void) {
+    //        let now = Date()
+    //        let dateFommater = DateFormatter()
+    //        let timeFommater = DateFormatter()
+    //        dateFommater.dateFormat = "yyyyMMdd"
+    //        timeFommater.dateFormat = "HH"
+    //        //한국시간으로 맞춰주기
+    //        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+    //        let time:String = timeFommater.string(from: now)
+    //        let url = Constants.forecastChoDangi
+    //        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+    //            guard let weatherData = response.data else { return }
+    //            let data = JSON(weatherData)
+    //            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+    //            competed(dataArray)
+    //
+    //            guard let dayNightTime = Int(time) else { return }
+    //
+    //            print("=================결과:",dayNightTime , "시간은 여기")
+    //            if dataArray.count == 0 {
+    //                self.weatherInfo[Constants.widget_key_Rain] = "강수량: - mm"
+    //                self.weatherInfo[Constants.widget_key_Present] = "-"
+    //                self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
+    //                self.weatherInfo[Constants.widget_key_skyCode] = "weather_default"
+    //
+    //            } else {
+    //                for i in 0...dataArray.count - 1{
+    //                    switch dataArray[i]["category"].stringValue {
+    //                    case Constants.api_hourRain :
+    //                        let value = dataArray[i]["obsrValue"].stringValue
+    //                        self.weatherInfo[Constants.widget_key_Rain] = "강수량: " + value + "mm"
+    //                    case Constants.api_presentTemp :
+    //                        let value = dataArray[i]["obsrValue"].stringValue
+    //                        self.weatherInfo[Constants.widget_key_Present] = self.roundedTemperature(from: value)
+    //                    case Constants.api_sky :
+    //                        let value = dataArray[i]["obsrValue"].stringValue
+    //                        switch value {
+    //                        case "1":
+    //                            if dayNightTime > 0700 && dayNightTime < 2000 {
+    //                                self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
+    //                                self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
+    //                            } else {
+    //                                self.weatherInfo[Constants.widget_key_sky] = Weather.ClearNight.convertName().subs
+    //                                self.weatherInfo[Constants.widget_key_skyCode] = Weather.ClearNight.convertName().code
+    //                            }
+    //                        case "2":
+    //                            if dayNightTime > 0700 && dayNightTime < 2000 {
+    //                                self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
+    //                                self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
+    //                            } else {
+    //                                self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudyNight.convertName().subs
+    //                                self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudyNight.convertName().code
+    //                            }
+    //                        case "3":
+    //                            self.weatherInfo[Constants.widget_key_sky] = Weather.MoreCloudy.convertName().subs
+    //                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.MoreCloudy.convertName().code
+    //                        case "4":
+    //                            self.weatherInfo[Constants.widget_key_sky] = Weather.Cloudy.convertName().subs
+    //                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.Cloudy.convertName().code
+    //                        default:
+    //                            self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
+    //                        }
+    //                    case Constants.api_rainform :
+    //                        let value = dataArray[i]["obsrValue"].stringValue
+    //                        switch value {
+    //                        case "0":
+    //                            self.weatherInfo[Constants.widget_key_RainForm] = ""
+    //                            self.weatherInfo[Constants.widget_key_RainCode] = ""
+    //                        case "1":
+    //                            self.weatherInfo[Constants.widget_key_RainForm] = Weather.Rainy.convertName().subs
+    //                            self.weatherInfo[Constants.widget_key_RainCode] = Weather.Rainy.convertName().code
+    //                        case "2":
+    //                            self.weatherInfo[Constants.widget_key_RainForm] = Weather.Sleet.convertName().subs
+    //                            self.weatherInfo[Constants.widget_key_RainCode] = Weather.Sleet.convertName().code
+    //                        case "3":
+    //                            self.weatherInfo[Constants.widget_key_RainForm] = Weather.Snow.convertName().subs
+    //                            self.weatherInfo[Constants.widget_key_RainCode] = Weather.Snow.convertName().code
+    //                        default:
+    //                            self.weatherInfo[Constants.widget_key_RainForm] = "정보 없음"
+    //                        }
+    //                    default:
+    //                        print("필요없는 값")
+    //                    }
+    //
+    //                }
+    //            }
+    //
+    //        }
+    //
+    //    }
+    //오늘 새벽 2시예보 부르기
+    //    func get2amData(base parameter:[String:String]) {
+    //        let now = Date()
+    //        let dateFommater = DateFormatter()
+    //        let timeFommater = DateFormatter()
+    //        let minFommater = DateFormatter()
+    //        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
+    //
+    //        dateFommater.dateFormat = "yyyyMMdd"
+    //        timeFommater.dateFormat = "HH"
+    //        minFommater.dateFormat = "mm"
+    //        //한국시간으로 맞춰주기
+    //        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+    //
+    //        let setYesterday:String = dateFommater.string(from: yesterday)
+    //        var date:String = dateFommater.string(from: now)
+    //        var time:String = timeFommater.string(from: now)
+    //        let realToday:String = dateFommater.string(from: now)
+    //
+    //        guard let setTime = Int(time) else { return }
+    //        if setTime < 2 {
+    //            date = setYesterday
+    //            time = "2300"
+    //        } else {
+    //            time = "0200"
+    //        }
+    //
+    //
+    //        let url = Constants.forecastSpace
+    //
+    //        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+    //            guard let weatherData = response.result.value else { return }
+    //            let data = JSON(weatherData)
+    //            print("두시데이터 불림")
+    //            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
+    //            if dataArray.count == 0 {
+    //                self.weatherInfo[Constants.widget_key_Max] = "-"
+    //                self.weatherInfo[Constants.widget_key_Min] = "-"
+    //            } else {
+    //                for i in 0...dataArray.count - 1 {
+    //                    if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
+    //                        switch dataArray[i]["category"].stringValue {
+    //                        case Constants.api_max:
+    //                            let value = dataArray[i]["fcstValue"].stringValue
+    //                            self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
+    //                        case Constants.api_min:
+    //                            let value = dataArray[i]["fcstValue"].stringValue
+    //                            self.weatherInfo[Constants.widget_key_Min] = self.roundedTemperature(from: value)
+    //                        default:
+    //                            print("필요없는 값")
+    //                        }
+    //
+    //                    } else if dataArray[i]["fcstDate"].stringValue == date {
+    //                        switch dataArray[i]["category"].stringValue {
+    //                        case Constants.api_max:
+    //                            let value = dataArray[i]["fcstValue"].stringValue
+    //                            self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
+    //                        case Constants.api_min:
+    //                            let value = dataArray[i]["fcstValue"].stringValue
+    //                            self.weatherInfo[Constants.widget_key_Min] = self.roundedTemperature(from: value)
+    //                        default:
+    //                            print("필요없는 값")
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //
+    //
+    //    }
+    //
+    private func make2amAPIParameter(lat:String, lon:String) -> [String:String] {
+        let now = Date()
+        let dateFommater = DateFormatter()
+        let timeFommater = DateFormatter()
+        let minFommater = DateFormatter()
+        var nx = ""
+        var ny = ""
+        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
+        dateFommater.dateFormat = "yyyyMMdd"
+        timeFommater.dateFormat = "HH"
+        minFommater.dateFormat = "mm"
+        //한국시간으로 맞춰주기
+        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
+        
+        let setYesterday:String = dateFommater.string(from: yesterday)
+        var date:String = dateFommater.string(from: now)
+        var time:String = timeFommater.string(from: now)
+        
+        if let setTime = Int(time) {
+            if setTime < 2 {
+                date = setYesterday
+                time = "2300"
+            } else {
+                time = "0200"
+            }
+        }
+        
+        if let lat = Double(self.lat), let lon = Double(self.lon) {
+            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
+            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
+        }
+        
+        let appid = Constants.appKey
+        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
+                         "base_date":date,
+                         "base_time":time,
+                         "nx":nx,
+                         "ny":ny,
+                         "_type":"json",
+                         "numOfRows":"999"]
+        UserDefaults.standard.setValue(parameter, forKey: Constants.parameter2am)
+        return parameter
+    }
+    
+    private func makeCurruntAPIParameter(lat:String, lon:String) -> [String:String] {
         let now = Date()
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
@@ -172,8 +422,6 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
         }
         
-        
-        
         if Int(min)! < 30 {
             let setTime = Int(time)! - 1
             if setTime < 0 {
@@ -188,184 +436,18 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         time = time + "00"
         
         let appid = Constants.appKey
-        let url = Constants.forecastChoDangi
         let parameter = ["ServiceKey":appid.removingPercentEncoding!,
                          "base_date":date,
                          "base_time":time,
                          "nx":nx,
                          "ny":ny,
                          "_type":"json"]
-        
-        print("파라미터들:",date,time,nx,ny)
-        
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.data else { return }
-            let data = JSON(weatherData)
-            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            guard let dayNightTime = Int(time) else { return }
-            
-            print("=================결과:",dayNightTime , "시간은 여기")
-            if dataArray.count == 0 {
-                self.weatherInfo[Constants.widget_key_Rain] = "강수량: - mm"
-                self.weatherInfo[Constants.widget_key_Present] = "-"
-                self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
-                self.weatherInfo[Constants.widget_key_skyCode] = "weather_default"
-                
-            } else {
-            for i in 0...dataArray.count - 1{
-                switch dataArray[i]["category"].stringValue {
-                case Constants.api_hourRain :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.weatherInfo[Constants.widget_key_Rain] = "강수량: " + value + "mm"
-                case Constants.api_presentTemp :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    self.weatherInfo[Constants.widget_key_Present] = self.roundedTemperature(from: value)
-                case Constants.api_sky :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    switch value {
-                    case "1":
-                        if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
-                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
-                        } else {
-                            self.weatherInfo[Constants.widget_key_sky] = Weather.ClearNight.convertName().subs
-                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.ClearNight.convertName().code
-                        }
-                    case "2":
-                        if dayNightTime > 0700 && dayNightTime < 2000 {
-                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
-                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
-                        } else {
-                            self.weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudyNight.convertName().subs
-                            self.weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudyNight.convertName().code
-                        }
-                    case "3":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.MoreCloudy.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.MoreCloudy.convertName().code
-                    case "4":
-                        self.weatherInfo[Constants.widget_key_sky] = Weather.Cloudy.convertName().subs
-                        self.weatherInfo[Constants.widget_key_skyCode] = Weather.Cloudy.convertName().code
-                    default:
-                        self.weatherInfo[Constants.widget_key_sky] = "정보 없음"
-                    }
-                case Constants.api_rainform :
-                    let value = dataArray[i]["obsrValue"].stringValue
-                    switch value {
-                    case "0":
-                        self.weatherInfo[Constants.widget_key_RainForm] = ""
-                        self.weatherInfo[Constants.widget_key_RainCode] = ""
-                    case "1":
-                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Rainy.convertName().subs
-                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Rainy.convertName().code
-                    case "2":
-                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Sleet.convertName().subs
-                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Sleet.convertName().code
-                    case "3":
-                        self.weatherInfo[Constants.widget_key_RainForm] = Weather.Snow.convertName().subs
-                        self.weatherInfo[Constants.widget_key_RainCode] = Weather.Snow.convertName().code
-                    default:
-                        self.weatherInfo[Constants.widget_key_RainForm] = "정보 없음"
-                    }
-                default:
-                    print("필요없는 값")
-                }
-                
-            }
-            }
-            
-        }
-        
-    }
-    //오늘 새벽 2시예보 부르기
-    func get2amData() {
-        let now = Date()
-        let dateFommater = DateFormatter()
-        let timeFommater = DateFormatter()
-        let minFommater = DateFormatter()
-        var nx = ""
-        var ny = ""
-        let yesterday = now.addingTimeInterval(-24 * 60 * 60)
-        let tomorrow = now.addingTimeInterval(24 * 60 * 60)
-        
-        dateFommater.dateFormat = "yyyyMMdd"
-        timeFommater.dateFormat = "HH"
-        minFommater.dateFormat = "mm"
-        //한국시간으로 맞춰주기
-        dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
-        
-        let setYesterday:String = dateFommater.string(from: yesterday)
-        var date:String = dateFommater.string(from: now)
-        var time:String = timeFommater.string(from: now)
-        var realToday:String = dateFommater.string(from: now)
-        
-        guard let setTime = Int(time) else { return }
-        if setTime < 2 {
-            date = setYesterday
-            time = "2300"
-        } else {
-            time = "0200"
-        }
-        
-        if let lat = Double(self.lat), let lon = Double(self.lon) {
-            nx = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["nx"]!))"
-            ny = "\(Int(convertGrid(code: "toXY", v1: lat, v2: lon)["ny"]!))"
-        }
-        
-        let appid = Constants.appKey
-        let url = Constants.forecastSpace
-        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
-                         "base_date":date,
-                         "base_time":time,
-                         "nx":nx,
-                         "ny":ny,
-                         "_type":"json",
-                         "numOfRows":"999"]
-        
-        print("파라미터들(두시데이터):",date,time,nx,ny)
-        
-        Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
-            guard let weatherData = response.result.value else { return }
-            let data = JSON(weatherData)
-//            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
-            let dataArray = data["response"]["body"]["items"]["item"].arrayValue
-            if dataArray.count == 0 {
-                self.weatherInfo[Constants.widget_key_Max] = "-"
-                self.weatherInfo[Constants.widget_key_Min] = "-"
-            } else {
-            for i in 0...dataArray.count - 1 {
-                if setTime < 2 && dataArray[i]["fcstDate"].stringValue == realToday {
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
-                    case Constants.api_min:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Min] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
-                    }
-                    
-                } else if dataArray[i]["fcstDate"].stringValue == date {
-                    switch dataArray[i]["category"].stringValue {
-                    case Constants.api_max:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Max] = self.roundedTemperature(from: value)
-                    case Constants.api_min:
-                        let value = dataArray[i]["fcstValue"].stringValue
-                        self.weatherInfo[Constants.widget_key_Min] = self.roundedTemperature(from: value)
-                    default:
-                        print("필요없는 값")
-                    }
-                }
-            }
-            }
-        }
-        
-        
+        UserDefaults.standard.setValue(parameter, forKey: Constants.parameterCurrunt)
+        return parameter
     }
     
     
-    func roundedTemperature(from temperature:String) -> String {
+    private func roundedTemperature(from temperature:String) -> String {
         var result:String = ""
         if let doubleTemperature:Double = Double(temperature) {
             let intTemperature:Int = Int(doubleTemperature.rounded())

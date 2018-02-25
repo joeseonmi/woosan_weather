@@ -179,22 +179,22 @@
                                                                                 </subviews>
                                                                             </stackView>
                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aI3-GL-Wnc" userLabel="mainTem">
-                                                                                <rect key="frame" x="196" y="12" width="134" height="50"/>
+                                                                                <rect key="frame" x="196" y="12.5" width="134" height="50"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LK-Yf-1h6">
-                                                                                        <rect key="frame" x="8.5" y="-4" width="42" height="44.5"/>
+                                                                                        <rect key="frame" x="8.5" y="-4.5" width="42" height="44.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                                         <color key="textColor" red="0.90980392160000001" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgc-NB-94y">
-                                                                                        <rect key="frame" x="58.5" y="3" width="18.5" height="45.5"/>
+                                                                                        <rect key="frame" x="58.5" y="2.5" width="18.5" height="45.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="35"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-Ti-GOy">
-                                                                                        <rect key="frame" x="85" y="10.5" width="42" height="44.5"/>
+                                                                                        <rect key="frame" x="85" y="10" width="42" height="44.5"/>
                                                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
                                                                                         <color key="textColor" red="0.42745098040000001" green="0.64313725489999995" blue="0.77647058820000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -221,14 +221,14 @@
                                                                                 <rect key="frame" x="222.5" y="66" width="80" height="20.5"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="강수량" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mQp-fL-Xao">
-                                                                                        <rect key="frame" x="0.0" y="0.5" width="42" height="20.5"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="20.5"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6re-Gc-M7N">
-                                                                                        <rect key="frame" x="48" y="0.5" width="32" height="20.5"/>
+                                                                                        <rect key="frame" x="48" y="0.0" width="32" height="20.5"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                         <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -410,6 +410,16 @@
                                     <segue destination="S0N-39-e3q" kind="presentation" id="PXa-IA-kdY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CjT-Mu-vlT">
+                                <rect key="frame" x="319" y="30" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CjT-Mu-vlT" secondAttribute="height" multiplier="1:1" id="nhW-yA-bsw"/>
+                                </constraints>
+                                <state key="normal" image="dust"/>
+                                <connections>
+                                    <segue destination="mMR-zp-lMF" kind="presentation" id="nTq-5M-RzP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -426,6 +436,9 @@
                             <constraint firstItem="U2T-Aq-HbP" firstAttribute="top" secondItem="Lzs-Zc-jGH" secondAttribute="bottom" constant="16" id="Ufd-RS-zQ0"/>
                             <constraint firstItem="Lzs-Zc-jGH" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="YNT-qe-IWK"/>
                             <constraint firstItem="fqk-2A-qfA" firstAttribute="leading" secondItem="cTG-cB-w6A" secondAttribute="trailing" constant="9" id="Yzi-C4-sJb"/>
+                            <constraint firstItem="CjT-Mu-vlT" firstAttribute="centerY" secondItem="fqk-2A-qfA" secondAttribute="centerY" id="eN1-tL-AHv"/>
+                            <constraint firstAttribute="trailing" secondItem="CjT-Mu-vlT" secondAttribute="trailing" constant="16" id="gxu-IV-qR6"/>
+                            <constraint firstItem="CjT-Mu-vlT" firstAttribute="leading" secondItem="fqk-2A-qfA" secondAttribute="trailing" constant="4" id="pD4-Vf-Sro"/>
                             <constraint firstItem="fqk-2A-qfA" firstAttribute="top" secondItem="MGf-UC-L6z" secondAttribute="bottom" id="u6L-oS-dEp"/>
                             <constraint firstItem="8VE-qb-Tne" firstAttribute="centerY" secondItem="tDd-2z-clg" secondAttribute="centerY" multiplier="0.95" id="xXA-l1-FxP"/>
                         </constraints>
@@ -450,6 +463,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="28" y="40.929535232383813"/>
+        </scene>
+        <!--dustDataStoryboard-->
+        <scene sceneID="QxH-GO-qhT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="dustDataStoryboard" referencedIdentifier="dustDataStoryboard" id="mMR-zp-lMF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xyD-KS-fJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="624" y="-213"/>
         </scene>
         <!--Setting-->
         <scene sceneID="Jh7-ms-wMz">
@@ -969,6 +990,7 @@
     <resources>
         <image name="cantUse" width="89" height="139"/>
         <image name="downloadBtn" width="35" height="36"/>
+        <image name="dust" width="28" height="30"/>
         <image name="gom" width="100" height="86"/>
         <image name="humi" width="19" height="26"/>
         <image name="menu" width="22" height="15"/>
