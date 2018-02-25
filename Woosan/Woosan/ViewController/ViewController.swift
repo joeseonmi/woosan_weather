@@ -191,8 +191,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         }
         
         
-        
-        
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
             self.viewMobinWeather(today: self.skyCode)
@@ -345,7 +343,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let dayNightTime = Int(time) else { return }
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             //data는 무조건 들어오지만, 성공이 아닐때가있음.
-            print("=================초단기실드 결과 코드:",data)
+//            print("=================초단기실드 결과 코드:",data)
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Rain] = "-"
                 self.todayWeather[Constants.today_key_Present] = "-"
@@ -628,7 +626,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-            //            print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+                        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Max] = "-"
