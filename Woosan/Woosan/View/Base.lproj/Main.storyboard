@@ -416,6 +416,9 @@
                                     <constraint firstAttribute="width" secondItem="CjT-Mu-vlT" secondAttribute="height" multiplier="1:1" id="nhW-yA-bsw"/>
                                 </constraints>
                                 <state key="normal" image="dust"/>
+                                <connections>
+                                    <action selector="dustAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Qo-fL-FXi"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -442,6 +445,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="xZA-cR-FjD" id="AxM-R1-uN4"/>
+                        <outlet property="dustBtn" destination="CjT-Mu-vlT" id="oXC-99-Vin"/>
                         <outlet property="humidity" destination="FdD-D8-oLm" id="uoJ-8m-ObK"/>
                         <outlet property="locationLabel" destination="fqk-2A-qfA" id="Lmw-fo-HU3"/>
                         <outlet property="movinImageView" destination="tDd-2z-clg" id="ZVa-Ni-uAO"/>
