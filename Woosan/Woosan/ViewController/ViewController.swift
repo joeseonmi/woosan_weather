@@ -128,6 +128,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var dustBtn: UIButton!
     var firstRunning:Bool = true
     var denied:Bool = false
     /*******************************************/
@@ -136,7 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.dustBtn.isHidden = true
         print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@: viewDidLoad")
         //정보 들어오기전 아무것도 안뜨게 초기화
         self.locationLabel.text = ""
