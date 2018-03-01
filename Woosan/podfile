@@ -13,6 +13,7 @@ pod 'Firebase/Core'
 pod 'Firebase/Database'
 pod 'Firebase/Storage'
 pod 'AlamofireNetworkActivityIndicator', '~> 2.2'
+pod 'ObjectMapper', '~> 3.1'
   # Pods for Woosan
 
 end

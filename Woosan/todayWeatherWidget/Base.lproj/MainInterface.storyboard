@@ -129,6 +129,9 @@
                                     <constraint firstItem="BQj-95-tXn" firstAttribute="leading" secondItem="yqw-0p-hCX" secondAttribute="trailing" constant="2" id="v01-fR-0f1"/>
                                     <constraint firstItem="FYK-Fo-cvy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="R5g-9D-nUG" secondAttribute="trailing" constant="8" id="var-QE-QMt"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="HiF-8r-Aae" appends="YES" id="73Q-fa-hV8"/>
+                                </connections>
                             </view>
                         </subviews>
                         <constraints>
@@ -155,6 +158,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="HiF-8r-Aae">
+                    <connections>
+                        <action selector="tapExtention:" destination="M4Y-Lb-cyx" id="cqt-Xt-e2o"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="116.8" y="95.802098950524751"/>
         </scene>
