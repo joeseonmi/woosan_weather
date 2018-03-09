@@ -33,8 +33,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     }
     var state:String = "" {
         didSet{
+            /*
+             1. 데이터 있나 확인(위젯에 먼저확인했는지)
+             2. 시간저장해두고 같은 시간이면 호출 안하게
+             */
             dustAPIController.shared.todayDustInfo(state) { (response) in
-                print("미세먼지:", response)
+                self.dust.text = response.dust10Value + " | " + response.dustComment
             }
         }
     }
@@ -204,9 +208,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 get2amData()
             }
         }
-        
-        
-        
         
         
         

@@ -53,7 +53,10 @@ class dustAPIController {
             }
             pm25Average = "\(sumPM25 / (totalDustData.count - emptycount))"
 
-            var curruntDustData:todayDust = todayDust(location: "정보 없음", dust10Value: "0", dust25Value: "0", dustComment: "정보 없음")
+            var curruntDustData:todayDust = todayDust(location: "정보 없음",
+                                                      dust10Value: "0",
+                                                      dust25Value: "0",
+                                                      dustComment: "정보 없음")
             curruntDustData.location = cityName
             curruntDustData.dust10Value = pm10Average
             curruntDustData.dust25Value = pm25Average
@@ -77,7 +80,6 @@ class dustAPIController {
     }
     
     private func convertName(eng: String) -> String {
-        
         switch eng {
         case "Seoul","서울특별시": return "서울"
         case "Busan","부산광역시": return "부산"
@@ -132,45 +134,4 @@ struct todayDust {
   
 }
 
-enum DustlocationName {
-    
-    case busan
-    case chungbuk
-    case chungnam
-    case daegu
-    case daejeon
-    case gangwon
-    case gwangju
-    case gyeongbuk
-    case gyeonggi
-    case gyeongnam
-    case incheon
-    case jeju
-    case jeonbuk
-    case jeonnam
-    case sejong
-    case seoul
-    case ulsan
-    
-    func convertLocationName() -> (kor: String, eng: String) {
-        switch self {
-        case .busan: return ("부산","busan")
-        case .chungbuk: return ("충북","chungbuk")
-        case .chungnam: return ("충남","chungnam")
-        case .daegu: return ("대구","daegu")
-        case .daejeon: return ("대전","daejeon")
-        case .gangwon: return ("강원","gangwon")
-        case .gwangju: return ("광주","gwangju")
-        case .gyeongbuk: return ("경북","gyeongbuk")
-        case .gyeonggi: return ("경기","gyeonggi")
-        case .gyeongnam: return ("경남","gyeongnam")
-        case .incheon: return ("인천","incheon")
-        case .jeju: return ("제주","jeju")
-        case .jeonbuk: return ("전북","jeonbuk")
-        case .jeonnam: return ("전남","jeonnam")
-        case .sejong: return ("세종","sejong")
-        case .seoul: return ("서울","seoul")
-        case .ulsan: return ("울산","ulsan")
-        }
-    }
-}
+
