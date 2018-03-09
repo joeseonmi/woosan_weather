@@ -31,6 +31,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             }
         }
     }
+    var state:String = "" {
+        didSet{
+            dustAPIController.shared.todayDustInfo(state) { (response) in
+                print("미세먼지:", response)
+            }
+        }
+    }
     
     var skyCode:String = "" {
         didSet {
@@ -180,16 +187,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let coordinate = locationManager.location else { return }
             self.convertAddress(from: coordinate)
             
+            
             if let realLat = locationManager.location?.coordinate.latitude,
                 let realLon = locationManager.location?.coordinate.longitude {
                 self.lat = "\(realLat)"
                 self.lon = "\(realLon)"
+                
+               
+                WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { (response) in
+                    print("불려쓰요://")
+                }
+                
                 
                 getForecast()
                 getForecastSpaceData()
                 get2amData()
             }
         }
+        
+        
+        
+        
         
         
         //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
@@ -537,7 +555,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 todayDict["fcstDate"] = i["fcstDate"].stringValue
                 self.todayParseData[fcsttime] = todayDict
             }
-            print("오늘 예보: ",self.todayParseData)
+//            print("오늘 예보: ",self.todayParseData)
             
             
             //내일 날짜인 예보들을 불러옵니다.
@@ -570,7 +588,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 afterDict["fcstDate"] = i["fcstDate"].stringValue
                 self.afterParseData[fcsttime] = afterDict
             }
-            print("모레 예보:", self.afterParseData)
+//            print("모레 예보:", self.afterParseData)
         }
         
         
@@ -627,7 +645,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         Alamofire.request(url, method: .get, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             guard let weatherData = response.result.value else { return }
             let data = JSON(weatherData)
-                        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
+//                        print("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ:", data)
             let dataArray = data["response"]["body"]["items"]["item"].arrayValue
             if dataArray.count == 0 {
                 self.todayWeather[Constants.today_key_Max] = "-"
@@ -679,12 +697,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 let city = placemark.locality,
                 let subLocality = placemark.subLocality {
                 self.locationInfo = "\(state) " + "\(city) " + subLocality
+                self.state = state
             }
             
             if let country = placemark.country {
                 self.country = country
             }
-            return
         }
         
     }

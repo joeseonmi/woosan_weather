@@ -8,40 +8,38 @@
 
 import Foundation
 
-struct TemperData {
+struct TempMaxMinData {
 
     let max:String
     let min:String
     
-    static let empty = TemperData(max: "-",
-                                  min: "-")
+    static let empty = TempMaxMinData(max: "-",
+                                      min: "-")
 }
 
-struct WeatherModel {
+struct CurruntWeather {
     
     let curruntTemp:String
     let rain:String
     let wind:String
     let humi:String
-    let location:String
     let sky:String
+    let icon:String
     
-    static let empty = WeatherModel(curruntTemp: "00",
-                                    rain: "-",
-                                    wind: "-",
-                                    humi: "-",
-                                    location: "정보 없음",
-                                    sky: "정보 없음")
+    static let empty = CurruntWeather(curruntTemp: "00",
+                                      rain: "-",
+                                      wind: "-",
+                                      humi: "-",
+                                      sky: "정보 없음",
+                                      icon: "weather_default")
 }
 
-struct forecastModel {
+struct ForecastWeather {
+
+    let forecastTime:String
+    let forecast:[String:String]
     
-    let time:String
-    let icon:String
-    let temp:String
-    
-    static let empty = forecastModel(time: "00",
-                                     icon: "default",
-                                     temp: "-")
+    static let empty = ForecastWeather(forecastTime: "-",
+                                       forecast: ["category":"value"])
     
 }

@@ -15,37 +15,16 @@ struct DataShare {
     static let widgetShareDataKey = "group.devjoe.TodayExtensionSharingDefaults"
     static let widgetThemeDataKey = "Theme"
     
-    static let appKey = ""
+    static let appKey = "dZ3RPoI%2BsacOCxFGAQnh6tn8V3ypiYhPzmRG%2BIY9%2FPq1Xfscm1xJFiC4eimk5GY94zEuMgg8OHJGsusUREKUxg%3D%3D"
     static let forecastChoDangi = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
     static let forecastSpace = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
-    static let dustApi = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureLIst"
+    static let dustApi = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
     
+    static let parameter2am = "2amParameter"
+    static let parameterCurrunt = "parameterCurrunt"
+    static let data2am = "data2am"
+    static let dataCurrunt = "dataCurrunt"
     
-}
-
-struct ThemeInfo {
-    static let titles:[String] = ["우산 챙기개!(기본)",
-                                  "우산 챙겼냥!"]
-    
-    static let subscrip:[String] = ["우산챙기개! 기본테마. 강아지가 뛰어댕겨요.",
-                                    "얼룩이 고양이가 뛰어댕겨요."]
-    
-    static let image:[String] = ["doggythemIcon",
-                                 "dungsilcatthemIcon"]
-}
-
-enum Theme: Int {
-    case doggy = 0
-    case catty
-    
-    func convertName() -> String {
-        switch self {
-        case .doggy:
-            return "doggy"
-        case .catty:
-            return "catty"
-        }
-    }
 }
 
 enum Weather {
