@@ -22,8 +22,10 @@ class dustAPIController {
                 let responsecityName = data["stationName"].stringValue
                 let pm10 = data["pm10Value"].stringValue
                 let pm25 = data["pm25Value"].stringValue
+                let time = data["dataTime"].stringValue
                 let comment = self.convertComment(dustScore: pm10)
-                let tempTodatDust = todayDust(location: responsecityName,
+                let tempTodatDust = todayDust(time: time,
+                                              location: responsecityName,
                                               dust10Value: pm10,
                                               dust25Value: pm25,
                                               dustComment: comment)
@@ -53,7 +55,12 @@ class dustAPIController {
             }
             pm25Average = "\(sumPM25 / (totalDustData.count - emptycount))"
 
-            var curruntDustData:todayDust = todayDust(location: "정보 없음",
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd-HH"
+            let time = formatter.string(from: now)
+            var curruntDustData:todayDust = todayDust(time: time,
+                                                      location: "정보 없음",
                                                       dust10Value: "0",
                                                       dust25Value: "0",
                                                       dustComment: "정보 없음")
@@ -61,7 +68,12 @@ class dustAPIController {
             curruntDustData.dust10Value = pm10Average
             curruntDustData.dust25Value = pm25Average
             curruntDustData.dustComment = self.convertComment(dustScore: pm10Average)
+            curruntDustData.time = time
             dustData(curruntDustData)
+           
+//            guard let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
+//            shareData.set(curruntDustData, forKey: DataShare.dustDataKey)
+//            shareData.synchronize()
         }
     }
     
@@ -127,6 +139,7 @@ class dustAPIController {
 
 struct todayDust {
     
+    var time:String
     var location:String
     var dust10Value:String
     var dust25Value:String

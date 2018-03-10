@@ -20,6 +20,8 @@
 		D8298554201A606E00FECC68 /* SKY_D09.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298552201A606E00FECC68 /* SKY_D09.json */; };
 		D8298555201A606E00FECC68 /* SKY_D08.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298553201A606E00FECC68 /* SKY_D08.json */; };
 		D82EADC7205111B7000731B4 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82EADC6205111B7000731B4 /* ThemeManager.swift */; };
+		D82EADC82052B288000731B4 /* dustApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2FECA203D8D52000B563F /* dustApiController.swift */; };
+		D82EADCA2052B4C8000731B4 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* Data.swift */; };
 		D849EEF920146E5D00011250 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* Data.swift */; };
 		D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */ = {isa = PBXBuildFile; fileRef = D84B17371FDAA6BD007F14A1 /* doggy.json */; };
 		D84B173E1FDC412F007F14A1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B173D1FDC412F007F14A1 /* SettingViewController.swift */; };
@@ -560,6 +562,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82EADC82052B288000731B4 /* dustApiController.swift in Sources */,
+				D82EADCA2052B4C8000731B4 /* Data.swift in Sources */,
 				D807E5E51FD2739500EC5CC6 /* TodayViewController.swift in Sources */,
 				D8FDCCDE204305FD00E8CE15 /* WidgetAPIController.swift in Sources */,
 				D80324EE1FDEFF4F00C3D06B /* Widget_Constants.swift in Sources */,
