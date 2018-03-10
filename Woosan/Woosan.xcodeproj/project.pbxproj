@@ -19,6 +19,9 @@
 		D81B2E771FCEB5B10094CCB5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81B2E761FCEB5B10094CCB5 /* Constants.swift */; };
 		D8298554201A606E00FECC68 /* SKY_D09.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298552201A606E00FECC68 /* SKY_D09.json */; };
 		D8298555201A606E00FECC68 /* SKY_D08.json in Resources */ = {isa = PBXBuildFile; fileRef = D8298553201A606E00FECC68 /* SKY_D08.json */; };
+		D82EADC7205111B7000731B4 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82EADC6205111B7000731B4 /* ThemeManager.swift */; };
+		D82EADC82052B288000731B4 /* dustApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2FECA203D8D52000B563F /* dustApiController.swift */; };
+		D82EADCA2052B4C8000731B4 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* Data.swift */; };
 		D849EEF920146E5D00011250 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849EEF820146E5D00011250 /* Data.swift */; };
 		D84B17381FDAA6BD007F14A1 /* doggy.json in Resources */ = {isa = PBXBuildFile; fileRef = D84B17371FDAA6BD007F14A1 /* doggy.json */; };
 		D84B173E1FDC412F007F14A1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B173D1FDC412F007F14A1 /* SettingViewController.swift */; };
@@ -104,6 +107,7 @@
 		D81B2E761FCEB5B10094CCB5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D8298552201A606E00FECC68 /* SKY_D09.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SKY_D09.json; sourceTree = "<group>"; };
 		D8298553201A606E00FECC68 /* SKY_D08.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SKY_D08.json; sourceTree = "<group>"; };
+		D82EADC6205111B7000731B4 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		D849EEF820146E5D00011250 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		D84B17371FDAA6BD007F14A1 /* doggy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = doggy.json; sourceTree = "<group>"; };
 		D84B173D1FDC412F007F14A1 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 				D86C8F822032F11F00BBB9CD /* WeatherModel.swift */,
 				D8FDCCD320413A8000E8CE15 /* WeatherAPIController.swift */,
 				D8F2FECA203D8D52000B563F /* dustApiController.swift */,
+				D82EADC6205111B7000731B4 /* ThemeManager.swift */,
 				D849EEF820146E5D00011250 /* Data.swift */,
 				D8ED0F9F1FC1E76A001D1FC0 /* Assets.xcassets */,
 				D8ED0FA11FC1E76A001D1FC0 /* LaunchScreen.storyboard */,
@@ -557,6 +562,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82EADC82052B288000731B4 /* dustApiController.swift in Sources */,
+				D82EADCA2052B4C8000731B4 /* Data.swift in Sources */,
 				D807E5E51FD2739500EC5CC6 /* TodayViewController.swift in Sources */,
 				D8FDCCDE204305FD00E8CE15 /* WidgetAPIController.swift in Sources */,
 				D80324EE1FDEFF4F00C3D06B /* Widget_Constants.swift in Sources */,
@@ -567,6 +574,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82EADC7205111B7000731B4 /* ThemeManager.swift in Sources */,
 				D84B174A1FDC5302007F14A1 /* ThemeTableViewCell.swift in Sources */,
 				D84B174F1FDC595D007F14A1 /* BGCollectionViewCell.swift in Sources */,
 				D8CE53301FFBDC1E00CE171A /* notiPopup.swift in Sources */,

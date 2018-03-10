@@ -14,23 +14,66 @@ class dustAPIController {
     
     static let shared = dustAPIController()
     
-    func todayDustInfo(_ location:String, dustData: @escaping (_ data:[String:todayDust]) -> Void) {
-        requestDust { (response) in
-            let tempData = response.dictionaryValue
-            var dustDataDict:[String:todayDust] = [:]
-            let keys = tempData.keys.sorted()
-            for i in keys {
-                guard let value = tempData[i] else { return }
-                let temp = todayDust(location: self.convertName(eng: i),
-                                           dustValue: value.stringValue,
-                                           dustComment: self.convertComment(dustScore: value.stringValue))
-                if temp.location == "정보 없음"  {
-                    print("지역이 아님")
+    func todayDustInfo(_ cityName:String, dustData: @escaping (_ data:todayDust) -> Void) {
+        requestDust(cityName: cityName) { (response) in
+            //여기서 데이터 구성
+            var totalDustData = [todayDust]()
+            for data in response.arrayValue {
+                let responsecityName = data["stationName"].stringValue
+                let pm10 = data["pm10Value"].stringValue
+                let pm25 = data["pm25Value"].stringValue
+                let time = data["dataTime"].stringValue
+                let comment = self.convertComment(dustScore: pm10)
+                let tempTodatDust = todayDust(time: time,
+                                              location: responsecityName,
+                                              dust10Value: pm10,
+                                              dust25Value: pm25,
+                                              dustComment: comment)
+                totalDustData.append(tempTodatDust)
+            }
+            var pm10Average:String = ""
+            var sumPM10:Int = 0
+            for data in totalDustData {
+                if let pm10 = Int(data.dust10Value) {
+                    sumPM10 += pm10
                 } else {
-                    dustDataDict[i] = temp
+                    sumPM10 += 0
                 }
             }
-            dustData(dustDataDict)
+            pm10Average = "\(sumPM10 / totalDustData.count)"
+            
+            var pm25Average:String = ""
+            var sumPM25:Int = 0
+            var emptycount = 0
+            for data in totalDustData {
+                if let pm25 = Int(data.dust25Value) {
+                    sumPM25 += pm25
+                } else {
+                    sumPM25 += 0
+                    emptycount += 1
+                }
+            }
+            pm25Average = "\(sumPM25 / (totalDustData.count - emptycount))"
+
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd-HH"
+            let time = formatter.string(from: now)
+            var curruntDustData:todayDust = todayDust(time: time,
+                                                      location: "정보 없음",
+                                                      dust10Value: "0",
+                                                      dust25Value: "0",
+                                                      dustComment: "정보 없음")
+            curruntDustData.location = cityName
+            curruntDustData.dust10Value = pm10Average
+            curruntDustData.dust25Value = pm25Average
+            curruntDustData.dustComment = self.convertComment(dustScore: pm10Average)
+            curruntDustData.time = time
+            dustData(curruntDustData)
+           
+//            guard let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
+//            shareData.set(curruntDustData, forKey: DataShare.dustDataKey)
+//            shareData.synchronize()
         }
     }
     
@@ -50,35 +93,34 @@ class dustAPIController {
     
     private func convertName(eng: String) -> String {
         switch eng {
-        case "busan": return "부산"
-        case "chungbuk": return "충북"
-        case "chungnam": return "충남"
-        case "daegu": return "대구"
-        case "daejeon": return "대전"
-        case "gangwon": return "강원"
-        case "gwangju": return "광주"
-        case "gyeongbuk": return "경북"
-        case "gyeonggi": return "경기"
-        case "gyeongnam": return "경남"
-        case "incheon": return "인천"
-        case "jeju": return "제주"
-        case "jeonbuk": return "전북"
-        case "jeonnam": return "전남"
-        case "sejong": return "세종"
-        case "seoul": return "서울"
-        case "ulsan": return "울산"
-        default:
-            return "정보 없음"
+        case "Seoul","서울특별시": return "서울"
+        case "Busan","부산광역시": return "부산"
+        case "Daegu","대구광역시": return "대구"
+        case "Incheon","인천광역시": return "인천"
+        case "Gwangju", "광주광역시": return "광주"
+        case "Daejeon", "대전광역시": return "대전"
+        case "Gyeonggi-do", "경기도": return "경기"
+        case "Gangwon","강원도": return "강원"
+        case "North Chungcheong","충청북도": return "충북"
+        case "South Chungcheong","충청남도": return "충남"
+        case "North Jeolla","전라북도": return "전북"
+        case "South Jeolla","전라남도": return "전남"
+        case "North Gyeongsang","경상북도": return "경북"
+        case "South Gyeongsang","경상남도": return "경남"
+        case "Jeju","제주도","제주시": return "제주"
+        default: return "위치 확인 불가"
         }
     }
     
-    private func requestDust(completion: @escaping (_ dustValue:JSON) -> Void) {
+    private func requestDust(cityName:String, completion: @escaping (_ dustValue:JSON) -> Void) {
+        let sidoName:String = self.convertName(eng: cityName)
         let appkey = DataShare.appKey
         let url = DataShare.dustApi
-        let parameter = ["itemCode":"PM10",
-                         "dataGubun":"HOUR",
-                         "ServiceKey":appkey.removingPercentEncoding!,
+        let parameter = ["ServiceKey":appkey.removingPercentEncoding!,
                          "ver":"1.3",
+//                         "pageNo":"1",
+//                         "numOfRows":"10",
+                         "sidoName":sidoName,
                          "_returnType":"json"]
         
     Alamofire.request(url, method: .get,
@@ -88,7 +130,7 @@ class dustAPIController {
         .responseJSON { (response) in
             guard let responseData = response.result.value else { return }
             let tempData = JSON(responseData)
-            let today = tempData["list"][0]
+            let today = tempData["list"]
             completion(today)
         }
     }
@@ -97,51 +139,12 @@ class dustAPIController {
 
 struct todayDust {
     
+    var time:String
     var location:String
-    var dustValue:String
+    var dust10Value:String
+    var dust25Value:String
     var dustComment:String
-
+  
 }
 
-enum DustlocationName {
-    
-    case busan
-    case chungbuk
-    case chungnam
-    case daegu
-    case daejeon
-    case gangwon
-    case gwangju
-    case gyeongbuk
-    case gyeonggi
-    case gyeongnam
-    case incheon
-    case jeju
-    case jeonbuk
-    case jeonnam
-    case sejong
-    case seoul
-    case ulsan
-    
-    func convertLocationName() -> (kor: String, eng: String) {
-        switch self {
-        case .busan: return ("부산","busan")
-        case .chungbuk: return ("충북","chungbuk")
-        case .chungnam: return ("충남","chungnam")
-        case .daegu: return ("대구","daegu")
-        case .daejeon: return ("대전","daejeon")
-        case .gangwon: return ("강원","gangwon")
-        case .gwangju: return ("광주","gwangju")
-        case .gyeongbuk: return ("경북","gyeongbuk")
-        case .gyeonggi: return ("경기","gyeonggi")
-        case .gyeongnam: return ("경남","gyeongnam")
-        case .incheon: return ("인천","incheon")
-        case .jeju: return ("제주","jeju")
-        case .jeonbuk: return ("전북","jeonbuk")
-        case .jeonnam: return ("전남","jeonnam")
-        case .sejong: return ("세종","sejong")
-        case .seoul: return ("서울","seoul")
-        case .ulsan: return ("울산","ulsan")
-        }
-    }
-}
+

@@ -29,11 +29,11 @@ class DustDataViewController: UIViewController {
     @IBOutlet weak var jeonnam: UIView!
     @IBOutlet weak var jeju: UIView!
     
-    var dustData:[String:todayDust] = [:] {
-        didSet {
-            self.buildDustView()
-        }
-    }
+//    var dustData:[String:todayDust] = [:] {
+//        didSet {
+//            self.buildDustView()
+//        }
+//    }
 
     @IBAction func closeBtn(_ sender: UIButton) {
         self.closeVC()
@@ -43,26 +43,27 @@ class DustDataViewController: UIViewController {
         super.viewDidLoad()
         dustAPIController.shared.todayDustInfo("seoul") { (dict) in
             print(dict)
-            self.dustData = dict
+//            self.dustData = dict
         }
             
     }
     
-    private func buildDustView() {
-
-        let keys = dustData.keys.sorted()
-        for key in keys {
-            guard let tempData = dustData[key] else { return }
-            let bgView = self.convertView(name: key)
-            let tempView = self.resisterDustView(location: tempData.location,
-                                                 dustValue: tempData.dustValue,
-                                                 comment: tempData.dustComment)
-            bgView.addSubview(tempView)
-            tempView.frame.size.width = self.jeju.frame.size.width
-            tempView.frame.size.height = self.jeju.frame.size.height
-            tempView.contentMode = .scaleAspectFit
-        }
-    }
+//    private func buildDustView() {
+//
+//        let keys = dustData.keys.sorted()
+//        for key in keys {
+//            guard let tempData = dustData[key] else { return }
+//            let bgView = self.convertView(name: key)
+//            let tempView = self.resisterDustView(location: tempData.location,
+//                                                 dustValue: tempData.dustValue,
+//                                                 comment: tempData.dustComment)
+//            bgView.addSubview(tempView)
+//            tempView.frame.size.width = self.jeju.frame.size.width
+//            tempView.frame.size.height = self.jeju.frame.size.height
+//            tempView.contentMode = .scaleAspectFit
+//        }
+//    }
+    
     private func convertView(name:String) -> UIView {
         switch name {
         case "seoul": return self.seoul

@@ -26,9 +26,9 @@ class WidgetAPIController {
             dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
             let time:String = timeFommater.string(from: now)
             
-            guard let dayNightTime = Int(time) else { return }
+            
             let temp = todayWeather.init(curruntTemp: "00", rain: "강수정보 없음", weatherIcon: "weather_default", comment: "정보 없음")
-            print("=================결과:",dayNightTime , "시간은 여기")
+           
             var weatherInfo:[String:String] = [:]
             
             if dataArray.count == 0 {
@@ -43,10 +43,12 @@ class WidgetAPIController {
                         let value = dataArray[i]["obsrValue"].stringValue
                         weatherInfo[Constants.widget_key_Present] = self.roundedTemperature(from: value)
                     case Constants.api_sky :
+                        guard let dayNightTime = Int(time) else { return }
+                        print("=================결과:",dayNightTime , "시간은 여기")
                         let value = dataArray[i]["obsrValue"].stringValue
                         switch value {
                         case "1":
-                            if dayNightTime > 0700 && dayNightTime < 2000 {
+                            if dayNightTime > 07 && dayNightTime < 20 {
                                 weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
                                 weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
                             } else {
@@ -54,7 +56,7 @@ class WidgetAPIController {
                                 weatherInfo[Constants.widget_key_skyCode] = Weather.ClearNight.convertName().code
                             }
                         case "2":
-                            if dayNightTime > 0700 && dayNightTime < 2000 {
+                            if dayNightTime > 07 && dayNightTime < 20 {
                                 weatherInfo[Constants.widget_key_sky] = Weather.LittleCloudy.convertName().subs
                                 weatherInfo[Constants.widget_key_skyCode] = Weather.LittleCloudy.convertName().code
                             } else {

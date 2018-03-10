@@ -49,6 +49,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.locationLabel.text = locationInfo
         }
     }
+    var cityName = "" {
+        didSet {
+            dustAPIController.shared.todayDustInfo(cityName) { (response) in
+                self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
+            }
+        }
+    }
     var cacheCurruntWeather:[String:String] = [:] {
         didSet {
             UserDefaults.standard.set(cacheCurruntWeather, forKey: Constants.dataCurrunt)
@@ -137,7 +144,6 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             }
             
             
-            
         }
         
         if let coordinate = locationManager.location{
@@ -156,12 +162,12 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         
         self.loadImage()
         
-        //SE버전은 강수확률이 안보이게 설정했다.
-        //        let widthSize = self.bgView.frame.width
-        //        if widthSize <= 304.0 {
-        //            self.rainLabel.isHidden = true
-        //            self.rainTextLabel.isHidden = true
-        //        }
+//        SE버전은 강수확률이 안보이게 설정했다.
+                let widthSize = self.bgView.frame.width
+                if widthSize <= 304.0 {
+                    self.rainLabel.isHidden = true
+                    self.rainTextLabel.isHidden = true
+                }
     }
     
     /*******************************************/
@@ -212,6 +218,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                 let city = placemark.locality,
                 let subLocality = placemark.subLocality {
                 self.locationInfo = "\(state) " + "\(city) " + subLocality
+                self.cityName = state
             }
             return
         }
