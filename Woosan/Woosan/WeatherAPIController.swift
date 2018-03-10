@@ -16,7 +16,7 @@ class WeatherAPIController {
 
     func curruntWeather(lat:String,lon:String ,completed: @escaping (_ todayinfo: CurruntWeather) -> Void ) {
         print("현재 날씨 네트워킹!")
-        getForecast(base: makeCurruntAPIParameter(lat: lat, lon: lon)) { (dataArray) in
+        getCurrunt(base: makeCurruntAPIParameter(lat: lat, lon: lon)) { (dataArray) in
             let now = Date()
             let dateFommater = DateFormatter()
             let timeFommater = DateFormatter()
@@ -244,7 +244,7 @@ class WeatherAPIController {
                 let todayForecast = ForecastWeather.init(forecastTime: fcsttime, forecast: tempDic)
                 todayDict[fcsttime] = todayForecast
             }
-            print("오늘 예보: ",todayDict)
+//            print("오늘 예보: ",todayDict)
             //내일 날짜인 예보들을 불러옵니다.
             let tomorrowForecastArray = dataArray.filter({ (dic) -> Bool in
                 let tomorrow:String = dic["fcstDate"].stringValue
@@ -259,7 +259,7 @@ class WeatherAPIController {
                 let afterForecast = ForecastWeather.init(forecastTime: fcsttime, forecast: tomorrowtempDic)
                 tomorrowDict[fcsttime] = afterForecast
             }
-            print("내일 예보:", tomorrowDict)
+//            print("내일 예보:", tomorrowDict)
             
             //모레 날짜인 예보들을 불러옵니다.
             let afterForecastArray = dataArray.filter({ (dic) -> Bool in
@@ -275,11 +275,12 @@ class WeatherAPIController {
                 let afterForecast = ForecastWeather.init(forecastTime: fcsttime, forecast: aftertempDic)
                 afterDict[fcsttime] = afterForecast
             }
-            print("모레 예보:", afterDict)
+//            print("모레 예보:", afterDict)
             totalForecast["today"] = todayDict
             totalForecast["tomorrow"] = tomorrowDict
             totalForecast["after"] = afterDict
-            print("토탈: ", totalForecast)
+//            print("토탈: ", totalForecast)
+            completed(totalForecast)
         }
         
     }
