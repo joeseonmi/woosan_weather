@@ -26,7 +26,7 @@ struct Constants {
     static let widgetThemeDataKey = "Theme"
     static let widgetShareDataKey = "group.devjoe.TodayExtensionSharingDefaults"
     
-    static let appKey = ""
+    static let appKey = "dZ3RPoI%2BsacOCxFGAQnh6tn8V3ypiYhPzmRG%2BIY9%2FPq1Xfscm1xJFiC4eimk5GY94zEuMgg8OHJGsusUREKUxg%3D%3D"
     static let forecastChoDangi = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib"
     static let forecastSpace = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData"
     
