@@ -20,25 +20,25 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     /*******************************************/
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var weatherImageView: UIImageView!
-    
     @IBOutlet weak var rainLabel: UIImageView!
-    
     @IBOutlet weak var rainTextLabel: UILabel!
     @IBOutlet weak var dustLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
-    
     @IBOutlet weak var commentLabel: UILabel!
-    
     @IBOutlet weak var presenTemp: UILabel!
     @IBOutlet weak var maxTemp: UILabel!
     @IBOutlet weak var minTemp: UILabel!
     
     @IBAction func tapExtention(_ sender: UITapGestureRecognizer) {
         print("tap!")
-        self.reloadDatas()
+//        self.reloadDatas()
+        let url = NSURL(string: "woosan://")
+        extensionContext?.open(url! as URL, completionHandler: nil)
     }
     
     @IBOutlet weak var themeCharacter: UIImageView!
+  
+    
     let image:[String] = ["widgetDoggyhead",
                           "widgetCattyhead"]
     
@@ -163,11 +163,11 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         self.loadImage()
         
 //        SE버전은 강수확률이 안보이게 설정했다.
-                let widthSize = self.bgView.frame.width
-                if widthSize <= 304.0 {
-                    self.rainLabel.isHidden = true
-                    self.rainTextLabel.isHidden = true
-                }
+//                let widthSize = self.bgView.frame.width
+//                if widthSize <= 304.0 {
+//                    self.rainLabel.isHidden = true
+//                    self.rainTextLabel.isHidden = true
+//                }
     }
     
     /*******************************************/

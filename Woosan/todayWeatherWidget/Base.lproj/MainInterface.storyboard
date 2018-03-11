@@ -164,23 +164,23 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="95"/>
                     <connections>
-                        <outlet property="bgView" destination="Ob8-V6-pKf" id="K0q-Oy-s5U"/>
-                        <outlet property="commentLabel" destination="eP3-fD-0Dj" id="g1N-lE-ud9"/>
-                        <outlet property="dustLabel" destination="fxb-Iu-qhx" id="jdJ-6m-V9j"/>
-                        <outlet property="locationLabel" destination="FYK-Fo-cvy" id="o0r-gR-lai"/>
-                        <outlet property="maxTemp" destination="BKL-2O-mT6" id="IGc-y5-REc"/>
-                        <outlet property="minTemp" destination="BQj-95-tXn" id="vWc-8f-dDs"/>
-                        <outlet property="presenTemp" destination="R5g-9D-nUG" id="hZJ-p1-jXw"/>
-                        <outlet property="rainLabel" destination="8Nz-6x-3ZI" id="JCM-Cu-M3q"/>
-                        <outlet property="rainTextLabel" destination="VLR-cf-d0g" id="LLG-pI-12O"/>
-                        <outlet property="themeCharacter" destination="VRc-Af-FuQ" id="xcw-u1-Uvs"/>
-                        <outlet property="weatherImageView" destination="E8H-oz-fh6" id="W6c-Ux-hCb"/>
+                        <outlet property="bgView" destination="Ob8-V6-pKf" id="5F4-We-AFR"/>
+                        <outlet property="commentLabel" destination="eP3-fD-0Dj" id="KpD-Nn-ysl"/>
+                        <outlet property="dustLabel" destination="fxb-Iu-qhx" id="UoV-sT-Zsf"/>
+                        <outlet property="locationLabel" destination="FYK-Fo-cvy" id="CZB-FS-WCT"/>
+                        <outlet property="maxTemp" destination="BKL-2O-mT6" id="TQB-P2-Mpt"/>
+                        <outlet property="minTemp" destination="BQj-95-tXn" id="R9l-nK-ttX"/>
+                        <outlet property="presenTemp" destination="R5g-9D-nUG" id="ibD-nB-HSk"/>
+                        <outlet property="rainLabel" destination="8Nz-6x-3ZI" id="7Sj-1K-Rag"/>
+                        <outlet property="rainTextLabel" destination="VLR-cf-d0g" id="ECZ-5r-MbR"/>
+                        <outlet property="themeCharacter" destination="VRc-Af-FuQ" id="WVq-nh-tC0"/>
+                        <outlet property="weatherImageView" destination="E8H-oz-fh6" id="Y3G-OY-VRO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer numberOfTapsRequired="2" id="HiF-8r-Aae">
                     <connections>
-                        <action selector="tapExtention:" destination="M4Y-Lb-cyx" id="cqt-Xt-e2o"/>
+                        <action selector="tapExtention:" destination="M4Y-Lb-cyx" id="qsZ-6h-X3d"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

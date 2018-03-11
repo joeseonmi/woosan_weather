@@ -49,7 +49,8 @@ class WidgetAPIController {
                         switch value {
                         case "1":
                             if dayNightTime > 07 && dayNightTime < 20 {
-                                weatherInfo[Constants.widget_key_sky] = Weather.Sunny.convertName().subs
+                                weatherInfo[Constants.widget_key_sky] =
+                                    Weather.Sunny.convertName().subs
                                 weatherInfo[Constants.widget_key_skyCode] = Weather.Sunny.convertName().code
                             } else {
                                 weatherInfo[Constants.widget_key_sky] = Weather.ClearNight.convertName().subs
@@ -374,7 +375,7 @@ class WidgetAPIController {
             let yn = ro - v2 + Double(YO)
             let ra = sqrt(xn * xn + yn * yn)
             if (sn < 0.0) {
-                sn - ra
+//                sn - ra
             }
             var alat = pow((re * sf / ra), (1.0 / sn))
             alat = 2.0 * atan(alat) - Double.pi * 0.5
@@ -386,7 +387,7 @@ class WidgetAPIController {
                 if (abs(yn) <= 0.0) {
                     let theta = Double.pi * 0.5
                     if (xn < 0.0){
-                        xn - theta
+//                        xn - theta
                     }
                 }
                 else{
