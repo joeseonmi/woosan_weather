@@ -1,8 +1,9 @@
 import UIKit
-import Alamofire
-import SwiftyJSON
+//import Alamofire
+//import SwiftyJSON
 import CoreLocation
 import Lottie
+import Toaster
 
 class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDelegate {
     
@@ -140,6 +141,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var dustBtn: UIButton!
+    @IBAction func dustInfoIcon(_ sender: UIButton) {
+        let toast:Toast = Toast(text: "출처:환경부/한국환경공단\n데이터는 실시간 관측된 자료이며 측정소 현지 사정이나 \n데이터의 수신상태에 따라 미수신될 수 있습니다.", duration: Delay.long)
+        toast.show()
+    }
     var firstRunning:Bool = true
     var denied:Bool = false
     /*******************************************/
@@ -295,7 +300,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 })
                 
                 WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { (response) in
-                    print("ajdididididi: ",response.keys.sorted())
                     guard let todayData = response["today"],
                         let tomorrowData = response["tomorrow"],
                         let after = response["after"] else { return }
