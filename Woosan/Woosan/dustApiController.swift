@@ -57,7 +57,7 @@ class dustAPIController {
 
             let now = Date()
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd-HH"
+            formatter.dateFormat = "yyyy-MM-dd-HH:00"
             let time = formatter.string(from: now)
             var curruntDustData:todayDust = todayDust(time: time,
                                                       location: "정보 없음",
@@ -71,9 +71,15 @@ class dustAPIController {
             curruntDustData.time = time
             dustData(curruntDustData)
            
-//            guard let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
-//            shareData.set(curruntDustData, forKey: DataShare.dustDataKey)
-//            shareData.synchronize()
+            var dustCache:[String:String] = [:]
+            dustCache["time"] = time
+            dustCache["location"] = cityName
+            dustCache["dust10Value"] = pm10Average
+            dustCache["dust25Value"] = pm25Average
+            dustCache["dustComment"] = self.convertComment(dustScore: pm10Average)
+            guard let shareData = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
+            shareData.set(dustCache, forKey: DataShare.dustDataKey)
+            shareData.synchronize()
         }
     }
     
@@ -131,6 +137,7 @@ class dustAPIController {
             guard let responseData = response.result.value else { return }
             let tempData = JSON(responseData)
             let today = tempData["list"]
+            print("미세먼지데이터 네트워킹")
             completion(today)
         }
     }
