@@ -39,8 +39,13 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     @IBOutlet weak var themeCharacter: UIImageView!
   
     
-    let image:[String] = ["widgetDoggyhead",
-                          "widgetCattyhead"]
+    let image:[String] = ["doggy",
+                          "catty"]
+    var curruntDust:String = "" {
+        didSet {
+            loadImage(text: curruntDust)
+        }
+    }
     
     var lat:String = ""
     var lon:String = ""
@@ -51,9 +56,26 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     }
     var cityName = "" {
         didSet {
-            dustAPIController.shared.todayDustInfo(cityName) { (response) in
-                self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd-HH:00"
+            let time = formatter.string(from: now)
+            guard let checkParameter = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
+            let parameter = checkParameter.dictionary(forKey: DataShare.dustDataKey) as! [String:String]
+            
+            if parameter["time"] == time {
+                print("미세먼지 캐시데이터")
+                self.dustLabel.text = "미세먼지: " + parameter["dust10Value"]! + " | " + parameter["dustComment"]!
+                self.curruntDust = self.curruntDustImage(text: parameter["dustComment"]!)
+            } else {
+                dustAPIController.shared.todayDustInfo(cityName) { (response) in
+                    self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
+                    self.curruntDust = self.curruntDustImage(text: response.dustComment)
+                }
             }
+//            dustAPIController.shared.todayDustInfo(cityName) { (response) in
+//                self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
+//            }
         }
     }
     var cacheCurruntWeather:[String:String] = [:] {
@@ -74,7 +96,7 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.minTemp.text = maxmin.min
         }
     }
-    var curruntWeather = todayWeather.init(curruntTemp: "00", rain: "정보 없음", weatherIcon: "default", comment: "정보 없음") {
+    var curruntWeather = todayWeather.init(curruntTemp: "00", rain: "정보 없음", weatherIcon: "default", comment: "좋음") {
         didSet {
             self.rainTextLabel.text = curruntWeather.rain
             self.presenTemp.text = curruntWeather.curruntTemp
@@ -151,16 +173,12 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         }
         
         //원 앱과 데이터 통신을 하는 방법으로 Userdefaults가 있다.
-        self.loadImage()
-        
         
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        self.loadImage()
         
 //        SE버전은 강수확률이 안보이게 설정했다.
 //                let widthSize = self.bgView.frame.width
@@ -198,13 +216,22 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         }
         
     }
-    func loadImage(){
+    func loadImage(text:String){
         guard let shareData = UserDefaults(suiteName: Constants.widgetShareDataKey) else { return }
         let index = shareData.integer(forKey: Constants.widgetThemeDataKey)
-        self.themeCharacter.image = UIImage(named: self.image[index])
+        self.themeCharacter.image = UIImage(named: "\(self.image[index])" + "_" + text)
         shareData.synchronize()
     }
     
+    func curruntDustImage(text:String) -> String {
+        switch text {
+        case "좋음": return "clear"
+        case "보통": return "soso"
+        case "나쁨": return "bad"
+        case "매우 나쁨": return "soBad"
+        default:return "clear"
+        }
+    }
     
     func convertAddress(from coordinate:CLLocation) {
         let geoCoder = CLGeocoder()

@@ -124,8 +124,6 @@ class dustAPIController {
         let url = DataShare.dustApi
         let parameter = ["ServiceKey":appkey.removingPercentEncoding!,
                          "ver":"1.3",
-//                         "pageNo":"1",
-//                         "numOfRows":"10",
                          "sidoName":sidoName,
                          "_returnType":"json"]
         

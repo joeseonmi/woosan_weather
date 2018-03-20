@@ -1,6 +1,4 @@
 import UIKit
-//import Alamofire
-//import SwiftyJSON
 import CoreLocation
 import Lottie
 import Toaster
@@ -34,13 +32,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     }
     var state:String = "" {
         didSet{
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd-HH:00"
+            let time = formatter.string(from: now)
+            guard let checkParameter = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
+            let parameter = checkParameter.dictionary(forKey: DataShare.dustDataKey) as! [String:String]
+            if parameter["time"] == time {
+                print("미세먼지 캐시데이터")
+                self.dust.text = parameter["dust10Value"]! + " | " + parameter["dustComment"]!
+            } else {
+                dustAPIController.shared.todayDustInfo(state) { (response) in
+                    self.dust.text = response.dust10Value + " | " + response.dustComment
+                }
+            }
             /*
              1. 데이터 있나 확인(위젯에 먼저확인했는지)
              2. 시간저장해두고 같은 시간이면 호출 안하게
              */
-            dustAPIController.shared.todayDustInfo(state) { (response) in
-                self.dust.text = response.dust10Value + " | " + response.dustComment
-            }
         }
     }
     
@@ -72,27 +81,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
     }
     
     
-    var todayWeather:[String:String] = [:] {
-        didSet{
-            self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
-            self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-            if let tempRainsub = todayWeather[Constants.today_key_Rainform] {
-                self.todaySkyLabel.text = tempRainsub
-            } else {
-                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
-            }
-            self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
-            self.presentTemp.text = todayWeather[Constants.today_key_Present]
-            self.humidity.text = todayWeather[Constants.today_key_Humi]
-            self.windms.text = todayWeather[Constants.today_key_Wind]
-            if let tempRain = todayWeather[Constants.today_key_RainCode] {
-                self.skyCode = tempRain
-            } else {
-                guard let tempSky = todayWeather[Constants.today_key_SkyCode] else { return }
-                self.skyCode = tempSky
-            }
-        }
-    }
+//    var todayWeather:[String:String] = [:] {
+//        didSet{
+//            self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
+//            self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
+//            if let tempRainsub = todayWeather[Constants.today_key_Rainform] {
+//                self.todaySkyLabel.text = tempRainsub
+//            } else {
+//                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
+//            }
+//            self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
+//            self.presentTemp.text = todayWeather[Constants.today_key_Present]
+//            self.humidity.text = todayWeather[Constants.today_key_Humi]
+//            self.windms.text = todayWeather[Constants.today_key_Wind]
+//            if let tempRain = todayWeather[Constants.today_key_RainCode] {
+//                self.skyCode = tempRain
+//            } else {
+//                guard let tempSky = todayWeather[Constants.today_key_SkyCode] else { return }
+//                self.skyCode = tempSky
+//            }
+//        }
+//    }
     
     //날짜, 시간, 온도, 하늘, 강수형태, 강수확률
     var yesterParseData:[String:[String:String]] = [:] {
@@ -197,7 +206,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let coordinate = locationManager.location else { return }
             self.convertAddress(from: coordinate)
             
-            
             if let realLat = locationManager.location?.coordinate.latitude,
                 let realLon = locationManager.location?.coordinate.longitude {
                 self.lat = "\(realLat)"
@@ -219,7 +227,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 })
                
                 WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { (response) in
-                    print("ajdididididi: ",response.keys.sorted())
                     guard let todayData = response["today"],
                         let tomorrowData = response["tomorrow"],
                      let after = response["after"] else { return }
