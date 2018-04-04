@@ -65,17 +65,14 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             
             if parameter["time"] == time {
                 print("미세먼지 캐시데이터")
-                self.dustLabel.text = "미세먼지: " + parameter["dust10Value"]! + " | " + parameter["dustComment"]!
+                self.dustLabel.text = parameter["dust10Value"]! + " | " + parameter["dustComment"]!
                 self.curruntDust = self.curruntDustImage(text: parameter["dustComment"]!)
             } else {
                 dustAPIController.shared.todayDustInfo(cityName) { (response) in
-                    self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
+                    self.dustLabel.text = response.dust10Value + " | " + response.dustComment
                     self.curruntDust = self.curruntDustImage(text: response.dustComment)
                 }
             }
-//            dustAPIController.shared.todayDustInfo(cityName) { (response) in
-//                self.dustLabel.text = "미세먼지: " + response.dust10Value + " | " + response.dustComment
-//            }
         }
     }
     var cacheCurruntWeather:[String:String] = [:] {
@@ -181,11 +178,11 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
         super.viewWillAppear(true)
         
 //        SE버전은 강수확률이 안보이게 설정했다.
-//                let widthSize = self.bgView.frame.width
-//                if widthSize <= 304.0 {
-//                    self.rainLabel.isHidden = true
-//                    self.rainTextLabel.isHidden = true
-//                }
+                let widthSize = self.bgView.frame.width
+                if widthSize <= 304.0 {
+                    self.rainLabel.isHidden = true
+                    self.rainTextLabel.isHidden = true
+                }
     }
     
     /*******************************************/
