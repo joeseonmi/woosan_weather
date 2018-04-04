@@ -26,7 +26,6 @@ class WidgetAPIController {
             dateFommater.timeZone = TimeZone(secondsFromGMT: 9 * 60 * 60)
             let time:String = timeFommater.string(from: now)
             
-            
             let temp = todayWeather.init(curruntTemp: "00", rain: "강수정보 없음", weatherIcon: "weather_default", comment: "정보 없음")
            
             var weatherInfo:[String:String] = [:]
