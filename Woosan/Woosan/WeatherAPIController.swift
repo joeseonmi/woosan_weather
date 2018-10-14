@@ -135,7 +135,7 @@ class WeatherAPIController {
         }
     }
 
-    func maxMinTemp(lat:String, lon:String, completed: @escaping (_ temper:TempMaxMinData)->Void) {
+    func maxMinTemp(lat:String, lon:String, completed: @escaping (_ temper:MaxMinData)->Void) {
         getForecast(base: make2amAPIParameter(lat: lat, lon: lon)) { (dataArray) in
             print("두시데이터 네트워킹!")
             let now = Date()
@@ -162,7 +162,7 @@ class WeatherAPIController {
             } else {
                 time = "0200"
             }
-            let temp = TempMaxMinData.init(max: "00", min: "00")
+            let temp = MaxMinData(max: "00", min: "00")
             var weatherInfo:[String:String] = [:]
             if dataArray.count == 0 {
                 completed(temp)
@@ -196,7 +196,7 @@ class WeatherAPIController {
             }
             guard let maxdata = weatherInfo[Constants.today_key_Max],
                 let mindata = weatherInfo[Constants.today_key_Min] else { return }
-            let maxMindata:TempMaxMinData = TempMaxMinData(max: maxdata, min: mindata)
+            let maxMindata:MaxMinData = MaxMinData(max: maxdata, min: mindata)
             completed(maxMindata)
         }
 
@@ -356,7 +356,7 @@ class WeatherAPIController {
         return parameter
     }
 
-    func makeCurruntAPIParameter(lat:String, lon:String) -> [String:String] {
+    func makeCurruntAPIParameter(lat:String, lon:String) -> [String: String] {
         let now = Date()
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
@@ -395,13 +395,15 @@ class WeatherAPIController {
         time = time + "00"
 
         let appid = DataShare.appKey
-        let parameter = ["ServiceKey":appid.removingPercentEncoding!,
-                         "base_date":date,
-                         "base_time":time,
-                         "nx":nx,
-                         "ny":ny,
-                         "_type":"json"]
+        let parameter = ["ServiceKey": appid.removingPercentEncoding!,
+                         "base_date": date,
+                         "base_time": time,
+                         "nx": nx,
+                         "ny": ny,
+                         "_type": "json"]
+        
         UserDefaults.standard.setValue(parameter, forKey: DataShare.parameterCurrunt)
+        print("현재 날씨 파라메터!!: ", parameter)
         return parameter
     }
 
@@ -462,7 +464,7 @@ class WeatherAPIController {
                          "ny":ny,
                          "_type":"json",
                          "numOfRows":"999"]
-        print("파라미터들:",date,time,nx,ny)
+        print("예보 파라미터들:",date,time,nx,ny)
         return parameter
     }
 

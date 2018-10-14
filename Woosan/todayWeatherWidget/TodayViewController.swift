@@ -77,17 +77,17 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
     }
     var cacheCurruntWeather:[String:String] = [:] {
         didSet {
-            UserDefaults.standard.set(cacheCurruntWeather, forKey: Constants.dataCurrunt)
+            UserDefaults.standard.set(cacheCurruntWeather, forKey: WidgetConstants.dataCurrunt)
         }
     }
     
     var cacheMaxMin:[String:String] = [:] {
         didSet {
-            UserDefaults.standard.set(cacheMaxMin, forKey: Constants.data2am)
+            UserDefaults.standard.set(cacheMaxMin, forKey: WidgetConstants.data2am)
         }
     }
     
-    var maxmin = todayMaxMin.init(max: "-", min: "-") {
+    var maxmin = MaxMinData.init(max: "-", min: "-") {
         didSet{
             self.maxTemp.text = maxmin.max
             self.minTemp.text = maxmin.min
@@ -119,47 +119,51 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
             
-            if UserDefaults.standard.dictionary(forKey: Constants.parameter2am) == nil {
-                UserDefaults.standard.set(["none":"none"], forKey: Constants.parameter2am)
+            if UserDefaults.standard.dictionary(forKey: WidgetConstants.parameter2am) == nil {
+                UserDefaults.standard.set(["none":"none"], forKey: WidgetConstants.parameter2am)
             }
-            let cacheParameter2am:[String:String] = UserDefaults.standard.dictionary(forKey: Constants.parameter2am) as! [String : String]
-            let newParameter2am = WidgetAPIController.shared.make2amAPIParameter(lat: lat, lon: lon)
-            
+            let cacheParameter2am:[String: String] = UserDefaults.standard.dictionary(forKey: WidgetConstants.parameter2am) as! [String : String]
+            let newParameter2am = ParameterManager.shared.maxmin(lat: lat, lon: lon)
+
             if cacheParameter2am != newParameter2am {
-                print("2시데이터 불림")
-                WidgetAPIController.shared.maxMinTemp(lat: lat, lon: lon, completed: { (maxmintemperature) in
-                    self.maxmin = maxmintemperature
-                    self.cacheMaxMin[Constants.cache_max] = maxmintemperature.max
-                    self.cacheMaxMin[Constants.cache_min] = maxmintemperature.min
+            
+                WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon,
+                                                       completed: { [weak self] maxminData in
+                                                        self?.maxmin = maxminData
+                                                        self?.cacheMaxMin[WidgetConstants.cache_max] = maxminData.max
+                                                        self?.cacheMaxMin[WidgetConstants.cache_min] = maxminData.min
                 })
+                
             } else {
-                guard let cacheData = UserDefaults.standard.dictionary(forKey: Constants.data2am) else { return }
+                guard let cacheData = UserDefaults.standard.dictionary(forKey: WidgetConstants.data2am) else { return }
                 print("=============2시 캐시데이터 불림: ",cacheData)
-                self.maxTemp.text = cacheData[Constants.cache_max] as? String
-                self.minTemp.text = cacheData[Constants.cache_min] as? String
+                self.maxTemp.text = cacheData[WidgetConstants.cache_max] as? String
+                self.minTemp.text = cacheData[WidgetConstants.cache_min] as? String
             }
             
-            if UserDefaults.standard.dictionary(forKey: Constants.parameterCurrunt) == nil {
-                UserDefaults.standard.set(["none":"none"], forKey: Constants.parameterCurrunt)
+            if UserDefaults.standard.dictionary(forKey: WidgetConstants.parameterCurrunt) == nil {
+                UserDefaults.standard.set(["none":"none"], forKey: WidgetConstants.parameterCurrunt)
             }
-            let cacheParameterCurrunt:[String:String] = UserDefaults.standard.dictionary(forKey: Constants.parameterCurrunt) as! [String : String]
-            let newParameterCurrunt = WidgetAPIController.shared.makeCurruntAPIParameter(lat: lat, lon: lon)
-            if cacheParameterCurrunt != newParameterCurrunt {
-                WidgetAPIController.shared.curruntWeather(lat: lat, lon: lon, completed: { (info) in
-                    self.curruntWeather = info
-                    self.cacheCurruntWeather[Constants.cache_curruntTemp] = info.curruntTemp
-                    self.cacheCurruntWeather[Constants.cache_icon] = info.weatherIcon
-                    self.cacheCurruntWeather[Constants.cache_comment] = info.comment
-                    self.cacheCurruntWeather[Constants.cache_rain] = info.rain
-                })
+            let cacheParameterCurrunt:[String:String] = UserDefaults.standard.dictionary(forKey: WidgetConstants.parameterCurrunt) as! [String : String]
+            let newParameterCurrunt = ParameterManager.shared.currunt(lat: lat, lon: lon)
+            if cacheParameterCurrunt == newParameterCurrunt {
+                
+                self.getCrrunt(lat: lat, lon: lon) { [weak self] info in
+                    self?.curruntWeather = info
+                    self?.cacheCurruntWeather[WidgetConstants.cache_curruntTemp] = info.curruntTemp
+                    self?.cacheCurruntWeather[WidgetConstants.cache_icon] = info.weatherIcon
+                    self?.cacheCurruntWeather[WidgetConstants.cache_comment] = info.comment
+                    self?.cacheCurruntWeather[WidgetConstants.cache_rain] = info.rain
+                }
+                
             } else {
-                guard let cacheData = UserDefaults.standard.dictionary(forKey: Constants.dataCurrunt) else { return }
+                guard let cacheData = UserDefaults.standard.dictionary(forKey: WidgetConstants.dataCurrunt) else { return }
                 print("=============캐시데이터 불림: ",cacheData)
-                self.rainTextLabel.text = cacheData[Constants.cache_rain] as? String
-                self.presenTemp.text = cacheData[Constants.cache_curruntTemp] as? String
-                let image = cacheData[Constants.cache_icon] as! String
+                self.rainTextLabel.text = cacheData[WidgetConstants.cache_rain] as? String
+                self.presenTemp.text = cacheData[WidgetConstants.cache_curruntTemp] as? String
+                let image = cacheData[WidgetConstants.cache_icon] as! String
                 self.weatherImageView.image = UIImage(named: image)
-                self.commentLabel.text = cacheData[Constants.cache_comment] as? String
+                self.commentLabel.text = cacheData[WidgetConstants.cache_comment] as? String
             }
             
             
@@ -185,9 +189,29 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
                 }
     }
     
+    
     /*******************************************/
     //MARK:-              Func                 //
     /*******************************************/
+    
+    private func getCrrunt(lat: String, lon: String,
+                           completeHandler: @escaping (_ item: todayWeather) -> Void) {
+        WeatherAPIAdapter.request(target: .curruntWeater(lat: lat, lon: lon),
+                                  success: { succ in
+                                    do {
+                                        let data = try JSONDecoder().decode(WeatherResponse.self, from: succ.data)
+                                        completeHandler(data.response.body.items.convertWidgetCurrunt())
+                                    } catch let err {
+                                        print("parsingError: ", err)
+                                    }
+        },
+                                  error: { _ in
+                                    print("서버 통신 오류")
+        },
+                                  failure: { _ in
+                                    print("Moya error")
+        })
+    }
     
     func reloadDatas() {
         let locationManager = CLLocationManager()
@@ -196,26 +220,27 @@ class TodayViewController: UIViewController, NCWidgetProviding,CLLocationManager
             self.lat = "\(realLat)"
             self.lon = "\(realLon)"
             
-            WidgetAPIController.shared.maxMinTemp(lat: lat, lon: lon, completed: { (maxmintemperature) in
-                self.maxmin = maxmintemperature
-                self.cacheMaxMin[Constants.cache_max] = maxmintemperature.max
-                self.cacheMaxMin[Constants.cache_min] = maxmintemperature.min
+            WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon,
+                                                   completed: { [weak self] maxminData in
+                                                    print("최고, 최저 탐")
+                                                    self?.maxmin = maxminData
+                                                    self?.cacheMaxMin[WidgetConstants.cache_max] = maxminData.max
+                                                    self?.cacheMaxMin[WidgetConstants.cache_min] = maxminData.min
             })
             
-            WidgetAPIController.shared.curruntWeather(lat: lat, lon: lon, completed: { (info) in
-                self.curruntWeather = info
-                self.cacheCurruntWeather[Constants.cache_curruntTemp] = info.curruntTemp
-                self.cacheCurruntWeather[Constants.cache_icon] = info.weatherIcon
-                self.cacheCurruntWeather[Constants.cache_comment] = info.comment
-                self.cacheCurruntWeather[Constants.cache_rain] = info.rain
-            })
-            
+            self.getCrrunt(lat: lat, lon: lon) { [weak self] info in
+                self?.curruntWeather = info
+                self?.cacheCurruntWeather[WidgetConstants.cache_curruntTemp] = info.curruntTemp
+                self?.cacheCurruntWeather[WidgetConstants.cache_icon] = info.weatherIcon
+                self?.cacheCurruntWeather[WidgetConstants.cache_comment] = info.comment
+                self?.cacheCurruntWeather[WidgetConstants.cache_rain] = info.rain
+            }
         }
         
     }
     func loadImage(text:String){
-        guard let shareData = UserDefaults(suiteName: Constants.widgetShareDataKey) else { return }
-        let index = shareData.integer(forKey: Constants.widgetThemeDataKey)
+        guard let shareData = UserDefaults(suiteName: WidgetConstants.widgetShareDataKey) else { return }
+        let index = shareData.integer(forKey: WidgetConstants.widgetThemeDataKey)
         self.themeCharacter.image = UIImage(named: "\(self.image[index])" + "_" + text)
         shareData.synchronize()
     }

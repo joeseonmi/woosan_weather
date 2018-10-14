@@ -27,7 +27,7 @@ class IntroduceViewController: UIViewController,MFMailComposeViewControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "만든 사람"
+        title = "From.개발자"
         
     }
     

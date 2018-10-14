@@ -8,23 +8,23 @@
 
 import Foundation
 
-struct TempMaxMinData {
+struct MaxMinData {
 
     let max:String
     let min:String
     
-    static let empty = TempMaxMinData(max: "-",
+    static let empty = MaxMinData(max: "-",
                                       min: "-")
 }
 
 struct CurruntWeather {
     
-    let curruntTemp:String
-    let rain:String
-    let wind:String
-    let humi:String
-    let sky:String
-    let icon:String
+    var curruntTemp:String
+    var rain:String
+    var wind:String
+    var humi:String
+    var sky:String
+    var icon:String
     
     static let empty = CurruntWeather(curruntTemp: "00",
                                       rain: "-",
@@ -76,6 +76,29 @@ enum Weather {
             return ("RAIN_D02","진눈깨비")
         case .Snow:
             return ("RAIN_D03","눈")
+        }
+    }
+    
+    func convertWidgetName() -> (code:String, subs:String){
+        switch self {
+        case .Sunny:
+            return ("SKY_M01","맑아요!")
+        case .LittleCloudy:
+            return ("SKY_M02","구름 조금!")
+        case .MoreCloudy:
+            return ("SKY_M03","구름 많음!")
+        case .Cloudy:
+            return ("SKY_M04","흐림!")
+        case .ClearNight:
+            return ("SKY_M08","맑아요!")
+        case .LittleCloudyNight:
+            return ("SKY_M09","구름 조금!")
+        case .Rainy:
+            return ("RAIN_M01","비와요!")
+        case .Sleet:
+            return ("RAIN_M02","진눈깨비!")
+        case .Snow:
+            return ("RAIN_M03","눈와요!")
         }
     }
 }

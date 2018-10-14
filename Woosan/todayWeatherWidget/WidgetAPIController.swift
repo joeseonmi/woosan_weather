@@ -260,7 +260,8 @@ class WidgetAPIController {
         return parameter
     }
     
-    func makeCurruntAPIParameter(lat:String, lon:String) -> [String:String] {
+    func makeCurruntAPIParameter(lat:String, lon:String) -> [String: String] {
+        print("현재 날씨 파라메터 만드는중: ")
         let now = Date()
         let dateFommater = DateFormatter()
         let timeFommater = DateFormatter()
@@ -306,6 +307,7 @@ class WidgetAPIController {
                          "ny":ny,
                          "_type":"json"]
         UserDefaults.standard.setValue(parameter, forKey: Constants.parameterCurrunt)
+        print("현재 날씨 파라메터: ", parameter)
         return parameter
     }
     

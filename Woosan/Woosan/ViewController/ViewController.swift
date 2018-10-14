@@ -39,7 +39,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             guard let checkParameter = UserDefaults(suiteName: DataShare.widgetShareDataKey) else { return }
             let parameter = checkParameter.dictionary(forKey: DataShare.dustDataKey) as! [String:String]
             if parameter["time"] == time {
-                print("미세먼지 캐시데이터")
+                print("미세먼지 캐시데이터: ", parameter)
                 self.dust.text = parameter["dust10Value"]! + " | " + parameter["dustComment"]!
             } else {
                 dustAPIController.shared.todayDustInfo(state) { (response) in
@@ -79,29 +79,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
             self.locationLabel.text = self.locationInfo
         }
     }
-    
-    
-//    var todayWeather:[String:String] = [:] {
-//        didSet{
-//            self.todayMaxLabel.text = todayWeather[Constants.today_key_Max]
-//            self.todayMinLabel.text = todayWeather[Constants.today_key_Min]
-//            if let tempRainsub = todayWeather[Constants.today_key_Rainform] {
-//                self.todaySkyLabel.text = tempRainsub
-//            } else {
-//                self.todaySkyLabel.text = todayWeather[Constants.today_key_Sky]
-//            }
-//            self.todayRainfallLabel.text = todayWeather[Constants.today_key_Rain]
-//            self.presentTemp.text = todayWeather[Constants.today_key_Present]
-//            self.humidity.text = todayWeather[Constants.today_key_Humi]
-//            self.windms.text = todayWeather[Constants.today_key_Wind]
-//            if let tempRain = todayWeather[Constants.today_key_RainCode] {
-//                self.skyCode = tempRain
-//            } else {
-//                guard let tempSky = todayWeather[Constants.today_key_SkyCode] else { return }
-//                self.skyCode = tempSky
-//            }
-//        }
-//    }
     
     //날짜, 시간, 온도, 하늘, 강수형태, 강수확률
     var yesterParseData:[String:[String:String]] = [:] {
@@ -211,40 +188,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 self.lat = "\(realLat)"
                 self.lon = "\(realLon)"
                 
-                WeatherAPIController.shared.curruntWeather(lat: self.lat, lon: self.lon, completed: { (curruntWeather) in
-                    print("불려쓰요://", curruntWeather)
-                    self.humidity.text = curruntWeather.humi
-                    self.todaySkyLabel.text = curruntWeather.sky
-                    self.presentTemp.text = curruntWeather.curruntTemp
-                    self.todayRainfallLabel.text = curruntWeather.rain
-                    self.windms.text = curruntWeather.wind
-                    self.skyCode = curruntWeather.icon
-                })
+                self.getCrrunt(lat: self.lat, lon: self.lon) { [weak self] item in
+                    self?.humidity.text = item.humi
+                    self?.todaySkyLabel.text = item.sky
+                    self?.presentTemp.text = item.curruntTemp
+                    self?.todayRainfallLabel.text = item.rain
+                    self?.windms.text = item.wind
+                    self?.skyCode = item.icon
+                }
                 
-                WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon, completed: { (maxminData) in
-                    self.todayMaxLabel.text = maxminData.max
-                    self.todayMinLabel.text = maxminData.min
+                WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon,
+                                                       completed: { [weak self] maxminData in
+                    self?.todayMaxLabel.text = maxminData.max
+                    self?.todayMinLabel.text = maxminData.min
                 })
                
-                WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { (response) in
+                WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { [weak self] response in
                     guard let todayData = response["today"],
                         let tomorrowData = response["tomorrow"],
                      let after = response["after"] else { return }
-                    self.todayParseData = todayData
-                    self.tomorrowParseData = tomorrowData
-                    self.afterParseData = after
+                    self?.todayParseData = todayData
+                    self?.tomorrowParseData = tomorrowData
+                    self?.afterParseData = after
                 }
 
             }
         }
         
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
         
-        //didBecomeActive상태일때, Lottie를 재생하기 위한 noti
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (noti) in
-            self.viewMobinWeather(today: self.skyCode)
-            self.viewMovinAnimal(animal: self.themeName)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -270,6 +248,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
         self.viewMovinAnimal(animal: self.themeName)
     }
     
+    private func getCrrunt(lat: String, lon: String,
+                           completeHandler: @escaping (_ item: CurruntWeather) -> Void) {
+        WeatherAPIAdapter.request(target: .curruntWeater(lat: lat, lon: lon),
+                                  success: { succ in
+                                    do {
+                                        let data = try JSONDecoder().decode(WeatherResponse.self, from: succ.data)
+//                                        let curruntWeather = data.response.body.items
+                                        
+                                        completeHandler(data.response.body.items.convertCurrunt())
+                                    } catch let err {
+                                        print("parsingError: ", err)
+                                    }
+        },
+                                  error: { _ in
+                                    print("서버 통신 오류")
+        },
+                                  failure: { _ in
+                                    print("Moya error")
+        })
+    }
+    
+    @objc func applicationDidBecomeActive() {
+        self.viewMobinWeather(today: self.skyCode)
+        self.viewMovinAnimal(animal: self.themeName)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         //나갈때 노티 지워주기
@@ -291,28 +295,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate,UIScrollViewDe
                 self.lat = "\(realLat)"
                 self.lon = "\(realLon)"
 
-                WeatherAPIController.shared.curruntWeather(lat: self.lat, lon: self.lon, completed: { (curruntWeather) in
-                    print("불려쓰요://", curruntWeather)
-                    self.humidity.text = curruntWeather.humi
-                    self.todaySkyLabel.text = curruntWeather.sky
-                    self.presentTemp.text = curruntWeather.curruntTemp
-                    self.todayRainfallLabel.text = curruntWeather.rain
-                    self.windms.text = curruntWeather.wind
-                    self.skyCode = curruntWeather.icon
+                self.getCrrunt(lat: self.lat, lon: self.lon) { [weak self] item in
+                    self?.humidity.text = item.humi
+                    self?.todaySkyLabel.text = item.sky
+                    self?.presentTemp.text = item.curruntTemp
+                    self?.todayRainfallLabel.text = item.rain
+                    self?.windms.text = item.wind
+                    self?.skyCode = item.icon
+                }
+                
+                WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon, completed: { [weak self] maxminData in
+                    self?.todayMaxLabel.text = maxminData.max
+                    self?.todayMinLabel.text = maxminData.min
                 })
                 
-                WeatherAPIController.shared.maxMinTemp(lat: self.lat, lon: self.lon, completed: { (maxminData) in
-                    self.todayMaxLabel.text = maxminData.max
-                    self.todayMinLabel.text = maxminData.min
-                })
-                
-                WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { (response) in
+                WeatherAPIController.shared.getForecast(lat: self.lat, lon: self.lon) { [weak self]response in
                     guard let todayData = response["today"],
                         let tomorrowData = response["tomorrow"],
                         let after = response["after"] else { return }
-                    self.todayParseData = todayData
-                    self.tomorrowParseData = tomorrowData
-                    self.afterParseData = after
+                    self?.todayParseData = todayData
+                    self?.tomorrowParseData = tomorrowData
+                    self?.afterParseData = after
                 }
                 
             }

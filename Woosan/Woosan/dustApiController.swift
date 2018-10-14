@@ -143,13 +143,11 @@ class dustAPIController {
 }
 
 struct todayDust {
-    
     var time:String
     var location:String
     var dust10Value:String
     var dust25Value:String
     var dustComment:String
-  
 }
 
 

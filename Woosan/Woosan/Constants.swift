@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 struct Constants {
     
     //- for API
@@ -21,6 +20,8 @@ struct Constants {
     static let api_max:String = "TMX"
     static let api_wind:String = "WSD"
     static let api_presentTemp:String = "T1H"
+    
+    
     
     //- otherInfo
     static let otherInfo_key_time:String = "otherInfo_key_time"
